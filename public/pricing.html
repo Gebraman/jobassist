@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>JobAssist AI Studio — Premium Plans & Pricing</title>
+  <meta name="description" content="Unlock unlimited 1-Click ATS AutoFill, Canva-Grade Resumes, and Autonomous AI Job Hunting. Pay in Ethiopian Birr (Telebirr/CBE) or USD (Binance Pay/Payoneer).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    body {
+      background: #090E17;
+      color: #F8FAFC;
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Navigation */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 36px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(9, 14, 23, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-logo {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, #10B981, #059669);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; font-weight: 800; color: #022C22;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+    }
+    .brand-title { font-size: 18px; font-weight: 800; color: #FFF; letter-spacing: -0.4px; }
+    .nav-links { display: flex; align-items: center; gap: 24px; font-size: 13.5px; font-weight: 600; color: #94A3B8; }
+    .nav-links a:hover { color: #34D399; }
+    .btn-nav-admin {
+      background: #1E293B; border: 1px solid #334155; color: #CBD5E1;
+      padding: 8px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700;
+      display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+    }
+    .btn-nav-admin:hover { border-color: #10B981; color: #34D399; }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34D399;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.2px;
+      margin-bottom: 16px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #34D399, #10B981, #6EE7B7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 17px;
+      color: #94A3B8;
+      max-width: 680px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+
+    /* Currency Switcher Pill */
+    .currency-switch-wrap {
+      display: inline-flex;
+      align-items: center;
+      background: #131D2E;
+      border: 1px solid #1E293B;
+      padding: 4px;
+      border-radius: 9999px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .curr-btn {
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .curr-btn.active {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #022C22;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Pricing Grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+    @media (max-width: 1024px) {
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+
+    .plan-card {
+      background: #111A29;
+      border: 1px solid #1E293B;
+      border-radius: 16px;
+      padding: 26px 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .plan-card:hover {
+      transform: translateY(-4px);
+      border-color: #334155;
+    }
+    .plan-card.featured {
+      background: linear-gradient(180deg, #132238 0%, #111A29 100%);
+      border: 2px solid #10B981;
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.15);
+    }
+    .card-top-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #022C22;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .plan-tier-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: #FFF;
+      margin-bottom: 6px;
+    }
+    .plan-desc {
+      font-size: 12px;
+      color: #94A3B8;
+      min-height: 36px;
+      margin-bottom: 18px;
+      line-height: 1.45;
+    }
+    .price-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .price-amount {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFF;
+      letter-spacing: -0.8px;
+    }
+    .price-unit {
+      font-size: 12px;
+      color: #94A3B8;
+      font-weight: 600;
+    }
+
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+    .plan-features li {
+      font-size: 12.5px;
+      color: #CBD5E1;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      line-height: 1.4;
+    }
+    .plan-features li span.icon {
+      color: #10B981;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .btn-choose-plan {
+      width: 100%;
+      background: #1E293B;
+      color: #F8FAFC;
+      border: 1px solid #334155;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-choose-plan:hover {
+      background: #334155;
+      border-color: #475569;
+    }
+    .plan-card.featured .btn-choose-plan {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #022C22;
+      font-weight: 800;
+      border: none;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+    }
+    .plan-card.featured .btn-choose-plan:hover {
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+      transform: translateY(-1px);
+    }
+
+    /* Modal Checkout */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-card {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 500px;
+      padding: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Gateways Details Box */
+    .gateway-box {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gateway-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #0F172A;
+      border-radius: 8px;
+      border: 1px solid #273549;
+    }
+    .gateway-copy-btn {
+      background: #1E293B;
+      border: 1px solid #334155;
+      color: #34D399;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94A3B8;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group input {
+      width: 100%;
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #FFF;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline: none;
+    }
+    .form-group input:focus {
+      border-color: #10B981;
+    }
+
+    /* Trust Badges */
+    .trust-bar {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+      margin: 40px auto 70px;
+      color: #64748B;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    .trust-item { display: flex; align-items: center; gap: 7px; }
+
+    /* FAQ */
+    .faq-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .faq-title {
+      font-size: 26px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .faq-item {
+      background: #111A29;
+      border: 1px solid #1E293B;
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin-bottom: 12px;
+    }
+    .faq-q {
+      font-size: 15px;
+      font-weight: 700;
+      color: #F8FAFC;
+      margin-bottom: 6px;
+    }
+    .faq-a {
+      font-size: 13.5px;
+      color: #94A3B8;
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="brand-title">JobAssist <span style="font-weight:500; font-size:14px; color:#10B981;">Studio</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/pricing" style="color:#34D399;">Pricing</a>
+      <a href="/download-extension" download="JobAssist-AI-Studio-Extension.zip" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #022C22; font-weight: 800; font-size: 12px; padding: 7px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);">
+        Download Extension (.ZIP)
+      </a>
+      <a id="nav-admin-link" href="/admin" class="btn-nav-admin" style="display: none;">
+        Admin
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">
+      Choose Your Application Sprint Cadence
+    </div>
+    <h1>Supercharge Your Applications.<br><span>Pay Exactly When You Apply.</span></h1>
+    <p>Whether you're applying for 1 day, 3 peak hiring days a week, or running automated 30-day candidate campaigns — unlock unlimited 1-Click ATS AutoFill, Canva Resumes, and STAR screening answers.</p>
+
+    <!-- Chrome Extension Unpack & Download Callout -->
+    <div style="background: rgba(16, 185, 129, 0.08); border: 1.5px solid #10B981; border-radius: 14px; padding: 16px 22px; max-width: 660px; margin: 24px auto 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div>
+        <div style="font-weight: 800; color: #FFF; font-size: 13.5px; display: flex; align-items: center; gap: 6px;">
+          Step 1: Download &amp; Load Unpacked Chrome Extension
+        </div>
+        <div style="font-size: 11.5px; color: #94A3B8; margin-top: 3px; line-height: 1.4;">
+          Unpack into Chrome in 30 seconds. To protect privacy, features unlock once your administrator license is approved.
+        </div>
+        <button onclick="document.getElementById('modal-unpack-guide').style.display='flex'" style="background: none; border: none; color: #38BDF8; font-size: 11px; font-weight: 700; text-decoration: underline; cursor: pointer; padding: 0; margin-top: 5px;">
+          How to Unpack &amp; Install in Chrome (3 Steps) →
+        </button>
+      </div>
+      <a href="/download-extension" download="JobAssist-AI-Studio-Extension.zip" style="background: #10B981; color: #022C22; padding: 10px 16px; border-radius: 8px; font-weight: 800; font-size: 12px; text-decoration: none; white-space: nowrap; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);">
+        Download .ZIP
+      </a>
+    </div>
+
+    <!-- Currency Switcher -->
+    <div class="currency-switch-wrap">
+      <button id="btn-curr-etb" class="curr-btn active" onclick="switchCurrency('ETB')">
+        Ethiopian Birr (Telebirr / CBE)
+      </button>
+      <button id="btn-curr-usd" class="curr-btn" onclick="switchCurrency('USD')">
+        USD (Binance UID: 1032674236)
+      </button>
+    </div>
+  </section>
+
+  <!-- Pricing Cards Grid -->
+  <main class="pricing-grid">
+
+    <!-- Card 1: Daily Pass -->
+    <div class="plan-card" data-plan="daily">
+      <div class="plan-tier-name">Daily Pass</div>
+      <div class="plan-desc">Full 24-hour unlimited access for active high-intensity application sprints.</div>
+      <div class="price-wrap">
+        <div class="price-amount" id="price-daily">100 ETB</div>
+        <div class="price-unit">/ 24 Hours</div>
+      </div>
+      <ul class="plan-features">
+        <li><span class="icon">✓</span> <span>Unlimited 1-Click ATS AutoFill</span></li>
+        <li><span class="icon">✓</span> <span>Workable, JazzHR, Ashby & Workday</span></li>
+        <li><span class="icon">✓</span> <span>Canva-Grade Tailored Resumes</span></li>
+        <li><span class="icon">✓</span> <span>AI STAR Screening Q&A Synthesizer</span></li>
+        <li><span class="icon">✓</span> <span>24-Hour Instant Key Activation</span></li>
+      </ul>
+      <button class="btn-choose-plan" onclick="openCheckout('daily', 'Daily Pass (24 Hours)')">
+        Get 24h Daily Pass
+      </button>
+    </div>
+
+    <!-- Card 2: Flex Pass (3 Days) -->
+    <div class="plan-card" data-plan="flex-3d">
+      <div class="card-top-badge">MOST FLEXIBLE</div>
+      <div class="plan-tier-name">Flex Pass</div>
+      <div class="plan-desc">Perfect for candidates who submit applications 2 to 3 peak hiring days per week.</div>
+      <div class="price-wrap">
+        <div class="price-amount" id="price-flex">250 ETB</div>
+        <div class="price-unit">/ 3 Days Active</div>
+      </div>
+      <ul class="plan-features">
+        <li><span class="icon">✓</span> <span>All Daily Pass features included</span></li>
+        <li><span class="icon">✓</span> <span>3 Days of Full Unrestricted Access</span></li>
+        <li><span class="icon">✓</span> <span>Recruiter Outreach Generator (InMail & Email)</span></li>
+        <li><span class="icon">✓</span> <span>Multi-Candidate Persona Switching</span></li>
+        <li><span class="icon">✓</span> <span>Valid across 7 Days of job hunting</span></li>
+      </ul>
+      <button class="btn-choose-plan" onclick="openCheckout('flex-3d', 'Flex Pass (3 Days / Week)')">
+        Get Flex 3-Day Pass
+      </button>
+    </div>
+
+    <!-- Card 3: Monthly Pro -->
+    <div class="plan-card featured" data-plan="monthly">
+      <div class="card-top-badge">MOST POPULAR</div>
+      <div class="plan-tier-name">Monthly Pro</div>
+      <div class="plan-desc">30 days of continuous autonomous job hunting & application submissions.</div>
+      <div class="price-wrap">
+        <div class="price-amount" id="price-monthly">1,200 ETB</div>
+        <div class="price-unit">/ 30 Days</div>
+      </div>
+      <ul class="plan-features">
+        <li><span class="icon">✓</span> <span>Everything in Flex Pass</span></li>
+        <li><span class="icon">✓</span> <span>Autonomous AutoPilot Fleet Submissions</span></li>
+        <li><span class="icon">✓</span> <span>30 Days Continuous Job Scanning</span></li>
+        <li><span class="icon">✓</span> <span>Unlimited Canva PDF Resume Downloads</span></li>
+        <li><span class="icon">✓</span> <span>Application CRM Tracker & CSV Export</span></li>
+        <li><span class="icon">✓</span> <span>Priority Admin Approval & Verification</span></li>
+      </ul>
+      <button class="btn-choose-plan" onclick="openCheckout('monthly', 'Monthly Pro (30 Days)')">
+        Get Monthly Pro Pass
+      </button>
+    </div>
+
+    <!-- Card 4: Yearly VIP -->
+    <div class="plan-card" data-plan="yearly">
+      <div class="card-top-badge">BEST VALUE — SAVE 40%</div>
+      <div class="plan-tier-name">Yearly VIP</div>
+      <div class="plan-desc">Full annual access for career switchers, freelance agency recruiters, and power hunters.</div>
+      <div class="price-wrap">
+        <div class="price-amount" id="price-yearly">9,500 ETB</div>
+        <div class="price-unit">/ 365 Days</div>
+      </div>
+      <ul class="plan-features">
+        <li><span class="icon">✓</span> <span>Full 365-Day Uncapped Access</span></li>
+        <li><span class="icon">✓</span> <span>Unlimited Candidate Profiles & Personas</span></li>
+        <li><span class="icon">✓</span> <span>Unlimited AutoPilot Batch Queueing</span></li>
+        <li><span class="icon">✓</span> <span>All 4 Recruiter Outreach Channels</span></li>
+        <li><span class="icon">✓</span> <span>Dedicated VIP Telegram / Support Desk</span></li>
+        <li><span class="icon">✓</span> <span>All Upcoming V7 & V8 Studio Features</span></li>
+      </ul>
+      <button class="btn-choose-plan" onclick="openCheckout('yearly', 'Yearly VIP Enterprise')">
+        Get Yearly VIP Pass
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Trust Bar -->
+  <div class="trust-bar">
+    <div class="trust-item">256-Bit Secure Local Storage</div>
+    <div class="trust-item">Instant Key Activation</div>
+    <div class="trust-item">Telebirr &amp; CBE Supported</div>
+    <div class="trust-item">Binance Pay (UID: 1032674236)</div>
+  </div>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <h2 class="faq-title">Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">How does the Ethiopian payment process work?</div>
+      <div class="faq-a">Simply select your plan in ETB, send the amount via Telebirr (to <b>0948232717</b>) or CBE account (<b>1000542193275</b>), and paste your Transaction ID or SMS reference in the form. Your pass key (<code>PREM-...</code>) is issued and verified right away.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can international applicants pay with Binance Pay or Crypto?</div>
+      <div class="faq-a">Yes! Switch the currency toggle to <b>USD</b> to view Binance UID (<code>1032674236</code>). Transfer USDT and submit your Binance Order ID or TxHash to activate.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What is the Flex Pass (3 Days / Week)?</div>
+      <div class="faq-a">Most top tech companies post new engineering roles on Tuesdays, Wednesdays, and Thursdays. The Flex Pass gives you access tailored for candidates who apply on peak days without paying for days they don't apply.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How do I use my license key in the Chrome Extension?</div>
+      <div class="faq-a">Click the <b>PREMIUM VIP</b> badge at the top-right of the JobAssist Sidepanel, enter your issued license key (or candidate email), and click <b>Activate</b>. All limits are immediately unlocked!</div>
+    </div>
+  </section>
+
+  <!-- Checkout & Payment Submission Modal -->
+  <div id="checkout-modal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeCheckout()">✕</button>
+
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+        <span style="font-size:13px; font-weight:800; color:#38bdf8; background:rgba(0,122,255,0.15); padding:3px 8px; border-radius:4px;">PRO</span>
+        <div>
+          <div id="modal-plan-name" style="font-size:16px; font-weight:800; color:#FFF;">Monthly Pro</div>
+          <div id="modal-plan-price" style="font-size:13px; color:#34D399; font-weight:700;">1,200 ETB / 30 Days</div>
+        </div>
+      </div>
+
+      <!-- Payment Gateway Details -->
+      <div id="modal-gateway-info" class="gateway-box">
+        <!-- Dynamically rendered based on active currency -->
+      </div>
+
+      <!-- Submission Form -->
+      <form id="payment-form" onsubmit="handlePaymentSubmit(event)">
+        <div class="form-group">
+          <label>Your Full Name</label>
+          <input type="text" id="cust-name" required placeholder="e.g. Raymond Wong or Dawit Mengistu">
+        </div>
+        <div class="form-group">
+          <label>Your Email Address (For License Key Delivery)</label>
+          <input type="email" id="cust-email" required placeholder="name@example.com">
+        </div>
+        <div class="form-group">
+          <label id="lbl-reference">Transaction Reference / ID</label>
+          <input type="text" id="cust-ref" required placeholder="e.g. Telebirr CI49KQ... or Binance TxID">
+        </div>
+
+        <button type="submit" id="btn-submit-pay" class="btn-choose-plan" style="background:linear-gradient(135deg, #10B981, #059669); color:#022C22; font-weight:800; margin-top:8px;">
+          Submit Receipt for Instant Activation
+        </button>
+      </form>
+
+      <!-- Status Feedback -->
+      <div id="checkout-status" style="margin-top:14px; font-size:12.5px; line-height:1.45; display:none;"></div>
+    </div>
+  </div>
+
+  <script>
+    let activeCurrency = 'ETB';
+    let selectedPlanId = 'monthly';
+    let selectedPlanName = 'Monthly Pro (30 Days)';
+
+    const prices = {
+      ETB: {
+        'daily': '100 ETB',
+        'flex-3d': '250 ETB',
+        'monthly': '1,200 ETB',
+        'yearly': '9,500 ETB'
+      },
+      USD: {
+        'daily': '$1.99',
+        'flex-3d': '$4.99',
+        'monthly': '$24.99',
+        'yearly': '$149.99'
+      }
+    };
+
+    function switchCurrency(curr) {
+      activeCurrency = curr;
+      document.getElementById('btn-curr-etb').classList.toggle('active', curr === 'ETB');
+      document.getElementById('btn-curr-usd').classList.toggle('active', curr === 'USD');
+
+      document.getElementById('price-daily').textContent = prices[curr]['daily'];
+      document.getElementById('price-flex').textContent = prices[curr]['flex-3d'];
+      document.getElementById('price-monthly').textContent = prices[curr]['monthly'];
+      document.getElementById('price-yearly').textContent = prices[curr]['yearly'];
+    }
+
+    function openCheckout(planId, planName) {
+      selectedPlanId = planId;
+      selectedPlanName = planName;
+
+      document.getElementById('modal-plan-name').textContent = planName;
+      document.getElementById('modal-plan-price').textContent = `${prices[activeCurrency][planId]} Access`;
+
+      const gatewayContainer = document.getElementById('modal-gateway-info');
+      const refLabel = document.getElementById('lbl-reference');
+      const refInput = document.getElementById('cust-ref');
+
+      if (activeCurrency === 'ETB') {
+        refLabel.textContent = 'Telebirr Transaction ID / CBE Ref';
+        refInput.placeholder = 'e.g. CI49KQ82 or CBE FT102938';
+        gatewayContainer.innerHTML = `
+          <div style="font-size:11px; font-weight:700; color:#34D399; margin-bottom:2px;">LOCAL ETHIOPIAN PAYMENT:</div>
+          <div class="gateway-item">
+            <div>
+              <div style="font-size:11px; color:#94A3B8;">Telebirr Transfer:</div>
+              <div style="font-size:13.5px; font-weight:800; color:#FFF;">0948232717</div>
+              <div style="font-size:10px; color:#34D399;">Name: JobAssist Ethiopia</div>
+            </div>
+            <button class="gateway-copy-btn" type="button" onclick="copyText('0948232717')">Copy Phone</button>
+          </div>
+          <div class="gateway-item">
+            <div>
+              <div style="font-size:11px; color:#94A3B8;">Commercial Bank of Ethiopia (CBE):</div>
+              <div style="font-size:13px; font-weight:800; color:#FFF;">1000542193275</div>
+              <div style="font-size:10px; color:#34D399;">Name: JobAssist Software Tech</div>
+            </div>
+            <button class="gateway-copy-btn" type="button" onclick="copyText('1000542193275')">Copy CBE</button>
+          </div>
+        `;
+      } else {
+        refLabel.textContent = 'Binance Order ID / Tx Hash';
+        refInput.placeholder = 'e.g. Binance Order ID or Transaction Hash';
+        gatewayContainer.innerHTML = `
+          <div style="font-size:11px; font-weight:700; color:#34D399; margin-bottom:2px;">INTERNATIONAL CRYPTO:</div>
+          <div class="gateway-item">
+            <div>
+              <div style="font-size:11px; color:#94A3B8;">Binance UID (USDT):</div>
+              <div style="font-size:13.5px; font-weight:800; color:#FFF;">1032674236</div>
+              <div style="font-size:10px; color:#34D399;">Zero Gas Fees via Binance UID</div>
+            </div>
+            <button class="gateway-copy-btn" type="button" onclick="copyText('1032674236')">Copy UID</button>
+          </div>
+        `;
+      }
+
+      document.getElementById('checkout-modal').style.display = 'flex';
+      document.getElementById('checkout-status').style.display = 'none';
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkout-modal').style.display = 'none';
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('pricing-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'pricing-toast';
+        toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#10B981;color:#022C22;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(16,185,129,0.4);z-index:99999;transition:all 0.3s;display:flex;align-items:center;gap:8px;';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<span>✓</span> <span>${msg}</span>`;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+      }, 3000);
+    }
+
+    function copyText(str) {
+      navigator.clipboard.writeText(str);
+      showToast(`Copied to clipboard: ${str}`);
+    }
+
+    async function handlePaymentSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('cust-name').value.trim();
+      const email = document.getElementById('cust-email').value.trim();
+      const ref = document.getElementById('cust-ref').value.trim();
+      const btn = document.getElementById('btn-submit-pay');
+      const statusBox = document.getElementById('checkout-status');
+
+      btn.textContent = 'Submitting Proof...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/premium/submit-payment', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            candidateName: name,
+            email,
+            planId: selectedPlanId,
+            currency: activeCurrency,
+            gateway: activeCurrency === 'ETB' ? 'telebirr' : 'binance',
+            reference: ref
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          statusBox.innerHTML = `
+            <div style="background:rgba(16, 185, 129, 0.15); border:1px solid #10B981; border-radius:8px; padding:12px; color:#34D399;">
+              <b>Payment Submitted Successfully!</b><br>
+              <span style="color:#CBD5E1; font-size:11px;">
+                Transaction Ref: <code>${ref}</code><br>
+                Receipt received by JobAssist Admin Center. Once verified, your license key is auto-sent to <b>${email}</b> and ready to activate in your Chrome Extension!
+              </span>
+            </div>
+          `;
+          statusBox.style.display = 'block';
+          document.getElementById('payment-form').reset();
+        } else {
+          statusBox.innerHTML = `<span style="color:#F87171;">✕ ${data.error || 'Submission failed.'}</span>`;
+          statusBox.style.display = 'block';
+        }
+      } catch(err) {
+        statusBox.innerHTML = `<span style="color:#F87171;">✕ Network Error: ${err.message}</span>`;
+        statusBox.style.display = 'block';
+      } finally {
+        btn.textContent = 'Submit Receipt for Instant Activation';
+        btn.disabled = false;
+      }
+    }
+
+    // Only display Admin link if logged in
+    document.addEventListener('DOMContentLoaded', () => {
+      const isAdmin = sessionStorage.getItem('ja_admin_logged') === 'true' || 
+                      localStorage.getItem('ja_admin_logged') === 'true' || 
+                      window.location.search.includes('admin=1');
+      const adminLink = document.getElementById('nav-admin-link');
+      if (adminLink && isAdmin) adminLink.style.display = 'inline-block';
+    });
+  </script>
+
+  <!-- Modal: How to Unpack Extension -->
+  <div id="modal-unpack-guide" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); z-index: 99999; align-items: center; justify-content: center; padding: 16px;">
+    <div style="background: #0F172A; border: 1.5px solid #10B981; border-radius: 16px; padding: 26px; max-width: 500px; width: 100%; color: #F8FAFC; box-shadow: 0 20px 60px rgba(0,0,0,0.85);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div style="font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+          Load Unpacked Extension (30s Guide)
+        </div>
+        <button onclick="document.getElementById('modal-unpack-guide').style.display='none'" style="background: none; border: none; color: #94A3B8; font-size: 18px; cursor: pointer;">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 12.5px; line-height: 1.5; color: #CBD5E1;">
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+          <span style="background: #10B981; color: #022C22; font-weight: 800; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</span>
+          <div>
+            <strong>Unzip the Downloaded File</strong><br>
+            Right-click <code style="background:#1E293B; padding:2px 5px; border-radius:4px; color:#34D399;">JobAssist-AI-Studio-Extension.zip</code> and choose <em>"Extract All..."</em>.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+          <span style="background: #10B981; color: #022C22; font-weight: 800; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</span>
+          <div>
+            <strong>Enable Developer Mode in Chrome</strong><br>
+            Open Google Chrome, visit <code style="background:#1E293B; padding:2px 5px; border-radius:4px; color:#38BDF8;">chrome://extensions</code>, and toggle <strong>Developer mode</strong> (top-right switch) to <strong>ON</strong>.
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: flex-start;">
+          <span style="background: #10B981; color: #022C22; font-weight: 800; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</span>
+          <div>
+            <strong>Click "Load Unpacked" &amp; Select Folder</strong><br>
+            Click the <strong>Load unpacked</strong> button (top-left) and select the unzipped extension folder. Pin JobAssist to your toolbar!
+          </div>
+        </div>
+
+        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid #F59E0B; border-radius: 8px; padding: 12px; font-size: 11.5px; color: #FDE68A; line-height: 1.45;">
+          <strong>Administrator Permission Required:</strong><br>
+          Anyone can unpack the extension, but <strong>only users who have paid or been granted permission by the administrator can unlock it</strong>. Once you submit payment on this page, the admin verifies it and your license key is activated!
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-top: 18px;">
+        <a href="/download-extension" download="JobAssist-AI-Studio-Extension.zip" style="flex: 1; background: #10B981; color: #022C22; text-align: center; padding: 10px; border-radius: 8px; font-weight: 800; font-size: 12px; text-decoration: none;">
+          Download .ZIP Now
+        </a>
+        <button onclick="document.getElementById('modal-unpack-guide').style.display='none'" style="flex: 1; background: #1E293B; border: 1px solid #334155; color: #FFF; padding: 10px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer;">
+          Got It!
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

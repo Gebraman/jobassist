@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>JobAssist AI — Application Pipeline CRM & Kanban Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #090E17; color: #F8FAFC; min-height: 100vh; display: flex; flex-direction: column; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Navbar */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(9, 14, 23, 0.9); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-logo {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, #10B981, #059669);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; color: #022C22;
+    }
+    .brand-title { font-size: 17px; font-weight: 800; color: #FFF; }
+    .nav-links { display: flex; align-items: center; gap: 20px; font-size: 13px; font-weight: 600; color: #94A3B8; }
+    .nav-links a:hover { color: #34D399; }
+
+    /* Controls Bar */
+    .controls-bar {
+      padding: 18px 36px; background: #0E1624; border-bottom: 1px solid #1E293B;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;
+    }
+    .metric-pills { display: flex; gap: 12px; }
+    .metric-pill {
+      background: #182234; border: 1px solid #273549; border-radius: 8px; padding: 6px 14px;
+      font-size: 12px; font-weight: 700; color: #CBD5E1;
+    }
+    .metric-pill b { color: #34D399; }
+
+    /* Kanban Container */
+    .kanban-board {
+      flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
+      padding: 24px 36px; overflow-x: auto;
+    }
+    @media(max-width: 1200px) {
+      .kanban-board { grid-template-columns: repeat(5, 280px); }
+    }
+
+    .column {
+      background: #0E1624; border: 1px solid #1E293B; border-radius: 12px;
+      padding: 14px; display: flex; flex-direction: column; min-height: 520px;
+    }
+    .col-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1.5px solid #1E293B;
+    }
+    .col-title { font-size: 13px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 6px; }
+    .col-count {
+      background: #1E293B; color: #34D399; font-size: 11px; font-weight: 800;
+      padding: 2px 7px; border-radius: 9999px;
+    }
+
+    .col-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+
+    /* Kanban Card */
+    .k-card {
+      background: #182234; border: 1px solid #273549; border-radius: 10px;
+      padding: 14px; cursor: grab; transition: all 0.2s;
+    }
+    .k-card:hover { border-color: #38BDF8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+    .k-company { font-size: 11.5px; font-weight: 700; color: #10B981; }
+    .k-role { font-size: 13.5px; font-weight: 800; color: #FFF; margin: 2px 0 6px; line-height: 1.3; }
+    .k-meta { display: flex; justify-content: space-between; font-size: 10.5px; color: #94A3B8; margin-bottom: 8px; }
+    .k-actions { display: flex; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+    .btn-k-action {
+      flex: 1; background: #0E1624; border: 1px solid #334155; color: #CBD5E1;
+      padding: 5px; border-radius: 5px; font-size: 10.5px; font-weight: 700; cursor: pointer; text-align: center;
+    }
+    .btn-k-action:hover { background: #1E293B; color: #34D399; border-color: #10B981; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="brand-title">JobAssist <span style="font-weight:500; font-size:14px; color:#10B981;">Pipeline CRM</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/jobs-board">Jobs Board</a>
+      <a href="/interview-prep">Interview Copilot</a>
+      <a href="/pricing">Pricing</a>
+    </div>
+  </header>
+
+  <!-- Controls Bar -->
+  <div class="controls-bar">
+    <div class="metric-pills">
+      <div class="metric-pill">Active Pipeline: <b id="pipe-val">$460,000</b></div>
+      <div class="metric-pill">Applications: <b id="pipe-total">3</b></div>
+      <div class="metric-pill">Average Fit: <b>96%</b></div>
+    </div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <a href="/interview-prep" style="background:#064E3B; color:#34D399; border:1px solid #059669; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:800; text-decoration:none;">
+        Launch Interview Copilot
+      </a>
+    </div>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="kanban-board">
+    <!-- Col 1: Discovered -->
+    <div class="column">
+      <div class="col-header">
+        <div class="col-title">Discovered</div>
+        <div id="count-discovered" class="col-count">0</div>
+      </div>
+      <div id="col-discovered" class="col-cards"></div>
+    </div>
+
+    <!-- Col 2: Applied -->
+    <div class="column">
+      <div class="col-header">
+        <div class="col-title">Applied</div>
+        <div id="count-applied" class="col-count">0</div>
+      </div>
+      <div id="col-applied" class="col-cards"></div>
+    </div>
+
+    <!-- Col 3: Phone Screen -->
+    <div class="column">
+      <div class="col-header">
+        <div class="col-title">Phone Screen</div>
+        <div id="count-screen" class="col-count">0</div>
+      </div>
+      <div id="col-screen" class="col-cards"></div>
+    </div>
+
+    <!-- Col 4: Technical Round -->
+    <div class="column">
+      <div class="col-header">
+        <div class="col-title">Tech Interview</div>
+        <div id="count-tech" class="col-count">0</div>
+      </div>
+      <div id="col-tech" class="col-cards"></div>
+    </div>
+
+    <!-- Col 5: Offer Extended -->
+    <div class="column">
+      <div class="col-header">
+        <div class="col-title">Offer Extended</div>
+        <div id="count-offer" class="col-count">0</div>
+      </div>
+      <div id="col-offer" class="col-cards"></div>
+    </div>
+  </div>
+
+  <script>
+    let trackerApps = [
+      {
+        id: 'app-1',
+        company: '1406 Consulting',
+        role: 'HubSpot Integrations Software Developer',
+        portal: 'JazzHR',
+        client: 'Raymond Wong',
+        date: '10/22/2026',
+        fitScore: '98%',
+        salary: '$95,000',
+        stage: 'applied'
+      },
+      {
+        id: 'app-2',
+        company: 'Bask Health',
+        role: 'Senior Back-End Software Engineer',
+        portal: 'Workable',
+        client: 'Raymond Wong',
+        date: '10/22/2026',
+        fitScore: '96%',
+        salary: '$180,000',
+        stage: 'screen'
+      },
+      {
+        id: 'app-3',
+        company: 'BJAK Career',
+        role: 'LLM Application Engineer',
+        portal: 'Ashby',
+        client: 'Raymond Wong',
+        date: '10/22/2026',
+        fitScore: '94%',
+        salary: '$185,000',
+        stage: 'tech'
+      }
+    ];
+
+    async function loadPipeline() {
+      try {
+        const res = await fetch('/api/ai/tracker');
+        const data = await res.json();
+        if (data.applications && data.applications.length > 0) {
+          trackerApps = data.applications.map(a => ({
+            id: a.id || `app-${Math.random()}`,
+            company: a.company || 'Tech Company',
+            role: a.role || a.jobTitle || 'Senior Software Engineer',
+            portal: a.portal || 'ATS',
+            client: a.client || a.candidateName || 'Raymond Wong',
+            date: a.date || a.appliedDate || new Date().toLocaleDateString(),
+            fitScore: a.fitScore || '96%',
+            salary: a.salary || '$175,000',
+            stage: a.stage || 'applied'
+          }));
+        }
+      } catch(e) {}
+      renderBoard();
+    }
+
+    function renderBoard() {
+      const stages = {
+        discovered: document.getElementById('col-discovered'),
+        applied: document.getElementById('col-applied'),
+        screen: document.getElementById('col-screen'),
+        tech: document.getElementById('col-tech'),
+        offer: document.getElementById('col-offer')
+      };
+
+      Object.keys(stages).forEach(k => stages[k].innerHTML = '');
+
+      const counts = { discovered: 0, applied: 0, screen: 0, tech: 0, offer: 0 };
+
+      trackerApps.forEach(item => {
+        const stageKey = item.stage || 'applied';
+        if (counts[stageKey] !== undefined) counts[stageKey]++;
+
+        const card = document.createElement('div');
+        card.className = 'k-card';
+        card.innerHTML = `
+          <div class="k-company">${item.company} • <span style="color:#94A3B8;">${item.portal}</span></div>
+          <div class="k-role">${item.role}</div>
+          <div class="k-meta">
+            <span>${item.client}</span>
+            <span style="color:#34D399; font-weight:700;">${item.fitScore} Fit</span>
+          </div>
+          <div style="font-size:10.5px; color:#FBBF24; font-weight:700; margin-bottom:6px;">${item.salary}</div>
+
+          <div class="k-actions">
+            <a href="/interview-prep" class="btn-k-action" style="color:#34D399;">Prep</a>
+            <button class="btn-k-action" onclick="moveNext('${item.id}')">Advance</button>
+            <button class="btn-k-action" style="color:#F87171;" onclick="deleteApp('${item.id}')">✕</button>
+          </div>
+        `;
+
+        if (stages[stageKey]) stages[stageKey].appendChild(card);
+      });
+
+      document.getElementById('count-discovered').textContent = counts.discovered;
+      document.getElementById('count-applied').textContent = counts.applied;
+      document.getElementById('count-screen').textContent = counts.screen;
+      document.getElementById('count-tech').textContent = counts.tech;
+      document.getElementById('count-offer').textContent = counts.offer;
+      document.getElementById('pipe-total').textContent = trackerApps.length;
+    }
+
+    function moveNext(id) {
+      const app = trackerApps.find(a => a.id === id);
+      if (!app) return;
+      const order = ['discovered', 'applied', 'screen', 'tech', 'offer'];
+      const curIdx = order.indexOf(app.stage || 'applied');
+      if (curIdx < order.length - 1) {
+        app.stage = order[curIdx + 1];
+        saveApp(app);
+      }
+    }
+
+    async function saveApp(app) {
+      renderBoard();
+      try {
+        await fetch('/api/ai/tracker', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ application: app })
+        });
+      } catch(e) {}
+    }
+
+    async function deleteApp(id) {
+      trackerApps = trackerApps.filter(a => a.id !== id);
+      renderBoard();
+      try {
+        await fetch(`/api/ai/tracker/${id}`, { method: 'DELETE' });
+      } catch(e) {}
+    }
+
+    loadPipeline();
+  </script>
+</body>
+</html>
