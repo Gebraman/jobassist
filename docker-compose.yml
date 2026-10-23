@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  jobassist-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jobassist_platform
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - TELEBIRR_RECEIVER_PHONE=0948232717
+      - CBE_ACCOUNT_NUMBER=1000542193275
+      - BINANCE_PAY_ID=1032674236
+      - BINANCE_UID=1032674236
+    volumes:
+      # Persist licenses, payments, and candidate data across container updates
+      - jobassist_data:/app/src/data
+
+volumes:
+  jobassist_data:
+    driver: local
