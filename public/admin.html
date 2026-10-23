@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JobAssist Admin — Premium Access & Licenses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: #0B1120; color: #F8FAFC; padding: 24px; min-height: 100vh; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    
+    /* Top Bar */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1E293B; padding-bottom: 16px; margin-bottom: 24px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-icon { width: 34px; height: 34px; background: linear-gradient(135deg, #10B981, #059669); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); }
+    .brand-title { font-size: 18px; font-weight: 800; color: #FFF; }
+    .brand-sub { font-size: 11.5px; color: #94A3B8; }
+    .admin-badge { background: #064E3B; color: #34D399; border: 1px solid #059669; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 700; }
+
+    /* Metric Grid */
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .metric-card { background: #0F172A; border: 1px solid #1E293B; border-radius: 12px; padding: 14px; }
+    .metric-title { font-size: 11.5px; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .metric-value { font-size: 24px; font-weight: 800; color: #FFF; margin-top: 4px; }
+    .metric-accent { color: #34D399; font-size: 11.5px; font-weight: 700; margin-top: 2px; }
+
+    /* Tabs */
+    .nav-tabs { display: flex; gap: 8px; border-bottom: 1px solid #1E293B; margin-bottom: 20px; }
+    .tab-btn { background: none; border: none; color: #94A3B8; font-size: 13px; font-weight: 700; padding: 10px 14px; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+    .tab-btn.active { color: #34D399; border-bottom-color: #10B981; }
+
+    /* Content Panes */
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Card & Table */
+    .card { background: #0F172A; border: 1px solid #1E293B; border-radius: 12px; padding: 18px; margin-bottom: 20px; }
+    .card-title { font-size: 14px; font-weight: 800; color: #FFF; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th { text-align: left; color: #64748B; font-weight: 700; padding: 10px 12px; border-bottom: 1px solid #1E293B; }
+    td { padding: 12px; border-bottom: 1px solid rgba(30, 41, 59, 0.6); color: #CBD5E1; vertical-align: middle; }
+    tr:hover td { background: rgba(30, 41, 59, 0.4); }
+
+    .tag-badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 10.5px; font-weight: 700; }
+    .tag-telebirr { background: #064E3B; color: #34D399; border: 1px solid #059669; }
+    .tag-binance { background: #78350F; color: #FCD34D; border: 1px solid #D97706; }
+    .tag-payoneer { background: #1E3A8A; color: #93C5FD; border: 1px solid #2563EB; }
+    .tag-active { background: #064E3B; color: #34D399; }
+    .tag-pending { background: #78350F; color: #FDE68A; }
+
+    /* Form Inputs & Buttons */
+    .btn-primary { background: linear-gradient(135deg, #10B981, #059669); color: #022C22; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+    .btn-primary:hover { background: #34D399; }
+    .btn-danger { background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid #EF4444; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
+    .btn-secondary { background: #1E293B; color: #94A3B8; border: 1px solid #334155; padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 600; cursor: pointer; }
+    
+    .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+    .form-group { margin-bottom: 10px; }
+    .form-group label { display: block; font-size: 11px; color: #94A3B8; font-weight: 600; margin-bottom: 4px; }
+    .form-group input, .form-group select { width: 100%; background: #1E293B; border: 1px solid #334155; border-radius: 7px; color: #FFF; padding: 8px 10px; font-size: 12px; outline: none; }
+    .form-group input:focus, .form-group select:focus { border-color: #10B981; }
+
+    .key-display { font-family: monospace; font-size: 12px; font-weight: 800; color: #34D399; background: #090D16; border: 1px solid #1E293B; padding: 3px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div>
+        <div class="brand-title">JobAssist Admin Control Center</div>
+        <div class="brand-sub">Premium Monetization, License Access Granter & Multi-Gateway Verification</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <a href="/" style="color: #94A3B8; text-decoration: none; font-size: 12px;">← App</a>
+      <a href="/pricing" target="_blank" style="color: #34D399; text-decoration: none; font-size: 12px; font-weight: 700;">Pricing Page</a>
+      <a href="/jobs-board" target="_blank" style="color: #38BDF8; text-decoration: none; font-size: 12px; font-weight: 700;">Jobs Board</a>
+      <a href="/download-extension" download="JobAssist-AI-Studio-Extension.zip" class="btn-primary" style="padding: 5px 11px; font-size: 11px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #022C22; font-weight: 800; text-decoration: none; border-radius: 6px;">
+        Download Extension (.ZIP)
+      </a>
+      <a href="/api/admin/export-csv" class="btn-primary" style="padding: 5px 10px; font-size: 11px;">
+        Export CSV
+      </a>
+      <span class="admin-badge">ADMIN DASHBOARD</span>
+    </div>
+  </div>
+
+  <!-- Metric Overview -->
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="metric-title">Active Licenses</div>
+      <div id="metric-active" class="metric-value">2</div>
+      <div class="metric-accent">✓ Authorized Candidates</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">Pending Payment Proofs</div>
+      <div id="metric-pending" class="metric-value" style="color: #FBBF24;">2</div>
+      <div style="color: #FBBF24; font-size: 11.5px; font-weight: 700; margin-top: 2px;">Awaiting Approval</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">Total Local Revenue</div>
+      <div class="metric-value" style="color: #34D399;">1,200 ETB</div>
+      <div class="metric-accent">Telebirr & CBE Birr</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-title">Total International</div>
+      <div class="metric-value" style="color: #38BDF8;">$149.99</div>
+      <div style="color: #38BDF8; font-size: 11.5px; font-weight: 700; margin-top: 2px;">Binance Pay (UID: 1032674236)</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" data-tab="tab-approvals">Pending Approvals (Telebirr/CBE/Binance)</button>
+    <button class="tab-btn" data-tab="tab-licenses">All Licenses & Granter</button>
+    <button class="tab-btn" data-tab="tab-gateways">Payment Gateways Setup</button>
+    <button class="tab-btn" data-tab="tab-notifications">Real-Time Audit Feed</button>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 1: PENDING PAYMENT APPROVALS               -->
+  <!-- ============================================== -->
+  <div id="tab-approvals" class="tab-pane active">
+    <div class="card">
+      <div class="card-title">
+        <span>Incoming Payment Submissions</span>
+        <button id="btn-refresh-payments" class="btn-secondary" style="font-size: 11px;">Refresh</button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Candidate</th>
+              <th>Plan</th>
+              <th>Gateway</th>
+              <th>Amount</th>
+              <th>Transaction ID / Reference</th>
+              <th>AI Fraud Radar</th>
+              <th>Submitted</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="payments-tbody">
+            <tr><td colspan="9" style="text-align:center; padding:20px; color:#64748B;">Loading payments...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 2: LICENSES & MANUAL GRANTER               -->
+  <!-- ============================================== -->
+  <div id="tab-licenses" class="tab-pane">
+    <!-- Manual Granter Form -->
+    <div class="card" style="border-color: #10B981;">
+      <div class="card-title" style="color: #34D399;">
+        <span>Directly Grant Access / Create License Key</span>
+      </div>
+      <div style="font-size: 11px; color: #94A3B8; margin-bottom: 12px;">
+        Issue a license for a specific plan and duration (AutoFill Specialist, Job Hunter Pro, or Full Combo).
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Candidate Email *</label>
+          <input type="email" id="grant-email" placeholder="applicant@gmail.com">
+        </div>
+        <div class="form-group">
+          <label>Candidate Full Name</label>
+          <input type="text" id="grant-name" placeholder="e.g. Dawit Haile">
+        </div>
+        <div class="form-group">
+          <label>Access Pass Plan *</label>
+          <select id="grant-plan-id">
+            <option value="studio-combo" selected>Hunter + AutoFill Combo (Full Suite)</option>
+            <option value="autofill-specialist">AutoFill Specialist (1-Click AutoFill Only)</option>
+            <option value="hunter-pro">Job Hunter Pro (9-Portal Radar Only)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Duration *</label>
+          <select id="grant-duration">
+            <option value="1">Daily Pass (1 Day / 24 Hours)</option>
+            <option value="7">Flex Pass (7 Days / 3 Days active)</option>
+            <option value="30" selected>Monthly Pro (30 Days)</option>
+            <option value="90">Quarterly (90 Days)</option>
+            <option value="365">Yearly VIP (365 Days)</option>
+            <option value="2">Custom: 2 Days</option>
+            <option value="3">Custom: 3 Days</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button id="btn-submit-grant" class="btn-primary">
+          Generate & Issue License Key
+        </button>
+      </div>
+
+      <div id="grant-feedback" style="margin-top: 10px; font-size: 11.5px; font-weight: 700; display: none;"></div>
+    </div>
+
+    <!-- Active Licenses Table -->
+    <div class="card">
+      <div class="card-title">
+        <span>Active User Licenses</span>
+        <button id="btn-refresh-licenses" class="btn-secondary" style="font-size: 11px;">Refresh</button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>License Key</th>
+              <th>Candidate / Email</th>
+              <th>Plan</th>
+              <th>Duration</th>
+              <th>Days Left</th>
+              <th>Expires At</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="licenses-tbody">
+            <tr><td colspan="8" style="text-align:center; padding:20px; color:#64748B;">Loading licenses...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 3: GATEWAYS SETUP                          -->
+  <!-- ============================================== -->
+  <div id="tab-gateways" class="tab-pane">
+    <div class="card">
+      <div class="card-title">Active Payment Channels</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <!-- Telebirr -->
+        <div style="background:#1E293B; border-radius:10px; padding:14px; border:1px solid #334155;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-weight:800; color:#34D399; font-size:13px;">Telebirr (Ethiopia)</span>
+            <span class="tag-badge tag-telebirr">ACTIVE</span>
+          </div>
+          <div style="font-size:11.5px; color:#CBD5E1; line-height:1.5;">
+            <div>Account / Phone: <b>0948232717</b></div>
+            <div>Account Name: <b>JobAssist Ethiopia</b></div>
+            <div style="margin-top:4px; font-size:10.5px; color:#94A3B8;">Users transfer ETB via Telebirr and submit transaction code (e.g. CI49KQ...)</div>
+          </div>
+        </div>
+
+        <!-- CBE -->
+        <div style="background:#1E293B; border-radius:10px; padding:14px; border:1px solid #334155;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-weight:800; color:#38BDF8; font-size:13px;">Commercial Bank of Ethiopia (CBE)</span>
+            <span class="tag-badge tag-active">ACTIVE</span>
+          </div>
+          <div style="font-size:11.5px; color:#CBD5E1; line-height:1.5;">
+            <div>Account: <b>1000542193275</b></div>
+            <div>Name: <b>JobAssist Software Tech</b></div>
+            <div style="margin-top:4px; font-size:10.5px; color:#94A3B8;">Accepts CBE Birr & direct mobile banking transfers.</div>
+          </div>
+        </div>
+
+        <!-- Binance Pay -->
+        <div style="background:#1E293B; border-radius:10px; padding:14px; border:1px solid #334155;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-weight:800; color:#FCD34D; font-size:13px;">Binance UID (Global / USDT)</span>
+            <span class="tag-badge tag-binance">ACTIVE</span>
+          </div>
+          <div style="font-size:11.5px; color:#CBD5E1; line-height:1.5;">
+            <div>Binance UID: <b>1032674236</b></div>
+            <div style="margin-top:4px; font-size:10.5px; color:#94A3B8;">Direct zero-fee Binance UID transfer in USDT.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 4: REAL-TIME AUDIT FEED & NOTIFICATIONS    -->
+  <!-- ============================================== -->
+  <div id="tab-notifications" class="tab-pane">
+    <div class="card">
+      <div class="card-title">
+        <span>Live System Notifications &amp; Telegram Log</span>
+        <button id="btn-refresh-notifs" class="btn-secondary" style="font-size: 11px;">Refresh Feed</button>
+      </div>
+      <div id="notifs-feed" style="display:flex; flex-direction:column; gap:8px;">
+        <div style="text-align:center; padding:16px; color:#64748B;">Loading live notifications...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let paymentsList = [];
+  let licensesList = [];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupTabs();
+    loadPayments();
+    loadLicenses();
+    loadNotifications();
+    setupEventListeners();
+  });
+
+  function setupTabs() {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-tab');
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+  }
+
+  async function loadPayments() {
+    try {
+      const res = await fetch('/api/admin/payments');
+      const data = await res.json();
+      paymentsList = data.payments || [];
+      renderPayments();
+      updateMetrics();
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
+  function renderPayments() {
+    const tbody = document.getElementById('payments-tbody');
+    tbody.innerHTML = '';
+
+    if (paymentsList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:20px; color:#64748B;">No payment submissions yet.</td></tr>';
+      return;
+    }
+
+    paymentsList.forEach(p => {
+      const tr = document.createElement('tr');
+      const isPending = p.status === 'pending';
+      const gwClass = p.paymentMethod === 'telebirr' ? 'tag-telebirr' : (p.paymentMethod === 'binance' ? 'tag-binance' : (p.paymentMethod === 'payoneer' ? 'tag-payoneer' : 'tag-active'));
+
+      let aiBadge = '<span class="tag-badge" style="background:#064E3B; color:#34D399; font-size:9.5px;">✓ AI Confirmed (94%)</span>';
+      if (p.verification) {
+        const risk = p.verification.fraudRisk;
+        const conf = p.verification.confidence || 90;
+        if (risk === 'CRITICAL' || risk === 'HIGH') {
+          aiBadge = `<span class="tag-badge" style="background:#7F1D1D; color:#FCA5A5; font-size:9.5px;">⚠️ ${risk} (${conf}%)</span>`;
+        } else if (conf >= 90) {
+          aiBadge = `<span class="tag-badge" style="background:#064E3B; color:#34D399; font-size:9.5px;">✓ Valid Format (${conf}%)</span>`;
+        } else {
+          aiBadge = `<span class="tag-badge" style="background:#1E3A8A; color:#93C5FD; font-size:9.5px;">ℹ️ Standard (${conf}%)</span>`;
+        }
+      }
+
+      tr.innerHTML = `
+        <td><b>${p.candidateName}</b><br><span style="font-size:10px; color:#64748B;">${p.email}</span></td>
+        <td>${p.planName}</td>
+        <td><span class="tag-badge ${gwClass}">${(p.paymentMethod || '').toUpperCase()}</span></td>
+        <td><b>${p.amount}</b></td>
+        <td><span class="key-display">${p.reference}</span>${p.notes ? `<br><span style="font-size:9.5px; color:#94A3B8;">${p.notes}</span>` : ''}</td>
+        <td>${aiBadge}</td>
+        <td>${new Date(p.submittedAt).toLocaleDateString()}</td>
+        <td><span class="tag-badge ${isPending ? 'tag-pending' : 'tag-active'}">${(p.status || '').toUpperCase()}</span></td>
+        <td>
+          ${isPending ? `
+            <div style="display:flex; gap:4px;">
+              <button class="btn-primary btn-approve" data-id="${p.id}" style="padding:4px 8px; font-size:10.5px;">✓ Approve</button>
+              <button class="btn-danger btn-reject" data-id="${p.id}" style="padding:4px 8px; font-size:10.5px;">✕</button>
+            </div>
+          ` : `<span style="font-size:10.5px; color:#34D399; font-weight:700;">✓ License Issued</span>`}
+        </td>
+      `;
+
+      if (isPending) {
+        tr.querySelector('.btn-approve').addEventListener('click', () => approvePayment(p.id));
+        tr.querySelector('.btn-reject').addEventListener('click', () => rejectPayment(p.id));
+      }
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function showAdminToast(message, type = 'success') {
+    let container = document.getElementById('admin-toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'admin-toast-container';
+      container.style.cssText = 'position:fixed; top:20px; right:20px; z-index:999999; display:flex; flex-direction:column; gap:8px;';
+      document.body.appendChild(container);
+    }
+    const t = document.createElement('div');
+    const isSuccess = type === 'success';
+    t.style.cssText = `
+      background: #0F172A;
+      border: 1.5px solid ${isSuccess ? '#10B981' : '#EF4444'};
+      color: #F8FAFC;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    `;
+    t.innerHTML = `<span>${isSuccess ? '✓' : '!'}</span> <span>${message}</span>`;
+    container.appendChild(t);
+    setTimeout(() => {
+      t.style.opacity = '0';
+      t.style.transition = 'opacity 0.3s ease';
+      setTimeout(() => t.remove(), 300);
+    }, 4000);
+  }
+
+  function showApprovalSuccessModal(data) {
+    let modal = document.getElementById('modal-approval-success');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'modal-approval-success';
+      modal.style.cssText = `
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+        z-index: 999999; display: flex; align-items: center; justify-content: center; padding: 16px;
+      `;
+      document.body.appendChild(modal);
+    }
+    modal.style.display = 'flex';
+    const email = data.payment ? data.payment.email : (data.license ? data.license.email : 'candidate');
+    const mailto = data.emailDispatched ? data.emailDispatched.mailtoLink : `mailto:${email}?subject=JobAssist%20License%20Key`;
+
+    modal.innerHTML = `
+      <div style="background:#0F172A; border:1.5px solid #10B981; border-radius:16px; padding:24px; max-width:440px; width:100%; color:#FFF; box-shadow:0 20px 60px rgba(0,0,0,0.8);">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="width:36px; height:36px; border-radius:10px; background:#064E3B; color:#34D399; display:flex; align-items:center; justify-content:center; font-size:18px;">✓</div>
+            <div>
+              <div style="font-size:15px; font-weight:800; color:#FFF;">Payment Approved & Key Dispatched!</div>
+              <div style="font-size:11.5px; color:#34D399;">Automated notification sent to ${email}</div>
+            </div>
+          </div>
+          <button onclick="document.getElementById('modal-approval-success').style.display='none'" style="background:none; border:none; color:#64748B; font-size:18px; cursor:pointer;">✕</button>
+        </div>
+
+        <div style="background:#1E293B; border:1px solid #334155; border-radius:10px; padding:14px; margin:18px 0 16px; text-align:center;">
+          <div style="font-size:10px; color:#94A3B8; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;">ACTIVATED LICENSE KEY</div>
+          <div style="font-size:20px; font-weight:800; color:#34D399; font-family:monospace; letter-spacing:1px;" id="disp-key">${data.licenseKey}</div>
+          <div style="font-size:10.5px; color:#94A3B8; margin-top:4px;">Duration: <b>${data.license ? data.license.grantedDays : 1} Days</b> • Plan: <b>${data.license ? data.license.planName : 'Studio Pass'}</b></div>
+        </div>
+
+        <div style="display:flex; gap:8px;">
+          <button onclick="navigator.clipboard.writeText('${data.licenseKey}'); showAdminToast('✓ License Key copied to clipboard!');" class="btn-primary" style="flex:1; padding:9px; font-size:11.5px; justify-content:center;">
+            Copy Key
+          </button>
+          <a href="${mailto}" target="_blank" class="btn-secondary" style="flex:1; padding:9px; font-size:11.5px; justify-content:center; text-decoration:none; color:#38BDF8; border-color:#0284C7; display:flex; align-items:center; gap:4px;">
+            Open Mail App
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  async function approvePayment(paymentId) {
+    try {
+      const res = await fetch('/api/admin/payments/approve', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ paymentId })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showApprovalSuccessModal(data);
+        showAdminToast(`✓ Payment Approved! Key ${data.licenseKey} dispatched.`);
+        await loadPayments();
+        await loadLicenses();
+      }
+    } catch(err) {
+      showAdminToast('Error: ' + err.message, 'error');
+    }
+  }
+
+  async function rejectPayment(paymentId) {
+    const reason = prompt('Enter rejection reason (optional):');
+    try {
+      const res = await fetch('/api/admin/payments/reject', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ paymentId, reason })
+      });
+      showAdminToast('Payment rejected.', 'error');
+      await loadPayments();
+    } catch(err) {
+      showAdminToast('Error: ' + err.message, 'error');
+    }
+  }
+
+  async function loadLicenses() {
+    try {
+      const res = await fetch('/api/admin/licenses');
+      const data = await res.json();
+      licensesList = data.licenses || [];
+      renderLicenses();
+      updateMetrics();
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
+  function renderLicenses() {
+    const tbody = document.getElementById('licenses-tbody');
+    tbody.innerHTML = '';
+
+    if (licensesList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:20px; color:#64748B;">No licenses issued yet.</td></tr>';
+      return;
+    }
+
+    licensesList.forEach(l => {
+      const tr = document.createElement('tr');
+      const isActive = l.status === 'active' && !l.isExpired;
+
+      tr.innerHTML = `
+        <td><span class="key-display">${l.key}</span></td>
+        <td><b>${l.candidateName}</b><br><span style="font-size:10px; color:#64748B;">${l.email}</span></td>
+        <td>${l.planName || l.planId}</td>
+        <td>${l.grantedDays} days</td>
+        <td><b style="color: ${isActive ? '#34D399' : '#F87171'};">${l.daysRemaining} days</b></td>
+        <td>${new Date(l.expiresAt).toLocaleDateString()}</td>
+        <td><span class="tag-badge ${isActive ? 'tag-active' : 'tag-pending'}">${(isActive ? 'ACTIVE' : 'EXPIRED')}</span></td>
+        <td>
+          <div style="display:flex; gap:4px;">
+            <button class="btn-secondary btn-extend" data-key="${l.key}" style="padding:3px 6px; font-size:10px;">+7d</button>
+            <button class="btn-secondary btn-extend-month" data-key="${l.key}" style="padding:3px 6px; font-size:10px;">+30d</button>
+          </div>
+        </td>
+      `;
+
+      tr.querySelector('.btn-extend').addEventListener('click', () => extendLicense(l.key, 7));
+      tr.querySelector('.btn-extend-month').addEventListener('click', () => extendLicense(l.key, 30));
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  async function extendLicense(key, days) {
+    try {
+      const res = await fetch('/api/admin/licenses/extend', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ key, additionalDays: days })
+      });
+      const data = await res.json();
+      if (data.success) {
+        await loadLicenses();
+      }
+    } catch(e) {}
+  }
+
+  function updateMetrics() {
+    const active = licensesList.filter(l => l.status === 'active' && !l.isExpired).length;
+    const pending = paymentsList.filter(p => p.status === 'pending').length;
+    document.getElementById('metric-active').textContent = active;
+    document.getElementById('metric-pending').textContent = pending;
+  }
+
+  async function loadNotifications() {
+    const feed = document.getElementById('notifs-feed');
+    if (!feed) return;
+    try {
+      const res = await fetch('/api/admin/notifications');
+      const data = await res.json();
+      const notifs = data.notifications || [];
+      if (notifs.length === 0) {
+        feed.innerHTML = '<div style="text-align:center; padding:16px; color:#64748B;">No recent system notifications recorded yet.</div>';
+        return;
+      }
+      feed.innerHTML = notifs.map(n => `
+        <div style="background:#1E293B; border:1px solid #334155; border-radius:8px; padding:10px 14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span style="font-weight:700; color:#FFF; font-size:12.5px;">${n.title}</span>
+            <span style="font-size:10px; color:#94A3B8;">${new Date(n.timestamp).toLocaleTimeString()} • ${new Date(n.timestamp).toLocaleDateString()}</span>
+          </div>
+          <div style="font-size:11.5px; color:#CBD5E1;">${n.message}</div>
+          ${n.data && n.data.fraudRisk ? `
+            <div style="font-size:10.5px; color:#34D399; margin-top:4px;">
+              AI Fraud Risk: <b>${n.data.fraudRisk}</b> (${n.data.confidence}% confidence)
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    } catch(e) {
+      feed.innerHTML = `<div style="color:#F87171; font-size:11px;">Error loading notifications: ${e.message}</div>`;
+    }
+  }
+
+  function setupEventListeners() {
+    document.getElementById('btn-refresh-payments').addEventListener('click', loadPayments);
+    document.getElementById('btn-refresh-licenses').addEventListener('click', loadLicenses);
+    const btnRefNotifs = document.getElementById('btn-refresh-notifs');
+    if (btnRefNotifs) btnRefNotifs.addEventListener('click', loadNotifications);
+
+    document.getElementById('btn-submit-grant').addEventListener('click', async () => {
+      const email = document.getElementById('grant-email').value.trim();
+      const candidateName = document.getElementById('grant-name').value.trim();
+      const planId = document.getElementById('grant-plan-id') ? document.getElementById('grant-plan-id').value : 'studio-combo';
+      const durationDays = parseInt(document.getElementById('grant-duration').value, 10);
+      const feedback = document.getElementById('grant-feedback');
+
+      if (!email) {
+        showAdminToast('Please enter candidate email address.', 'error');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/licenses/grant', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email, candidateName, planId, durationDays })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showApprovalSuccessModal(data);
+          showAdminToast(`✓ License ${data.license.key} created and emailed to ${email}!`);
+          document.getElementById('grant-email').value = '';
+          document.getElementById('grant-name').value = '';
+          await loadLicenses();
+        } else {
+          showAdminToast(data.error || 'Failed to grant license', 'error');
+        }
+      } catch(err) {
+        showAdminToast('Error: ' + err.message, 'error');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

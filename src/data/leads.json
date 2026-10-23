@@ -1,0 +1,34 @@
+[
+  {
+    "id": "lead_1792495463486_hb1ij",
+    "email": "geremedhinendeshawe@gmail.com",
+    "capturedAt": "2026-10-20T11:24:23.486Z",
+    "matchCount": 2411,
+    "attribution": {
+      "utm_source": "Facebook",
+      "utm_medium": "none",
+      "utm_campaign": "none",
+      "utm_term": null,
+      "utm_content": null,
+      "utm_id": null,
+      "fbclid": null
+    },
+    "ip": "::1"
+  },
+  {
+    "id": "lead_1792493433544_7aoxk",
+    "email": "lead.qa.rebuild@jobassist.com",
+    "capturedAt": "2026-10-20T10:50:33.544Z",
+    "matchCount": 2411,
+    "attribution": {
+      "utm_source": "Facebook",
+      "utm_medium": "cpc",
+      "utm_campaign": "Summer_2026_Scale",
+      "utm_term": null,
+      "utm_content": null,
+      "utm_id": null,
+      "fbclid": "fb_click_test_9988"
+    },
+    "ip": "::1"
+  }
+]

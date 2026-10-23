@@ -1,0 +1,1 @@
+javascript:(function(){const js=document.createElement('script');js.src='http://localhost:3001/extension/content.js';document.body.appendChild(js);})();

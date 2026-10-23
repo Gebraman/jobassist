@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>JobAssist AI — Agency Multi-Client Management Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #090E17; color: #F8FAFC; padding-bottom: 80px; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Navbar */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(9, 14, 23, 0.9); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-logo {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, #10B981, #059669);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; color: #022C22;
+    }
+    .brand-title { font-size: 17px; font-weight: 800; color: #FFF; }
+    .nav-links { display: flex; align-items: center; gap: 20px; font-size: 13px; font-weight: 600; color: #94A3B8; }
+    .nav-links a:hover { color: #34D399; }
+
+    .container { max-width: 1140px; margin: 30px auto; padding: 0 20px; }
+
+    /* Metrics Bar */
+    .metrics-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px;
+    }
+    @media(max-width: 768px) {
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .metric-card {
+      background: #111A29; border: 1px solid #1E293B; border-radius: 12px; padding: 18px;
+    }
+    .metric-title { font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; }
+    .metric-value { font-size: 26px; font-weight: 800; color: #FFF; margin-top: 4px; }
+    .metric-accent { color: #34D399; font-size: 11.5px; font-weight: 700; margin-top: 2px; }
+
+    /* Table Card */
+    .card {
+      background: #111A29; border: 1px solid #1E293B; border-radius: 14px; padding: 22px;
+    }
+    .card-title {
+      font-size: 16px; font-weight: 800; color: #FFF; margin-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th { text-align: left; color: #64748B; font-weight: 700; padding: 10px 12px; border-bottom: 1px solid #1E293B; }
+    td { padding: 12px; border-bottom: 1px solid rgba(30, 41, 59, 0.6); color: #CBD5E1; vertical-align: middle; }
+    tr:hover td { background: rgba(30, 41, 59, 0.4); }
+
+    .tag-badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 10.5px; font-weight: 700; }
+    .tag-vip { background: #064E3B; color: #34D399; border: 1px solid #059669; }
+    .tag-active { background: #1E3A8A; color: #93C5FD; }
+
+    .btn-action {
+      background: #1E293B; border: 1px solid #334155; color: #34D399;
+      padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .btn-action:hover { background: #10B981; color: #022C22; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="brand-title">JobAssist <span style="font-weight:500; font-size:14px; color:#10B981;">Agency Hub</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/jobs-board">Jobs Board</a>
+      <a href="/pipeline">Pipeline CRM</a>
+      <a href="/interview-prep">Interview Copilot</a>
+      <a href="/recruiter-outreach">Recruiter Outreach</a>
+      <a href="/pricing">Pricing</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-title">Managed Candidates</div>
+        <div class="metric-value">4</div>
+        <div class="metric-accent">Active Candidate Personas</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Total Applications</div>
+        <div class="metric-value">45</div>
+        <div class="metric-accent">Workable, JazzHR, Ashby</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Active Interviews</div>
+        <div class="metric-value">12</div>
+        <div class="metric-accent">Screen & Tech Rounds</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-title">Pipeline Value</div>
+        <div class="metric-value" style="color:#38BDF8;">$725,000</div>
+        <div class="metric-accent">Active Offers & Negotiations</div>
+      </div>
+    </div>
+
+    <!-- Clients Table -->
+    <div class="card">
+      <div class="card-title">
+        <span>Client Portfolio &amp; AutoFill Authority</span>
+        <button class="btn-action" onclick="showAgencyToast('Client Onboarding: use Add Profile in Chrome Extension or Admin Granter.')">+ Onboard New Candidate</button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Candidate Name</th>
+              <th>Target Role & Seniority</th>
+              <th>Location</th>
+              <th>Target Comp</th>
+              <th>Pass Status</th>
+              <th>Applications</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="clients-tbody">
+            <tr>
+              <td><b>Raymond Wong</b><br><span style="font-size:10px; color:#64748B;">raymond1994.glo@outlook.com</span></td>
+              <td>Staff / Lead Backend Engineer (10 yrs)</td>
+              <td>Remote, US</td>
+              <td>$175,000 - $190,000</td>
+              <td><span class="tag-badge tag-vip">VIP ENTERPRISE (364d)</span></td>
+              <td><b>28 Submitted</b></td>
+              <td>
+                <div style="display:flex; gap:6px;">
+                  <a href="/jobs-board" class="btn-action">Hunt Jobs</a>
+                  <a href="/interview-prep" class="btn-action" style="color:#38BDF8;">Prep</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Sarah Chen</b><br><span style="font-size:10px; color:#64748B;">sarah.chen@example.com</span></td>
+              <td>Principal Distributed Systems Engineer (8 yrs)</td>
+              <td>Remote, US / Canada</td>
+              <td>$185,000 - $210,000</td>
+              <td><span class="tag-badge tag-vip">MONTHLY PRO (30d)</span></td>
+              <td><b>11 Submitted</b></td>
+              <td>
+                <div style="display:flex; gap:6px;">
+                  <a href="/jobs-board" class="btn-action">Hunt Jobs</a>
+                  <a href="/interview-prep" class="btn-action" style="color:#38BDF8;">Prep</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Marcus Vance</b><br><span style="font-size:10px; color:#64748B;">marcus.vance@example.com</span></td>
+              <td>Senior Full Stack & AI Architect (7 yrs)</td>
+              <td>Remote, US</td>
+              <td>$170,000 - $185,000</td>
+              <td><span class="tag-badge tag-active">FLEX PASS (7d)</span></td>
+              <td><b>6 Submitted</b></td>
+              <td>
+                <div style="display:flex; gap:6px;">
+                  <a href="/jobs-board" class="btn-action">Hunt Jobs</a>
+                  <a href="/interview-prep" class="btn-action" style="color:#38BDF8;">Prep</a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Dawit Mengistu</b><br><span style="font-size:10px; color:#64748B;">dawit.m@example.com</span></td>
+              <td>Senior Software Engineer (6 yrs)</td>
+              <td>Addis Ababa / Remote Global</td>
+              <td>$85,000 - $110,000</td>
+              <td><span class="tag-badge tag-active">DAILY PASS (24h)</span></td>
+              <td><b>3 Submitted</b></td>
+              <td>
+                <div style="display:flex; gap:6px;">
+                  <a href="/jobs-board" class="btn-action">Hunt Jobs</a>
+                  <a href="/interview-prep" class="btn-action" style="color:#38BDF8;">Prep</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script>
+    function showAgencyToast(msg) {
+      let toast = document.getElementById('agency-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'agency-toast';
+        toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#10B981;color:#022C22;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(16,185,129,0.4);z-index:99999;transition:all 0.3s;';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+    }
+  </script>
+</body>
+</html>

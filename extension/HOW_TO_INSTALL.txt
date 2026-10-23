@@ -1,0 +1,59 @@
+================================================================================
+  🚀 JOBASSIST AI STUDIO — CHROME EXTENSION INSTALLATION & ACTIVATION GUIDE
+================================================================================
+
+Welcome to JobAssist AI Studio! Follow these 3 simple steps to load your extension
+and activate your administrator-approved candidate license.
+
+--------------------------------------------------------------------------------
+STEP 1: UNPACK THE DOWNLOADED ZIP FOLDER
+--------------------------------------------------------------------------------
+1. Right-click the downloaded "JobAssist-AI-Studio-Extension.zip" file.
+2. Select "Extract All..." and extract it into a folder on your computer
+   (e.g., Desktop or Documents).
+
+--------------------------------------------------------------------------------
+STEP 2: LOAD INTO GOOGLE CHROME (DEVELOPER MODE)
+--------------------------------------------------------------------------------
+1. Open Google Chrome.
+2. In the URL address bar, type:
+   chrome://extensions
+   and press Enter.
+3. In the top-right corner, toggle the switch for "Developer mode" to ON.
+4. Click the "Load unpacked" button in the top-left corner.
+5. Select the unzipped folder containing this extension!
+6. Click the Extensions (puzzle piece) icon in your Chrome toolbar and PIN
+   "JobAssist AI Studio" for instant 1-click access.
+
+--------------------------------------------------------------------------------
+STEP 3: ACTIVATE YOUR ADMINISTRATOR LICENSE KEY
+--------------------------------------------------------------------------------
+⚠️ IMPORTANT:
+To protect candidate privacy and system integrity, JobAssist features are
+LOCKED until activated with an approved License Key.
+
+1. Click the JobAssist extension icon to open the Studio Sidepanel.
+2. If this is your first time, the Studio will prompt: "Enter License Key".
+3. Enter the License Key issued to you by the platform administrator
+   (e.g., PREM-XXXX-XXXX).
+4. Click "Unlock Studio".
+5. Your pass (Daily, 3-Day Flex, Monthly Pro, or Yearly VIP) is now active!
+
+--------------------------------------------------------------------------------
+💳 HOW TO GET A LICENSE KEY IF YOU DO NOT HAVE ONE YET:
+--------------------------------------------------------------------------------
+• For Ethiopian Candidates:
+  Pay via Telebirr or CBE Bank (Daily Pass is only 100 ETB).
+  Submit your Transaction ID on the Checkout page to receive your instant key.
+
+• For International Candidates:
+  Pay securely via Binance Pay (USDT) or Payoneer ($4.99 Flex / $19.99 Monthly).
+  Your key is generated and activated upon transaction verification.
+
+• Need Support or Bulk Agency Licenses?
+  Contact Administrator: support@jobassist.ai | Telegram: @JobAssistSupport
+
+================================================================================
+ Happy Job Hunting & Automated Applying!
+ JobAssist AI Team
+================================================================================

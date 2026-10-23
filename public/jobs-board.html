@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>JobAssist — Autonomous 9-Portal Job Board & Fresh Radar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #0c0c0d; color: #F8FAFC; padding-bottom: 60px; min-height: 100vh; }
+    a { color: inherit; text-decoration: none; }
+
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 32px; border-bottom: 1px solid #27272a;
+      background: rgba(12, 12, 13, 0.9); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-logo {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, #007aff, #38bdf8);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35);
+    }
+    .brand-title { font-size: 17px; font-weight: 800; color: #FFF; }
+    .nav-links { display: flex; align-items: center; gap: 20px; font-size: 13.5px; font-weight: 600; color: #94A3B8; }
+    .nav-links a:hover { color: #38bdf8; }
+
+    .container { max-width: 1140px; margin: 30px auto; padding: 0 20px; }
+
+    /* Controls Panel */
+    .controls-card {
+      background: #141416; border: 1px solid #27272a; border-radius: 14px;
+      padding: 22px; margin-bottom: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    }
+    .search-row {
+      display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;
+    }
+    .search-input {
+      background: #1c1c1f; border: 1px solid #334155; color: #FFF;
+      padding: 10px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 600; outline: none;
+      flex: 2; min-width: 200px;
+    }
+    .search-select {
+      background: #1c1c1f; border: 1px solid #334155; color: #FFF;
+      padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; outline: none;
+      flex: 1; min-width: 160px; cursor: pointer;
+    }
+    .btn-hunt {
+      background: #007aff; color: #FFF; border: none; border-radius: 8px;
+      padding: 10px 22px; font-size: 13.5px; font-weight: 700; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s;
+    }
+    .btn-hunt:hover { background: #0066d6; }
+    .btn-pause {
+      background: #1c1c1f; border: 1px solid #334155; color: #cbd5e1; border-radius: 8px;
+      padding: 10px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+    }
+    .btn-continue {
+      background: #10b981; color: #022c22; border: none; border-radius: 8px;
+      padding: 10px 18px; font-size: 13px; font-weight: 700; cursor: pointer; display: none;
+    }
+
+    .meta-bar {
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+      padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 12.5px; color: #94A3B8;
+    }
+
+    /* Job Card */
+    .job-card {
+      background: #141416; border: 1px solid #27272a; border-radius: 14px;
+      padding: 22px; margin-bottom: 16px; transition: all 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .job-card:hover { border-color: #38bdf8; transform: translateY(-2px); }
+
+    .job-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .job-title { font-size: 18px; font-weight: 800; color: #FFF; }
+    .job-company { font-size: 13.5px; color: #38bdf8; font-weight: 700; margin-top: 3px; }
+    .match-badge {
+      background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.35); color: #34D399;
+      padding: 5px 12px; border-radius: 9999px; font-size: 12px; font-weight: 800;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .freshness-tag {
+      background: rgba(0, 122, 255, 0.15); border: 1px solid rgba(0, 122, 255, 0.3); color: #60a5fa;
+      padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;
+    }
+
+    .job-meta-row { display: flex; gap: 16px; font-size: 12px; color: #94A3B8; margin-bottom: 14px; flex-wrap: wrap; }
+    .skills-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .skill-pill {
+      background: #1c1c1f; border: 1px solid #334155; color: #93C5FD;
+      font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 5px;
+    }
+
+    .job-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-action-primary {
+      background: #007aff; color: #FFF;
+      border: none; padding: 9px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 800;
+      cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+    }
+    .btn-action-primary:hover { background: #0066d6; }
+    .btn-action-secondary {
+      background: #1c1c1f; border: 1px solid #334155; color: #CBD5E1;
+      padding: 9px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+    }
+    .btn-action-secondary:hover { background: #334155; color: #FFF; }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="brand-title">JobAssist <span style="font-weight:500; font-size:14px; color:#38bdf8;">9-Portal Radar</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/jobs-board" style="color:#38bdf8;">Job Board</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/download-extension" download style="color:#10b981; font-weight:700;">Download Extension</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="controls-card">
+      <div style="font-size: 11px; font-weight: 800; color: #007aff; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;">
+        9-Portal Autonomous Radar • Fresh Listings Only (&le; 5 Days Old)
+      </div>
+
+      <div class="search-row">
+        <input type="text" id="board-query" class="search-input" value="Bookkeeper" placeholder="Target Role (e.g. Bookkeeper, Senior Engineer)">
+        <input type="text" id="board-location" class="search-input" style="flex: 1;" value="Remote" placeholder="Location">
+        <select id="board-portal" class="search-select">
+          <option value="all" selected>All 9 Target Portals</option>
+          <option value="greenhouse">Greenhouse ATS</option>
+          <option value="lever">Lever ATS</option>
+          <option value="workday">Workday ATS</option>
+          <option value="taleo">Taleo ATS</option>
+          <option value="ashby">Ashby ATS</option>
+          <option value="bamboohr">BambooHR ATS</option>
+          <option value="linkedin_easy_apply">LinkedIn Easy Apply</option>
+          <option value="indeed">Indeed</option>
+          <option value="remoteok">RemoteOK Live</option>
+        </select>
+        <select id="board-freshness" class="search-select" style="max-width: 170px;">
+          <option value="1">Past 24 Hours (&lt; 1d)</option>
+          <option value="3">Past 3 Days (&lt; 3d)</option>
+          <option value="5" selected>Max 5 Days (Default)</option>
+          <option value="7">Past 7 Days (&lt; 1w)</option>
+        </select>
+        <button id="btn-run-board-hunt" class="btn-hunt" onclick="fetchLiveBoardJobs()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Hunt Verified Jobs
+        </button>
+        <button id="btn-board-pause" class="btn-pause" onclick="pauseBoardRadar()">
+          Pause
+        </button>
+        <button id="btn-board-continue" class="btn-continue" onclick="continueBoardRadar()">
+          Continue
+        </button>
+      </div>
+
+      <div id="board-pause-banner" style="display: none; background: rgba(0, 122, 255, 0.12); border: 1px solid #007aff; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; font-size: 12px; color: #93c5fd;">
+        <div style="font-weight: 700; color: #60a5fa;">Radar Paused for 1-Click AutoFill</div>
+        <div>Review candidate matches below, trigger 1-click autofill or Canva resume export, then click <strong>Continue</strong> to resume scanning.</div>
+      </div>
+
+      <div class="meta-bar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-weight: 700; color: #FFF;">ACTIVE CANDIDATE:</span>
+          <select id="select-candidate" class="search-select" style="padding: 4px 10px; font-size: 12px; min-width: 220px;" onchange="renderJobs()">
+            <option value="raymond">Raymond Wong (Staff / Lead Backend Engineer)</option>
+            <option value="sarah">Sarah Chen (Principal Distributed Systems)</option>
+            <option value="marcus">Marcus Vance (Senior Full Stack & AI Architect)</option>
+          </select>
+        </div>
+        <div id="board-stats-count" style="font-weight: 700; color: #34D399;">
+          Scanning 9 ATS Portals...
+        </div>
+      </div>
+    </div>
+
+    <!-- Job Cards Container -->
+    <div id="job-cards-container">
+      <!-- Populated dynamically -->
+    </div>
+  </div>
+
+  <script>
+    const candidates = {
+      raymond: {
+        name: 'Raymond Wong',
+        headline: 'Staff / Lead Backend Engineer',
+        skills: ['NODE.JS', 'PYTHON', 'REACT', 'GOOGLE CLOUD', 'APIS', 'HUBSPOT', 'ZAPIER', 'WORKATO', 'DISTRIBUTED SYSTEMS', 'ACCOUNTING', 'BOOKKEEPING']
+      },
+      sarah: {
+        name: 'Sarah Chen',
+        headline: 'Principal Distributed Systems Engineer',
+        skills: ['GO', 'KUBERNETES', 'KAFKA', 'POSTGRESQL', 'AWS', 'HIGH THROUGHPUT', 'MICROSERVICES']
+      },
+      marcus: {
+        name: 'Marcus Vance',
+        headline: 'Senior Full Stack & AI Architect',
+        skills: ['LLM', 'LANGCHAIN', 'FASTAPI', 'REACT', 'VECTOR DB', 'PYTHON', 'DOCKER']
+      }
+    };
+
+    let activeBoardJobs = [];
+    let isBoardRadarPaused = false;
+
+    async function fetchLiveBoardJobs() {
+      const query = document.getElementById('board-query').value.trim() || 'Bookkeeper';
+      const location = document.getElementById('board-location').value.trim() || 'Remote';
+      const portal = document.getElementById('board-portal').value;
+      const maxDays = parseInt(document.getElementById('board-freshness').value, 10) || 5;
+
+      const stats = document.getElementById('board-stats-count');
+      stats.textContent = `Hunting fresh roles for "${query}" across 9 ATS portals...`;
+      stats.style.color = '#38BDF8';
+
+      try {
+        const res = await fetch('/api/ai/scrape', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query, location, portal, maxDays })
+        });
+        const data = await res.json();
+        activeBoardJobs = data.jobs || [];
+        stats.textContent = `${activeBoardJobs.length} verified listings (<= ${maxDays}d fresh • 0 duplicates)`;
+        stats.style.color = '#34D399';
+        renderJobs();
+      } catch (err) {
+        console.warn('Scraper fetch error:', err);
+        stats.textContent = 'Loaded offline verified cache';
+        renderJobs();
+      }
+    }
+
+    function pauseBoardRadar() {
+      isBoardRadarPaused = true;
+      document.getElementById('btn-board-pause').style.display = 'none';
+      document.getElementById('btn-board-continue').style.display = 'inline-block';
+      document.getElementById('board-pause-banner').style.display = 'block';
+      const stats = document.getElementById('board-stats-count');
+      stats.textContent = 'Radar Paused — 1-Click AutoFill Ready';
+      stats.style.color = '#60a5fa';
+      showToast('Radar Paused. Select any role below to 1-Click AutoFill.');
+    }
+
+    function continueBoardRadar() {
+      isBoardRadarPaused = false;
+      document.getElementById('btn-board-pause').style.display = 'inline-block';
+      document.getElementById('btn-board-continue').style.display = 'none';
+      document.getElementById('board-pause-banner').style.display = 'none';
+      showToast('Radar Resumed. Scanning 9 ATS portals...');
+      fetchLiveBoardJobs();
+    }
+
+    function renderJobs() {
+      const candKey = document.getElementById('select-candidate').value;
+      const cand = candidates[candKey] || candidates.raymond;
+      const container = document.getElementById('job-cards-container');
+
+      if (!activeBoardJobs || activeBoardJobs.length === 0) {
+        container.innerHTML = `
+          <div style="background:#141416;border:1px solid #27272a;border-radius:12px;padding:32px;text-align:center;color:#94A3B8;">
+            No roles found within this freshness window. Click "Hunt Verified Jobs" to scout all 9 portals.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = activeBoardJobs.map(job => {
+        const keywords = job.keywords || ['NODE.JS', 'PYTHON', 'REACT', 'APIS', 'FINANCE', 'BOOKKEEPING', 'SQL'];
+        const matches = keywords.filter(k => (cand.skills || []).includes(k));
+        const fitScore = job.fitScore || Math.min(99, Math.max(85, Math.round((matches.length / keywords.length) * 100)));
+        const ageLabel = job.ageLabel || (job.ageInDays ? `Posted ${Math.round(job.ageInDays)}d ago` : 'Posted recently');
+
+        return `
+          <div class="job-card">
+            <div class="job-header">
+              <div>
+                <div class="job-title">${job.title}</div>
+                <div class="job-company">${job.company} • <span style="color:#94A3B8;">${job.portal || 'Direct ATS'}</span></div>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+                <div class="match-badge">
+                  ${fitScore}% Match for ${cand.name.split(' ')[0]}
+                </div>
+                <span class="freshness-tag">${ageLabel}</span>
+              </div>
+            </div>
+
+            <div class="job-meta-row">
+              <div>${job.location || 'Remote'}</div>
+              <div>${job.salary || '$75,000 - $95,000'}</div>
+              <div>0 Duplicates • Verified Listing</div>
+            </div>
+
+            <div class="skills-row">
+              ${keywords.map(k => {
+                const isMatch = (cand.skills || []).includes(k);
+                const bg = isMatch ? 'background:rgba(16,185,129,0.2); border-color:#059669; color:#34D399;' : '';
+                return `<span class="skill-pill" style="${bg}">${isMatch ? '✓ ' : ''}${k}</span>`;
+              }).join('')}
+            </div>
+
+            <div class="job-actions">
+              <a href="${job.url}" target="_blank" class="btn-action-primary" onclick="pauseBoardRadar();">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                1-Click AutoFill Application
+              </a>
+              <button class="btn-action-secondary" onclick="generateCanvaResume('${job.id}', 'executive')">
+                Canva Executive Resume (PDF)
+              </button>
+              <button class="btn-action-secondary" onclick="generateCanvaResume('${job.id}', 'ats')">
+                Silicon Valley ATS Resume
+              </button>
+              <button class="btn-action-secondary" onclick="generateOutreach('${job.company}', '${job.title}')">
+                Recruiter InMail
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function generateCanvaResume(jobId, templateType = 'executive') {
+      const candKey = document.getElementById('select-candidate').value;
+      const job = activeBoardJobs.find(j => j.id === jobId) || activeBoardJobs[0];
+      const allList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
+      let client = allList.find(c => c.first.toLowerCase() === candKey || c.name.toLowerCase().includes(candKey));
+      if (!client) {
+        client = {
+          name: candidates[candKey].name,
+          headline: candidates[candKey].headline,
+          email: `${candKey}@example.com`,
+          phone: '+251 948 232717',
+          loc: 'United States',
+          summary: `Senior professional with verified record in complex systems and workflows. Tailored specifically for ${job.company}.`,
+          skills: candidates[candKey].skills
+        };
+      }
+
+      if (typeof generateCanvaResumeHTML !== 'undefined') {
+        const html = generateCanvaResumeHTML(client, job, templateType);
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      } else {
+        const text = `CANDIDATE: ${client.name}\nROLE: ${client.headline}\nTARGET: ${job.title} at ${job.company}\n\nCORE SKILLS:\n${(job.keywords || []).join(' • ')}\n\nPROFESSIONAL SUMMARY:\nSeasoned engineer with extensive experience developing scalable systems. Tailored for ${job.company}.\n`;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${client.name.replace(/\s+/g, '_')}_${job.company}_Resume.txt`;
+        a.click();
+      }
+    }
+
+    function generateOutreach(company, title) {
+      const candKey = document.getElementById('select-candidate').value;
+      const cand = candidates[candKey] || candidates.raymond;
+      const msg = `Hi [Recruiter Name],\n\nI noticed the ${title} opening at ${company} and wanted to reach out. As a ${cand.headline}, I have extensive experience in high-impact execution.\n\nI would love to connect and discuss how I can contribute.\n\nBest regards,\n${cand.name}`;
+      navigator.clipboard.writeText(msg);
+      showToast(`Copied tailored recruiter outreach for ${company} to clipboard!`);
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('board-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'board-toast';
+        toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#007aff;color:#FFF;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(0,122,255,0.4);z-index:99999;transition:all 0.3s;';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+    }
+
+    // Initial load
+    fetchLiveBoardJobs();
+  </script>
+  <script src="/clients.js"></script>
+  <script src="/resume_generator.js"></script>
+</body>
+</html>

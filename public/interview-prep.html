@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>JobAssist AI — Interview Copilot & Cheat Sheet Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background: #090E17; color: #F8FAFC; padding-bottom: 80px; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Navbar */
+    .navbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(9, 14, 23, 0.9); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-logo {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, #10B981, #059669);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; color: #022C22;
+    }
+    .brand-title { font-size: 17px; font-weight: 800; color: #FFF; }
+    .nav-links { display: flex; align-items: center; gap: 20px; font-size: 13px; font-weight: 600; color: #94A3B8; }
+    .nav-links a:hover { color: #34D399; }
+
+    .container { max-width: 1100px; margin: 28px auto; padding: 0 20px; }
+
+    /* Top Selector Card */
+    .selector-card {
+      background: #111A29; border: 1px solid #1E293B; border-radius: 14px;
+      padding: 20px; margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr auto;
+      gap: 16px; align-items: flex-end;
+    }
+    @media(max-width: 768px) {
+      .selector-card { grid-template-columns: 1fr; }
+    }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; color: #94A3B8; margin-bottom: 4px; text-transform: uppercase; }
+    .form-select {
+      width: 100%; background: #1E293B; border: 1px solid #334155; color: #FFF;
+      padding: 10px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; outline: none;
+    }
+    .btn-generate {
+      background: linear-gradient(135deg, #10B981, #059669); color: #022C22;
+      border: none; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 800;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px; height: 42px;
+    }
+
+    /* Sub Tabs */
+    .prep-tabs {
+      display: flex; gap: 8px; border-bottom: 1px solid #1E293B; margin-bottom: 24px;
+      overflow-x: auto; padding-bottom: 4px;
+    }
+    .prep-tab-btn {
+      background: none; border: none; color: #94A3B8; font-size: 13.5px; font-weight: 700;
+      padding: 10px 16px; cursor: pointer; border-bottom: 2.5px solid transparent; transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .prep-tab-btn.active { color: #34D399; border-bottom-color: #10B981; }
+
+    .pane { display: none; }
+    .pane.active { display: block; }
+
+    /* Card */
+    .card {
+      background: #111A29; border: 1px solid #1E293B; border-radius: 14px;
+      padding: 22px; margin-bottom: 18px;
+    }
+    .card-title {
+      font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    /* Elevator Pitch Box */
+    .pitch-box {
+      background: #182234; border: 1.5px solid #059669; border-radius: 12px;
+      padding: 20px; font-size: 15px; line-height: 1.7; color: #F1F5F9;
+      position: relative;
+    }
+
+    /* STAR Card */
+    .star-card {
+      background: #182234; border: 1px solid #273549; border-radius: 12px;
+      padding: 18px; margin-bottom: 14px;
+    }
+    .star-q { font-size: 15px; font-weight: 800; color: #FFF; margin-bottom: 12px; }
+    .star-badge {
+      display: inline-block; background: #064E3B; color: #34D399; font-size: 10px; font-weight: 800;
+      padding: 2px 7px; border-radius: 4px; margin-bottom: 6px;
+    }
+    .star-grid { display: grid; grid-template-columns: 1fr; gap: 8px; font-size: 12.5px; }
+    .star-part {
+      background: #111A29; border-radius: 8px; padding: 10px 12px;
+    }
+    .star-part-title { font-weight: 800; font-size: 11px; margin-bottom: 3px; }
+    .star-s { color: #38BDF8; }
+    .star-t { color: #FCD34D; }
+    .star-a { color: #34D399; }
+    .star-r { color: #A78BFA; }
+
+    /* Playbook Box */
+    .script-box {
+      background: #0F172A; border-left: 3px solid #10B981; border-radius: 0 8px 8px 0;
+      padding: 12px 16px; margin-bottom: 12px; font-size: 13px; color: #CBD5E1; line-height: 1.6;
+    }
+
+    .btn-copy {
+      background: #1E293B; border: 1px solid #334155; color: #34D399;
+      padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="brand-title">JobAssist <span style="font-weight:500; font-size:14px; color:#10B981;">Interview Copilot</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/jobs-board">Jobs Board</a>
+      <a href="/pipeline">Pipeline CRM</a>
+      <a href="/pricing">Pricing</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Top Selector Card -->
+    <div class="selector-card">
+      <div class="form-group">
+        <label>Candidate Profile</label>
+        <select id="sel-cand" class="form-select" onchange="runGenerate()">
+          <option value="raymond">Raymond Wong (Staff / Lead Backend Engineer - 10 yrs)</option>
+          <option value="sarah">Sarah Chen (Principal Distributed Systems - 8 yrs)</option>
+          <option value="marcus">Marcus Vance (Senior Full Stack & AI Architect - 7 yrs)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Target Company & Role</label>
+        <select id="sel-job" class="form-select" onchange="runGenerate()">
+          <option value="bask">Bask Health — Senior Back-End Software Engineer ($175k-$190k)</option>
+          <option value="1406">1406 Consulting — HubSpot Integrations Developer ($85k-$105k)</option>
+          <option value="bjak">BJAK Career — LLM Application Engineer ($180k-$200k)</option>
+        </select>
+      </div>
+
+      <button class="btn-generate" onclick="downloadCheatSheet()">
+        Download 10m Cheat Sheet
+      </button>
+    </div>
+
+    <!-- Sub Tabs -->
+    <div class="prep-tabs">
+      <button class="prep-tab-btn active" data-pane="pane-pitch">30s Elevator Pitch</button>
+      <button class="prep-tab-btn" data-pane="pane-technical">Predicted STAR Questions</button>
+      <button class="prep-tab-btn" data-pane="pane-salary">Salary Negotiation Playbook</button>
+      <button class="prep-tab-btn" data-pane="pane-reverse">Reverse Questions (Ask Hiring Manager)</button>
+    </div>
+
+    <!-- PANE 1: ELEVATOR PITCH -->
+    <div id="pane-pitch" class="pane active">
+      <div class="card">
+        <div class="card-title">
+          <span>Your 30-Second Opening Hook</span>
+          <button class="btn-copy" onclick="copyPitch()">Copy Pitch</button>
+        </div>
+        <div id="pitch-text" class="pitch-box">
+          Loading tailored elevator pitch...
+        </div>
+        <div style="font-size:11px; color:#94A3B8; margin-top:10px;">
+          ⏱️ Speaking Time: ~30-35 seconds. Deliver with confident cadence when the interviewer says: <i>"Tell me about yourself."</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANE 2: PREDICTED STAR TECHNICAL QUESTIONS -->
+    <div id="pane-technical" class="pane">
+      <div class="card">
+        <div class="card-title">
+          <span>Top Predicted Technical & System Design Scenarios</span>
+          <span style="font-size:11.5px; color:#34D399; font-weight:700;">STAR Model Powered</span>
+        </div>
+        <div id="star-container">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- PANE 3: SALARY NEGOTIATION PLAYBOOK -->
+    <div id="pane-salary" class="pane">
+      <div class="card">
+        <div class="card-title">
+          <span>Recruiter Salary Screening & Counter-Offer Scripts</span>
+          <span id="salary-target-badge" style="background:#064E3B; color:#34D399; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:800;">Target: $175,000 - $190,000</span>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px; font-weight:700; color:#CBD5E1; margin-bottom:4px;">When Recruiter Asks: <i>"What are your salary expectations for this role?"</i></div>
+          <div id="script-initial" class="script-box"></div>
+          <button class="btn-copy" onclick="copyText('script-initial')">Copy Script</button>
+        </div>
+
+        <div>
+          <div style="font-size:12px; font-weight:700; color:#CBD5E1; margin-bottom:4px;">When Offer is Extended: <i>"How to counter-offer for top-of-band + equity"</i></div>
+          <div id="script-counter" class="script-box"></div>
+          <button class="btn-copy" onclick="copyText('script-counter')">Copy Counter Script</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANE 4: REVERSE QUESTIONS -->
+    <div id="pane-reverse" class="pane">
+      <div class="card">
+        <div class="card-title">
+          <span>Strategic Questions to Ask the Hiring Team</span>
+          <span style="font-size:11px; color:#94A3B8;">Demonstrates Senior Technical Leadership</span>
+        </div>
+        <div id="reverse-container" style="display:flex; flex-direction:column; gap:10px;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const prepData = {
+      bask: {
+        title: 'Senior Back-End Software Engineer',
+        company: 'Bask Health',
+        keywords: ['NODE.JS', 'TYPESCRIPT', 'POSTGRESQL', 'DISTRIBUTED SYSTEMS', 'REDIS', 'DOCKER'],
+        salaryRange: '$175,000 - $190,000'
+      },
+      '1406': {
+        title: 'HubSpot Integrations Software Developer',
+        company: '1406 Consulting',
+        keywords: ['HUBSPOT', 'ZAPIER', 'WORKATO', 'NODE.JS', 'PYTHON', 'APIS'],
+        salaryRange: '$85,000 - $105,000'
+      },
+      bjak: {
+        title: 'LLM Application Engineer',
+        company: 'BJAK Career',
+        keywords: ['PYTHON', 'LLM', 'LANGCHAIN', 'RAG', 'OPENAI', 'VECTOR SEARCH'],
+        salaryRange: '$180,000 - $200,000'
+      }
+    };
+
+    const candidates = {
+      raymond: { name: 'Raymond Wong', headline: 'Staff Backend Engineer', yearsBE: '10' },
+      sarah: { name: 'Sarah Chen', headline: 'Principal Distributed Systems Engineer', yearsBE: '8' },
+      marcus: { name: 'Marcus Vance', headline: 'Senior Full Stack & AI Architect', yearsBE: '7' }
+    };
+
+    let currentPrep = null;
+
+    document.querySelectorAll('.prep-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.prep-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-pane')).classList.add('active');
+      });
+    });
+
+    async function runGenerate() {
+      const candKey = document.getElementById('sel-cand').value;
+      const jobKey = document.getElementById('sel-job').value;
+      const cand = candidates[candKey];
+      const job = prepData[jobKey];
+
+      try {
+        const res = await fetch('/api/ai/interview-prep', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            jobTitle: job.title,
+            company: job.company,
+            keywords: job.keywords,
+            salaryRange: job.salaryRange,
+            candidate: cand
+          })
+        });
+        const data = await res.json();
+        currentPrep = data.prep;
+        renderPrepUI(currentPrep);
+      } catch(err) {
+        console.error(err);
+      }
+    }
+
+    function renderPrepUI(prep) {
+      if (!prep) return;
+      document.getElementById('pitch-text').textContent = prep.elevatorPitch;
+      document.getElementById('salary-target-badge').textContent = `Target: ${prep.salaryPlaybook.targetRange}`;
+      document.getElementById('script-initial').textContent = prep.salaryPlaybook.initialScreeningResponse;
+      document.getElementById('script-counter').textContent = prep.salaryPlaybook.counterOfferScript;
+
+      // Render STAR Questions
+      const starContainer = document.getElementById('star-container');
+      starContainer.innerHTML = prep.technicalQuestions.map(q => `
+        <div class="star-card">
+          <div class="star-badge">${q.category}</div>
+          <div class="star-q">${q.question}</div>
+          <div class="star-grid">
+            <div class="star-part"><span class="star-part-title star-s">SITUATION:</span> ${q.starAnswer.situation}</div>
+            <div class="star-part"><span class="star-part-title star-t">TASK:</span> ${q.starAnswer.task}</div>
+            <div class="star-part"><span class="star-part-title star-a">ACTION:</span> ${q.starAnswer.action}</div>
+            <div class="star-part"><span class="star-part-title star-r">RESULT:</span> ${q.starAnswer.result}</div>
+          </div>
+        </div>
+      `).join('');
+
+      // Render Reverse Questions
+      const revContainer = document.getElementById('reverse-container');
+      revContainer.innerHTML = prep.reverseQuestions.map(r => `
+        <div style="background:#182234; border:1px solid #273549; border-radius:8px; padding:12px;">
+          <div style="font-size:10.5px; font-weight:800; color:#38BDF8; margin-bottom:2px;">FOR: ${r.target.toUpperCase()}</div>
+          <div style="font-size:13px; font-weight:600; color:#FFF;">"${r.question}"</div>
+        </div>
+      `).join('');
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('prep-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'prep-toast';
+        toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#10B981;color:#022C22;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(16,185,129,0.4);z-index:99999;transition:all 0.3s;';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+    }
+
+    function copyPitch() {
+      if (!currentPrep) return;
+      navigator.clipboard.writeText(currentPrep.elevatorPitch);
+      showToast('Copied 30-Second Elevator Pitch to clipboard!');
+    }
+
+    function copyText(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text);
+      showToast('Copied script to clipboard!');
+    }
+
+    function downloadCheatSheet() {
+      if (!currentPrep) return;
+      const content = `JOBASSIST AI — 10-MINUTE INTERVIEW CHEAT SHEET
+Role: ${currentPrep.role} at ${currentPrep.company}
+Candidate: ${currentPrep.candidateName}
+Generated: ${new Date(currentPrep.generatedAt).toLocaleString()}
+==================================================
+
+1. 30-SECOND ELEVATOR PITCH:
+${currentPrep.elevatorPitch}
+
+2. SALARY NEGOTIATION STRATEGY:
+Target Band: ${currentPrep.salaryPlaybook.targetRange}
+Screening Response:
+${currentPrep.salaryPlaybook.initialScreeningResponse}
+
+Counter-Offer Script:
+${currentPrep.salaryPlaybook.counterOfferScript}
+
+3. PREDICTED STAR TECHNICAL SCENARIOS:
+${currentPrep.technicalQuestions.map((q, idx) => `
+Q${idx+1}: ${q.question} (${q.category})
+- SITUATION: ${q.starAnswer.situation}
+- TASK: ${q.starAnswer.task}
+- ACTION: ${q.starAnswer.action}
+- RESULT: ${q.starAnswer.result}
+`).join('\n')}
+
+4. QUESTIONS TO ASK THE INTERVIEWER:
+${currentPrep.reverseQuestions.map(r => `- [For ${r.target}]: "${r.question}"`).join('\n')}
+==================================================
+`;
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentPrep.candidateName.replace(/\\s+/g, '_')}_${currentPrep.company}_Interview_CheatSheet.txt`;
+      a.click();
+    }
+
+    runGenerate();
+  </script>
+</body>
+</html>

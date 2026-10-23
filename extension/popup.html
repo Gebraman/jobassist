@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      width: 340px;
+      background: #0c0c0d;
+      color: #fafaf9;
+      padding: 16px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #27272a;
+    }
+    .badge-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #007aff, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35);
+    }
+    .header-text h1 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fafaf9;
+      letter-spacing: 0.2px;
+    }
+    .header-text p {
+      font-size: 11px;
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    .profile-card {
+      background: #141416;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 14px 0;
+      border: 1px solid #27272a;
+    }
+    .profile-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+    .profile-row:last-child { margin-bottom: 0; }
+    .label { color: #94a3b8; }
+    .val { color: #f1f5f9; font-weight: 600; text-align: right; max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .btn-fill {
+      width: 100%;
+      background: #007aff;
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(0, 122, 255, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-fill:hover {
+      background: #0066d6;
+      transform: translateY(-1px);
+    }
+    .btn-fill:active {
+      transform: translateY(1px);
+    }
+    .status {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 11px;
+      color: #71717a;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="badge-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    </div>
+    <div class="header-text">
+      <h1>JobAssist AutoFill</h1>
+      <p>Active Profile: Raymond Wong</p>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-row">
+      <span class="label">Candidate:</span>
+      <span class="val">Raymond Wong</span>
+    </div>
+    <div class="profile-row">
+      <span class="label">Target Role:</span>
+      <span class="val">Senior AI/ML Engineer</span>
+    </div>
+    <div class="profile-row">
+      <span class="label">Email:</span>
+      <span class="val">raymond1994.glo@outlook.com</span>
+    </div>
+    <div class="profile-row">
+      <span class="label">Phone:</span>
+      <span class="val">510-340-2070</span>
+    </div>
+    <div class="profile-row">
+      <span class="label">Location:</span>
+      <span class="val">Atlanta, GA 30308</span>
+    </div>
+    <div class="profile-row">
+      <span class="label">Work Auth:</span>
+      <span class="val" style="color: #34d399;">Authorized (No Sponsor)</span>
+    </div>
+    <div class="profile-row">
+      <span class="label">Salary / Notice:</span>
+      <span class="val">$175k / 2 weeks</span>
+    </div>
+  </div>
+
+  <button id="btn-fill" class="btn-fill">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    AUTO-FILL APPLICATION FORM
+  </button>
+
+  <div id="status-msg" class="status">Works on Greenhouse, Lever, Workday, Ashby &amp; 5 more ATS</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
