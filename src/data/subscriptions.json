@@ -1,0 +1,99 @@
+[
+  {
+    "subscriptionId": "sub_1792678282596_n7visv",
+    "customerEmail": "applicant@jobassist.com",
+    "planId": "trial-7d",
+    "planName": "7-Day Trial",
+    "amountBilled": "$1.99",
+    "currency": "USD",
+    "paymentMethod": "paypal",
+    "cardLast4": "4242",
+    "status": "active",
+    "startDate": "2026-10-22T14:11:22.596Z",
+    "currentPeriodEnd": "2026-11-21T14:11:22.596Z",
+    "featuresUnlocked": [
+      "Auto Apply AI Engine (unlimited matches)",
+      "Best-Fit Role Prioritization (96% accuracy)",
+      "Tailored Role-Specific Cover Letters",
+      "Central Recruiter Replies & Interview Tracker"
+    ]
+  },
+  {
+    "subscriptionId": "sub_1792517910351_i7sig8",
+    "customerEmail": "applicant@jobassist.com",
+    "planId": "month-3",
+    "planName": "3-Month Plan",
+    "amountBilled": "$75.00",
+    "currency": "USD",
+    "paymentMethod": "paypal",
+    "cardLast4": "4242",
+    "status": "active",
+    "startDate": "2026-10-20T17:38:30.351Z",
+    "currentPeriodEnd": "2026-11-19T17:38:30.351Z",
+    "featuresUnlocked": [
+      "Auto Apply AI Engine (unlimited matches)",
+      "Best-Fit Role Prioritization (96% accuracy)",
+      "Tailored Role-Specific Cover Letters",
+      "Central Recruiter Replies & Interview Tracker"
+    ]
+  },
+  {
+    "subscriptionId": "sub_1792495392036_rur8nj",
+    "customerEmail": "applicant.google.user@gmail.com",
+    "planId": "trial-7d",
+    "planName": "7-Day Trial",
+    "amountBilled": "Br180.00",
+    "currency": "ETB",
+    "paymentMethod": "paypal",
+    "cardLast4": "4242",
+    "status": "cancelled",
+    "startDate": "2026-10-20T11:23:12.036Z",
+    "currentPeriodEnd": "2026-11-19T11:23:12.036Z",
+    "featuresUnlocked": [
+      "Auto Apply AI Engine (unlimited matches)",
+      "Best-Fit Role Prioritization (96% accuracy)",
+      "Tailored Role-Specific Cover Letters",
+      "Central Recruiter Replies & Interview Tracker"
+    ],
+    "cancelledAt": "2026-10-20T11:23:20.216Z"
+  },
+  {
+    "subscriptionId": "sub_1792495308136_n41gq9",
+    "customerEmail": "applicant@jobassist.com",
+    "planId": "month-3",
+    "planName": "3-Month Plan",
+    "amountBilled": "Br9,027.99",
+    "currency": "ETB",
+    "paymentMethod": "gpay",
+    "cardLast4": "4242",
+    "status": "active",
+    "startDate": "2026-10-20T11:21:48.136Z",
+    "currentPeriodEnd": "2026-11-19T11:21:48.136Z",
+    "featuresUnlocked": [
+      "Auto Apply AI Engine (unlimited matches)",
+      "Best-Fit Role Prioritization (96% accuracy)",
+      "Tailored Role-Specific Cover Letters",
+      "Central Recruiter Replies & Interview Tracker"
+    ]
+  },
+  {
+    "subscriptionId": "sub_1792493439692_3hxspt",
+    "customerEmail": "lead.qa.rebuild@jobassist.com",
+    "planId": "month-1",
+    "planName": "1-Month Plan",
+    "amountBilled": "$35.00",
+    "currency": "USD",
+    "paymentMethod": "card",
+    "cardLast4": "4242",
+    "status": "cancelled",
+    "startDate": "2026-10-20T10:50:39.692Z",
+    "currentPeriodEnd": "2026-11-19T10:50:39.692Z",
+    "featuresUnlocked": [
+      "Auto Apply AI Engine (unlimited matches)",
+      "Best-Fit Role Prioritization (96% accuracy)",
+      "Tailored Role-Specific Cover Letters",
+      "Central Recruiter Replies & Interview Tracker"
+    ],
+    "cancelledAt": "2026-10-20T10:50:40.869Z"
+  }
+]

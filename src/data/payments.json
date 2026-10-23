@@ -1,0 +1,1233 @@
+[
+  {
+    "id": "pay_1792781823865_7vq02",
+    "email": "gebra@gmail.com",
+    "candidateName": "gebra",
+    "planId": "yearly",
+    "planName": "Yearly VIP Enterprise (365 Days)",
+    "currency": "ETB",
+    "amount": "9,500 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "WL3",
+    "status": "approved",
+    "verification": {
+      "validFormat": false,
+      "confidence": 60,
+      "fraudRisk": "MEDIUM",
+      "flags": [
+        "NON_STANDARD_TELEBIRR_REFERENCE"
+      ],
+      "recommendedAction": "MANUAL_REVIEW",
+      "extractedData": {}
+    },
+    "submittedAt": "2026-10-23T18:57:03.865Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T18:57:25.444Z",
+    "licenseKeyIssued": "PREM-SEYT-5G2T"
+  },
+  {
+    "id": "pay_1792778547464_n023y",
+    "email": "gebremedhinendeshawe@gmail.com",
+    "candidateName": "Gebreedhin",
+    "planId": "yearly",
+    "planName": "Yearly VIP Enterprise (365 Days)",
+    "currency": "ETB",
+    "amount": "9,500 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "CL4",
+    "status": "approved",
+    "verification": {
+      "validFormat": false,
+      "confidence": 60,
+      "fraudRisk": "MEDIUM",
+      "flags": [
+        "NON_STANDARD_TELEBIRR_REFERENCE"
+      ],
+      "recommendedAction": "MANUAL_REVIEW",
+      "extractedData": {}
+    },
+    "submittedAt": "2026-10-23T18:02:27.465Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T18:04:40.177Z",
+    "licenseKeyIssued": "PREM-LYKY-W4SU"
+  },
+  {
+    "id": "pay_1792776553323_tezdv",
+    "email": "abebe@gmail.com",
+    "candidateName": "Abebe",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "ETB",
+    "amount": "250 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "WL43",
+    "status": "approved",
+    "verification": {
+      "validFormat": false,
+      "confidence": 60,
+      "fraudRisk": "MEDIUM",
+      "flags": [
+        "NON_STANDARD_TELEBIRR_REFERENCE"
+      ],
+      "recommendedAction": "MANUAL_REVIEW",
+      "extractedData": {}
+    },
+    "submittedAt": "2026-10-23T17:29:13.323Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T17:29:40.913Z",
+    "licenseKeyIssued": "PREM-AZQH-GYBD"
+  },
+  {
+    "id": "pay_1792775649879_tcnc3",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T17:14:09.879Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792775649868_k5f7h",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T17:14:09.868Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T17:14:09.895Z",
+    "licenseKeyIssued": "PREM-D7LZ-ASER"
+  },
+  {
+    "id": "pay_1792774122461_4m8jk",
+    "email": "dava@gmail.com",
+    "candidateName": "DAVA",
+    "planId": "studio-combo",
+    "planName": "Custom Plan",
+    "currency": "ETB",
+    "amount": "1,200 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "FT2026",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "VERY_LOW",
+      "flags": [],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "FT2026",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T16:48:42.461Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T16:51:01.504Z",
+    "licenseKeyIssued": "PREM-QJ2V-2KDB"
+  },
+  {
+    "id": "pay_1792772876676_b8etv",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T16:27:56.676Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792772876656_59v1z",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T16:27:56.656Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T16:27:56.707Z",
+    "licenseKeyIssued": "PREM-JWF5-MREP"
+  },
+  {
+    "id": "pay_1792772191257_s73oq",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T16:16:31.257Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792772191235_t3zly",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T16:16:31.235Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T16:16:31.277Z",
+    "licenseKeyIssued": "PREM-C8BM-PNVA"
+  },
+  {
+    "id": "pay_1792759843094_y4qkg",
+    "email": "brook@gmail.com",
+    "candidateName": "Brook",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "Zl49",
+    "status": "approved",
+    "verification": {
+      "validFormat": false,
+      "confidence": 60,
+      "fraudRisk": "MEDIUM",
+      "flags": [
+        "NON_STANDARD_TELEBIRR_REFERENCE"
+      ],
+      "recommendedAction": "MANUAL_REVIEW",
+      "extractedData": {}
+    },
+    "submittedAt": "2026-10-23T12:50:43.095Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T12:51:17.751Z",
+    "licenseKeyIssued": "PREM-TTEP-78S7"
+  },
+  {
+    "id": "pay_1792759563872_zzq7j",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "rejected",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T12:46:03.872Z",
+    "notes": "",
+    "rejectedAt": "2026-10-23T12:57:01.919Z",
+    "rejectionReason": "Unable to verify transaction reference."
+  },
+  {
+    "id": "pay_1792759563852_z4cjv",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T12:46:03.852Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T12:46:03.904Z",
+    "licenseKeyIssued": "PREM-5C96-KZLA"
+  },
+  {
+    "id": "pay_1792756829794_qy7hs",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "rejected",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T12:00:29.794Z",
+    "notes": "",
+    "rejectedAt": "2026-10-23T12:57:05.635Z",
+    "rejectionReason": "Unable to verify transaction reference."
+  },
+  {
+    "id": "pay_1792756829768_pud9q",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T12:00:29.768Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T12:00:29.827Z",
+    "licenseKeyIssued": "PREM-SNJ6-VDF5"
+  },
+  {
+    "id": "pay_1792755873763_iriu7",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "rejected",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T11:44:33.763Z",
+    "notes": "",
+    "rejectedAt": "2026-10-23T12:57:12.205Z",
+    "rejectionReason": "Unable to verify transaction reference."
+  },
+  {
+    "id": "pay_1792755873742_lactv",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T11:44:33.742Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T11:44:33.793Z",
+    "licenseKeyIssued": "PREM-476L-QQUE"
+  },
+  {
+    "id": "pay_1792754409461_klli8",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T11:20:09.461Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792754409442_xj6rt",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T11:20:09.442Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T11:20:09.492Z",
+    "licenseKeyIssued": "PREM-6CQP-GMUG"
+  },
+  {
+    "id": "pay_1792744540283_tdpvs",
+    "email": "gebraman810081@gmail.com",
+    "candidateName": "gebra",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "CL59qr",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "VERY_LOW",
+      "flags": [],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "CL59qr",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T08:35:40.283Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T08:38:50.210Z",
+    "licenseKeyIssued": "PREM-A8QJ-YQDA"
+  },
+  {
+    "id": "pay_1792743919165_p69h1",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T08:25:19.165Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T10:50:56.349Z",
+    "licenseKeyIssued": "PREM-R4BW-ZXPN"
+  },
+  {
+    "id": "pay_1792743919154_xdkpg",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T08:25:19.154Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T08:25:19.210Z",
+    "licenseKeyIssued": "PREM-YRP2-ZRE9"
+  },
+  {
+    "id": "pay_1792743791303_2fsyp",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T08:23:11.303Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792743791287_qrhz3",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T08:23:11.287Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T08:23:11.333Z",
+    "licenseKeyIssued": "PREM-ZQEZ-PTPJ"
+  },
+  {
+    "id": "pay_1792741124374_1f0vf",
+    "email": "gebremedhinendeshawe@gmail.com",
+    "candidateName": "Gebremedhin ENdeshaw",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "Cl4957545",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "VERY_LOW",
+      "flags": [],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "Cl4957545",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T07:38:44.374Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T07:39:35.479Z",
+    "licenseKeyIssued": "PREM-DUC5-ENBU"
+  },
+  {
+    "id": "pay_1792740555002_4fjgw",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "rejected",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T07:29:15.002Z",
+    "notes": "",
+    "rejectedAt": "2026-10-23T07:44:54.648Z",
+    "rejectionReason": "Unable to verify transaction reference."
+  },
+  {
+    "id": "pay_1792740554978_e8o2w",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T07:29:14.978Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T07:29:15.034Z",
+    "licenseKeyIssued": "PREM-97LG-BVLA"
+  },
+  {
+    "id": "pay_1792739033299_3g9pf",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T07:03:53.299Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792739033288_8pzxf",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T07:03:53.288Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T07:03:53.330Z",
+    "licenseKeyIssued": "PREM-76XX-CXX8"
+  },
+  {
+    "id": "pay_1792738945035_hsd5g",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T07:02:25.035Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792738945021_dzlwc",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T07:02:25.021Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T07:02:25.053Z",
+    "licenseKeyIssued": "PREM-PCGH-6KCT"
+  },
+  {
+    "id": "pay_1792736823835_hh2t6",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T06:27:03.835Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792736823813_fi9nt",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T06:27:03.813Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T06:27:03.850Z",
+    "licenseKeyIssued": "PREM-5SG9-TQNV"
+  },
+  {
+    "id": "pay_1792736411736_02618",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T06:20:11.736Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792736411716_d7wlh",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T06:20:11.716Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T06:20:11.767Z",
+    "licenseKeyIssued": "PREM-JCZD-UMQB"
+  },
+  {
+    "id": "pay_1792736095449_o4pq2",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-23T06:14:55.449Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792736095432_tq0ho",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-23T06:14:55.432Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T06:14:55.480Z",
+    "licenseKeyIssued": "PREM-HEPM-3UN5"
+  },
+  {
+    "id": "pay_1792678544208_tkplz",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "submittedAt": "2026-10-22T14:15:44.208Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792678544184_i0xpp",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "submittedAt": "2026-10-22T14:15:44.184Z",
+    "notes": "",
+    "approvedAt": "2026-10-22T14:15:44.240Z",
+    "licenseKeyIssued": "PREM-5WWK-S5GQ"
+  },
+  {
+    "id": "pay_1792678074130_ut1l5",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "submittedAt": "2026-10-22T14:07:54.130Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792678074113_kfy93",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "submittedAt": "2026-10-22T14:07:54.113Z",
+    "notes": "",
+    "approvedAt": "2026-10-22T14:07:54.163Z",
+    "licenseKeyIssued": "PREM-VGFB-MQHY"
+  },
+  {
+    "id": "pay_1792678056685_db138",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "submittedAt": "2026-10-22T14:07:36.685Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792678056665_t5ltg",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "submittedAt": "2026-10-22T14:07:36.665Z",
+    "notes": "",
+    "approvedAt": "2026-10-22T14:07:36.717Z",
+    "licenseKeyIssued": "PREM-794M-JM99"
+  },
+  {
+    "id": "pay_1792678014799_w2vvb",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "submittedAt": "2026-10-22T14:06:54.799Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792678014787_2ag83",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "pending",
+    "submittedAt": "2026-10-22T14:06:54.787Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_sample_telebirr_1",
+    "email": "solomon.t@gmail.com",
+    "candidateName": "Solomon Tadesse",
+    "planId": "monthly",
+    "planName": "Monthly Pro (30 Days)",
+    "currency": "ETB",
+    "amount": "1,200 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "CI49KQ982L",
+    "status": "pending",
+    "submittedAt": "2026-10-22T14:30:00.000Z",
+    "notes": "Paid via Telebirr at 2:30 PM. Please activate Monthly access."
+  },
+  {
+    "id": "pay_sample_binance_2",
+    "email": "alex.international@gmail.com",
+    "candidateName": "Alexander Vance",
+    "planId": "yearly",
+    "planName": "Yearly VIP Enterprise (365 Days)",
+    "currency": "USD",
+    "amount": "$149.99",
+    "paymentMethod": "binance",
+    "reference": "0x89f2a4bc88190de45681aa92110c",
+    "status": "rejected",
+    "submittedAt": "2026-10-22T15:10:00.000Z",
+    "notes": "Sent 150 USDT via Binance Pay. Binance Pay ID: 99182371.",
+    "rejectedAt": "2026-10-23T07:44:42.899Z",
+    "rejectionReason": "Unable to verify transaction reference."
+  }
+]

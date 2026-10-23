@@ -1,0 +1,105 @@
+{
+  "plans": [
+    {
+      "id": "daily",
+      "name": "Daily Pass (24 Hours)",
+      "badge": "24H PASS",
+      "popular": false,
+      "priceETB": 100,
+      "priceUSD": 1.99,
+      "formattedETB": "100 ETB",
+      "formattedUSD": "$1.99",
+      "durationDays": 1,
+      "description": "Full 24-hour unlimited access for active application sprints.",
+      "features": [
+        "24 Hours Unlimited AutoPilot Access",
+        "All ATS Portals (JazzHR, Workable, Ashby, Workday)",
+        "Canva-Grade Tailored PDF Resumes",
+        "AI Non-Common Screening Question Solver"
+      ]
+    },
+    {
+      "id": "flex-3d",
+      "name": "Flex Pass (3 Days / Week)",
+      "badge": "MOST FLEXIBLE",
+      "popular": false,
+      "priceETB": 250,
+      "priceUSD": 4.99,
+      "formattedETB": "250 ETB",
+      "formattedUSD": "$4.99",
+      "durationDays": 7,
+      "activeDaysLimit": 3,
+      "description": "Ideal for applicants applying on 2 to 3 peak hiring days per week.",
+      "features": [
+        "3 Active Application Days per Week",
+        "Full AutoPilot Fleet Batch Apply",
+        "Custom Question AI Synthesizer (STAR Method)",
+        "Recruiter InMail & Direct Email Outreach Generator"
+      ]
+    },
+    {
+      "id": "monthly",
+      "name": "Monthly Pro (30 Days)",
+      "badge": "MOST POPULAR",
+      "popular": true,
+      "priceETB": 1200,
+      "priceUSD": 24.99,
+      "formattedETB": "1,200 ETB",
+      "formattedUSD": "$24.99",
+      "durationDays": 30,
+      "description": "30 days of continuous autonomous job hunting & application submissions.",
+      "features": [
+        "30 Days Continuous Auto-Apply Pipeline",
+        "Multi-Client Candidate Personas Unlocked",
+        "Priority Queue Auto-Hunting Fleet Engine",
+        "CRM Application Tracker & 1-Click CSV Export",
+        "Instant Support via Telegram / WhatsApp"
+      ]
+    },
+    {
+      "id": "yearly",
+      "name": "Yearly VIP Enterprise (365 Days)",
+      "badge": "BEST VALUE - SAVE 40%",
+      "popular": false,
+      "priceETB": 9500,
+      "priceUSD": 149.99,
+      "formattedETB": "9,500 ETB",
+      "formattedUSD": "$149.99",
+      "durationDays": 365,
+      "description": "Full annual access with unlimited submissions, candidate profiles, and VIP support.",
+      "features": [
+        "365 Days Unlimited Access to Entire Ecosystem",
+        "Unlimited Multi-Client Profiles",
+        "All 4 Recruiter Outreach Channels",
+        "Dedicated Daily Autonomous Hunting Fleets",
+        "VIP Direct Admin Telegram / Phone Support"
+      ]
+    }
+  ],
+  "gateways": {
+    "telebirr": {
+      "id": "telebirr",
+      "name": "Telebirr (Ethiopia)",
+      "currency": "ETB",
+      "accountNumber": "0948232717",
+      "accountName": "JobAssist Ethiopia",
+      "instructions": "Send the plan amount via Telebirr (App or *127# to 0948232717). After completing transfer, enter your Telebirr Transaction ID."
+    },
+    "cbe": {
+      "id": "cbe",
+      "name": "Commercial Bank of Ethiopia (CBE / CBE Birr)",
+      "currency": "ETB",
+      "accountNumber": "1000542193275",
+      "accountName": "JobAssist Software Tech",
+      "instructions": "Transfer to CBE Account 1000542193275. Submit your Reference / Transaction number."
+    },
+    "binance": {
+      "id": "binance",
+      "name": "Binance UID (Global / USDT)",
+      "currency": "USD",
+      "binanceUid": "1032674236",
+      "binancePayId": "1032674236",
+      "instructions": "Transfer USDT via Binance Pay to Binance UID: 1032674236. Submit your Binance Order ID or Transaction Hash."
+    }
+  }
+}

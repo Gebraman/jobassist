@@ -1,0 +1,169 @@
+{
+  "candidate": {
+    "fullName": "Raymond Wong",
+    "firstName": "Raymond",
+    "middleName": "",
+    "lastName": "Wong",
+    "headline": "Senior AI & Machine Learning Engineer",
+    "email": "raymond1994.glo@outlook.com",
+    "phone": "510-340-2070",
+    "phoneFormatted": "+1 (510) 340-2070",
+    "location": "Atlanta, GA",
+    "addressLine1": "215 Piedmont Ave NE APT 1206",
+    "addressLine2": "APT 1206",
+    "street": "215 Piedmont Ave NE",
+    "apt": "APT 1206",
+    "city": "Atlanta",
+    "state": "GA",
+    "stateFull": "Georgia",
+    "postalCode": "30308",
+    "zipCode": "30308",
+    "country": "United States",
+    "dob": "12/09/1994",
+    "dobMonth": "12",
+    "dobDay": "09",
+    "dobYear": "1994",
+    "dobISO": "1994-12-09",
+    "ssn": "XXX-XX-0928",
+    "ssnLast4": "0928",
+    "gender": "Male",
+    "ethnicity": "Asian",
+    "veteranStatus": "I am not a protected veteran",
+    "disabilityStatus": "No, I do not have a disability and have not had one in the past",
+    "workAuthorization": "US Citizen (No sponsorship required)",
+    "requiresSponsorship": "No",
+    "yearsOfExperience": 8,
+    "currentCompany": "Uber Eats",
+    "currentTitle": "Senior AI/ML Engineer",
+    "linkedin": "https://www.linkedin.com/in/ray-w-3888b33aa",
+    "github": "https://github.com/raymondwong-ai",
+    "portfolio": "https://app.talentral.org",
+    "resumeUrl": "https://app.talentral.org"
+  },
+  "summary": "Senior AI and Machine Learning Engineer with 8+ years designing, deploying, and optimizing enterprise-grade distributed ML pipelines, predictive analytics systems, and high-concurrency microservices. Proven track record at Uber Eats, EY, and Coca-Cola delivering real-time recommendation engines, fraud detection architectures, and autonomous AI systems at billion-request scale.",
+  "skills": {
+    "languages": ["Python", "Go", "TypeScript", "SQL", "C++", "R", "Java"],
+    "machineLearning": ["PyTorch", "TensorFlow", "scikit-learn", "Hugging Face", "LLM Agent Pipelines", "MLflow", "KServe", "Feature Stores", "Vector DBs (Pinecone, Qdrant)"],
+    "cloudDevOps": ["AWS (SageMaker, ECS, EKS, Lambda, S3, RDS, DynamoDB)", "GCP (Vertex AI)", "Docker", "Kubernetes", "Terraform", "CI/CD (GitHub Actions)"],
+    "dataEngineering": ["Apache Spark", "Kafka", "PostgreSQL", "Redis", "Snowflake", "dbt", "Airflow"],
+    "practices": ["Distributed ML Training", "Model Monitoring & Drift Detection", "High-Throughput Microservices", "TDD", "System Design"]
+  },
+  "experience": [
+    {
+      "company": "Uber Eats",
+      "role": "Senior AI/ML Engineer",
+      "period": "2021-02 - Present",
+      "startMonth": "02",
+      "startYear": "2021",
+      "endMonth": "Present",
+      "endYear": "Present",
+      "isCurrent": true,
+      "location": "Atlanta, GA (Remote/Hybrid)",
+      "highlights": [
+        "Architected distributed real-time delivery estimation and dynamic dispatch ranking models serving 45M+ monthly active eaters with sub-18ms p99 latency.",
+        "Engineered automated feature drift and model observability pipelines on AWS and Kafka, reducing production incident triage time by 52%.",
+        "Mentored a cross-functional pod of 5 machine learning and backend engineers, standardizing MLflow model governance and zero-downtime canary deployment protocols."
+      ]
+    },
+    {
+      "company": "EY",
+      "role": "Senior Machine Learning Engineer",
+      "period": "2017-10 - 2021-01",
+      "startMonth": "10",
+      "startYear": "2017",
+      "endMonth": "01",
+      "endYear": "2021",
+      "isCurrent": false,
+      "location": "Atlanta, GA",
+      "highlights": [
+        "Led engineering of enterprise anomaly detection and automated risk-scoring platforms across Fortune 500 audit clients, processing $12B+ in transactional ledgers.",
+        "Scaled deep learning NLP models for unstructured financial document extraction using BERT and PyTorch, achieving 96.4% precision and reducing manual audit overhead by 60%.",
+        "Designed secure multi-tenant data pipelines on AWS (ECS, RDS, S3) meeting strict SOC2 and ISO27001 compliance standards."
+      ]
+    },
+    {
+      "company": "The Coca-Cola Company",
+      "role": "Machine Learning Engineer",
+      "period": "2017-01 - 2017-09",
+      "startMonth": "01",
+      "startYear": "2017",
+      "endMonth": "09",
+      "endYear": "2017",
+      "isCurrent": false,
+      "location": "Atlanta, GA",
+      "highlights": [
+        "Developed predictive supply chain demand forecasting algorithms using gradient boosted trees and time-series models across North American bottling operations.",
+        "Automated batch ETL pipelines using Apache Spark and Python, accelerating daily inventory syncs from 6 hours to 45 minutes."
+      ]
+    },
+    {
+      "company": "Insilicom",
+      "role": "Software Engineer",
+      "period": "2016-06 - 2016-12",
+      "startMonth": "06",
+      "startYear": "2016",
+      "endMonth": "12",
+      "endYear": "2016",
+      "isCurrent": false,
+      "location": "Gainesville, FL",
+      "highlights": [
+        "Implemented high-performance bioinformatics data processing modules in Python and C++, optimizing genomic sequence alignment algorithms.",
+        "Constructed RESTful API endpoints and PostgreSQL database schemas supporting academic and clinical research platforms."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Florida",
+      "degree": "Master's Degree in Computer Science",
+      "degreeLevel": "Master's Degree",
+      "fieldOfStudy": "Computer Science",
+      "startYear": "2014",
+      "endYear": "2016",
+      "period": "2014-08 - 2016-05",
+      "gpa": "3.85"
+    },
+    {
+      "institution": "University of Florida",
+      "degree": "Bachelor's Degree in Computer Science",
+      "degreeLevel": "Bachelor's Degree",
+      "fieldOfStudy": "Computer Science",
+      "startYear": "2010",
+      "endYear": "2014",
+      "period": "2010-09 - 2014-05",
+      "gpa": "3.80"
+    }
+  ],
+  "certifications": [
+    "AWS Certified Machine Learning - Specialty",
+    "AWS Certified Solutions Architect - Associate",
+    "TensorFlow Developer Certified"
+  ],
+  "preferences": {
+    "targetTitles": [
+      "Senior AI/ML Engineer",
+      "Staff Machine Learning Engineer",
+      "Senior Full Stack Engineer",
+      "Senior Software Engineer (+ AWS)",
+      "Lead AI Systems Engineer"
+    ],
+    "workArrangement": "Remote (Preferred) or Hybrid",
+    "targetSalaryUSD": 175000,
+    "minSalaryUSD": 150000,
+    "hourlyRateUSD": 85,
+    "noticePeriodWeeks": 2,
+    "noticePeriod": "2 weeks",
+    "earliestStartDate": "Immediately / 2 weeks",
+    "workAuthorization": "US Citizen (No visa sponsorship required)",
+    "authorizedToWorkUS": "Yes",
+    "requireSponsorship": "No",
+    "willingToRelocate": "No (Remote Preferred)",
+    "heardAbout": "LinkedIn"
+  },
+  "screeningAnswers": {
+    "whyCompany": "I am passionate about solving mission-critical business challenges through scalable, high-throughput machine learning architectures and distributed systems. Having engineered real-time AI and predictive services at Uber Eats, EY, and Coca-Cola, your company's technical vision, data scale, and engineering culture directly align with my expertise.",
+    "greatestAchievement": "At Uber Eats, I spearheaded the redesign of our dynamic delivery dispatch ranking system, achieving sub-18ms p99 inference latency across 45M+ monthly active users and delivering a 7.4% improvement in courier dispatch efficiency while sustaining 99.99% system availability.",
+    "technicalExperience": "8+ years building enterprise AI/ML solutions in Python, Go, and TypeScript, containerized on Kubernetes and AWS (SageMaker, ECS, EKS, Lambda, S3, RDS). Deep expertise in distributed training, real-time feature stores, streaming architectures with Kafka, and production model governance.",
+    "workStyle": "I thrive in high-ownership, collaborative, async-first engineering environments where clear communication, automated test coverage, and continuous delivery enable rapid engineering velocity without compromising production reliability."
+  }
+}

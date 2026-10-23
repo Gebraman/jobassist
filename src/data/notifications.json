@@ -1,0 +1,953 @@
+[
+  {
+    "id": "notif_1792781845446",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-SEYT-5G2T",
+    "message": "Granted 365 days of Yearly VIP Enterprise (365 Days) to gebra (gebra@gmail.com).",
+    "timestamp": "2026-10-23T18:57:25.446Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-SEYT-5G2T",
+      "email": "gebra@gmail.com",
+      "plan": "Yearly VIP Enterprise (365 Days)",
+      "expiresAt": "2027-10-23T18:57:25.444Z"
+    }
+  },
+  {
+    "id": "notif_1792781823867",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 9,500 ETB (TELEBIRR)",
+    "message": "gebra (gebra@gmail.com) submitted proof for Yearly VIP Enterprise (365 Days). Ref: WL3",
+    "timestamp": "2026-10-23T18:57:03.867Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792781823865_7vq02",
+      "email": "gebra@gmail.com",
+      "amount": "9,500 ETB",
+      "plan": "Yearly VIP Enterprise (365 Days)",
+      "reference": "WL3",
+      "confidence": 60,
+      "fraudRisk": "MEDIUM"
+    }
+  },
+  {
+    "id": "notif_1792778680181",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-LYKY-W4SU",
+    "message": "Granted 365 days of Yearly VIP Enterprise (365 Days) to Gebreedhin (gebremedhinendeshawe@gmail.com).",
+    "timestamp": "2026-10-23T18:04:40.181Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-LYKY-W4SU",
+      "email": "gebremedhinendeshawe@gmail.com",
+      "plan": "Yearly VIP Enterprise (365 Days)",
+      "expiresAt": "2027-10-23T18:04:40.177Z"
+    }
+  },
+  {
+    "id": "notif_1792778547471",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 9,500 ETB (TELEBIRR)",
+    "message": "Gebreedhin (gebremedhinendeshawe@gmail.com) submitted proof for Yearly VIP Enterprise (365 Days). Ref: CL4",
+    "timestamp": "2026-10-23T18:02:27.471Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792778547464_n023y",
+      "email": "gebremedhinendeshawe@gmail.com",
+      "amount": "9,500 ETB",
+      "plan": "Yearly VIP Enterprise (365 Days)",
+      "reference": "CL4",
+      "confidence": 60,
+      "fraudRisk": "MEDIUM"
+    }
+  },
+  {
+    "id": "notif_1792776580918",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-AZQH-GYBD",
+    "message": "Granted 7 days of Flex Pass (3 Days / Week) to Abebe (abebe@gmail.com).",
+    "timestamp": "2026-10-23T17:29:40.918Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-AZQH-GYBD",
+      "email": "abebe@gmail.com",
+      "plan": "Flex Pass (3 Days / Week)",
+      "expiresAt": "2026-10-30T17:29:40.913Z"
+    }
+  },
+  {
+    "id": "notif_1792776553327",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 250 ETB (TELEBIRR)",
+    "message": "Abebe (abebe@gmail.com) submitted proof for Flex Pass (3 Days / Week). Ref: WL43",
+    "timestamp": "2026-10-23T17:29:13.327Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792776553323_tezdv",
+      "email": "abebe@gmail.com",
+      "amount": "250 ETB",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "WL43",
+      "confidence": 60,
+      "fraudRisk": "MEDIUM"
+    }
+  },
+  {
+    "id": "notif_1792775649896",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-D7LZ-ASER",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T17:14:09.896Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-D7LZ-ASER",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T17:14:09.895Z"
+    }
+  },
+  {
+    "id": "notif_1792775649880",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T17:14:09.880Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792775649879_tcnc3",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792775649869",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T17:14:09.869Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792775649868_k5f7h",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792774261507",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-QJ2V-2KDB",
+    "message": "Granted 30 days of Custom Plan to DAVA (dava@gmail.com).",
+    "timestamp": "2026-10-23T16:51:01.507Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-QJ2V-2KDB",
+      "email": "dava@gmail.com",
+      "plan": "Custom Plan",
+      "expiresAt": "2026-11-22T16:51:01.504Z"
+    }
+  },
+  {
+    "id": "notif_1792774122463",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 1,200 ETB (TELEBIRR)",
+    "message": "DAVA (dava@gmail.com) submitted proof for Custom Plan. Ref: FT2026",
+    "timestamp": "2026-10-23T16:48:42.463Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792774122461_4m8jk",
+      "email": "dava@gmail.com",
+      "amount": "1,200 ETB",
+      "plan": "Custom Plan",
+      "reference": "FT2026",
+      "confidence": 94,
+      "fraudRisk": "VERY_LOW"
+    }
+  },
+  {
+    "id": "notif_1792772876708",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-JWF5-MREP",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T16:27:56.708Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-JWF5-MREP",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T16:27:56.707Z"
+    }
+  },
+  {
+    "id": "notif_1792772876677",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T16:27:56.677Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792772876676_b8etv",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792772876657",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T16:27:56.657Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792772876656_59v1z",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792772191279",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-C8BM-PNVA",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T16:16:31.279Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-C8BM-PNVA",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T16:16:31.278Z"
+    }
+  },
+  {
+    "id": "notif_1792772191258",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T16:16:31.258Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792772191257_s73oq",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792772191236",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T16:16:31.236Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792772191235_t3zly",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792759877756",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-TTEP-78S7",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Brook (brook@gmail.com).",
+    "timestamp": "2026-10-23T12:51:17.756Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-TTEP-78S7",
+      "email": "brook@gmail.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T12:51:17.751Z"
+    }
+  },
+  {
+    "id": "notif_1792759843099",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Brook (brook@gmail.com) submitted proof for Daily Pass (24 Hours). Ref: Zl49",
+    "timestamp": "2026-10-23T12:50:43.099Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792759843094_y4qkg",
+      "email": "brook@gmail.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "Zl49",
+      "confidence": 60,
+      "fraudRisk": "MEDIUM"
+    }
+  },
+  {
+    "id": "notif_1792759563907",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-5C96-KZLA",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T12:46:03.907Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-5C96-KZLA",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T12:46:03.904Z"
+    }
+  },
+  {
+    "id": "notif_1792759563874",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T12:46:03.874Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792759563872_zzq7j",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792759563853",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T12:46:03.853Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792759563852_z4cjv",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792756829829",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-SNJ6-VDF5",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T12:00:29.829Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-SNJ6-VDF5",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T12:00:29.827Z"
+    }
+  },
+  {
+    "id": "notif_1792756829796",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T12:00:29.796Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792756829794_qy7hs",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792756829769",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T12:00:29.769Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792756829768_pud9q",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792755873795",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-476L-QQUE",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T11:44:33.795Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-476L-QQUE",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T11:44:33.793Z"
+    }
+  },
+  {
+    "id": "notif_1792755873764",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T11:44:33.764Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792755873763_iriu7",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792755873743",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T11:44:33.743Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792755873742_lactv",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792754409494",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-6CQP-GMUG",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T11:20:09.494Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-6CQP-GMUG",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T11:20:09.492Z"
+    }
+  },
+  {
+    "id": "notif_1792754409462",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T11:20:09.462Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792754409461_klli8",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792754409443",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T11:20:09.443Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792754409442_xj6rt",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792752656354",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-R4BW-ZXPN",
+    "message": "Granted 7 days of Flex Pass (3 Days / Week) to Alex Thorne (alex.thorne@example.com).",
+    "timestamp": "2026-10-23T10:50:56.354Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-R4BW-ZXPN",
+      "email": "alex.thorne@example.com",
+      "plan": "Flex Pass (3 Days / Week)",
+      "expiresAt": "2026-10-30T10:50:56.349Z"
+    }
+  },
+  {
+    "id": "notif_1792744730212",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-A8QJ-YQDA",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to gebra (gebraman810081@gmail.com).",
+    "timestamp": "2026-10-23T08:38:50.212Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-A8QJ-YQDA",
+      "email": "gebraman810081@gmail.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T08:38:50.210Z"
+    }
+  },
+  {
+    "id": "notif_1792744540285",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "gebra (gebraman810081@gmail.com) submitted proof for Daily Pass (24 Hours). Ref: CL59qr",
+    "timestamp": "2026-10-23T08:35:40.285Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792744540283_tdpvs",
+      "email": "gebraman810081@gmail.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "CL59qr",
+      "confidence": 94,
+      "fraudRisk": "VERY_LOW"
+    }
+  },
+  {
+    "id": "notif_1792743919211",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-YRP2-ZRE9",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T08:25:19.211Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-YRP2-ZRE9",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T08:25:19.210Z"
+    }
+  },
+  {
+    "id": "notif_1792743919166",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T08:25:19.166Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792743919165_p69h1",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792743919155",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T08:25:19.155Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792743919154_xdkpg",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792743791334",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-ZQEZ-PTPJ",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T08:23:11.334Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-ZQEZ-PTPJ",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T08:23:11.333Z"
+    }
+  },
+  {
+    "id": "notif_1792743791304",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T08:23:11.304Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792743791303_2fsyp",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792743791288",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T08:23:11.288Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792743791287_qrhz3",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792741175480",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-DUC5-ENBU",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Gebremedhin ENdeshaw (gebremedhinendeshawe@gmail.com).",
+    "timestamp": "2026-10-23T07:39:35.480Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-DUC5-ENBU",
+      "email": "gebremedhinendeshawe@gmail.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T07:39:35.479Z"
+    }
+  },
+  {
+    "id": "notif_1792741124376",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Gebremedhin ENdeshaw (gebremedhinendeshawe@gmail.com) submitted proof for Daily Pass (24 Hours). Ref: Cl4957545",
+    "timestamp": "2026-10-23T07:38:44.376Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792741124374_1f0vf",
+      "email": "gebremedhinendeshawe@gmail.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "Cl4957545",
+      "confidence": 94,
+      "fraudRisk": "VERY_LOW"
+    }
+  },
+  {
+    "id": "notif_1792740555035",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-97LG-BVLA",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T07:29:15.035Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-97LG-BVLA",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T07:29:15.034Z"
+    }
+  },
+  {
+    "id": "notif_1792740555003",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T07:29:15.003Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792740555002_4fjgw",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792740554979",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T07:29:14.979Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792740554978_e8o2w",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792739033331",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-76XX-CXX8",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T07:03:53.331Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-76XX-CXX8",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T07:03:53.330Z"
+    }
+  },
+  {
+    "id": "notif_1792739033299",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T07:03:53.299Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792739033299_3g9pf",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792739033288",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T07:03:53.288Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792739033288_8pzxf",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792738945054",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-PCGH-6KCT",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T07:02:25.055Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-PCGH-6KCT",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T07:02:25.053Z"
+    }
+  },
+  {
+    "id": "notif_1792738945036",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T07:02:25.036Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792738945035_hsd5g",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792738945022",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T07:02:25.022Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792738945021_dzlwc",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792736823851",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-5SG9-TQNV",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T06:27:03.851Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-5SG9-TQNV",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T06:27:03.850Z"
+    }
+  },
+  {
+    "id": "notif_1792736823836",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T06:27:03.836Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792736823835_hh2t6",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792736823814",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T06:27:03.814Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792736823813_fi9nt",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792736411769",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-JCZD-UMQB",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T06:20:11.769Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-JCZD-UMQB",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T06:20:11.767Z"
+    }
+  },
+  {
+    "id": "notif_1792736411737",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T06:20:11.737Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792736411736_02618",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792736411717",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T06:20:11.717Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792736411716_d7wlh",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792736095481",
+    "type": "LICENSE_ISSUED",
+    "title": "🎉 License Issued: PREM-HEPM-3UN5",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-23T06:14:55.481Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-HEPM-3UN5",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-24T06:14:55.480Z"
+    }
+  },
+  {
+    "id": "notif_1792736095450",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-23T06:14:55.450Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792736095449_o4pq2",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792736095433",
+    "type": "NEW_PAYMENT",
+    "title": "💰 Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-23T06:14:55.433Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792736095432_tq0ho",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  }
+]
