@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JobAssist AI Studio — Obsidian Edition</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      background: #0c0c0d;
+      color: #fafaf9;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #27272a;
+    }
+    .brand { display: flex; align-items: center; gap: 7px; }
+    .brand-icon {
+      width: 26px; height: 26px; border-radius: 7px;
+      background: linear-gradient(135deg, #007aff, #38bdf8);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.35);
+    }
+    .brand-title { font-size: 14px; font-weight: 800; color: #fafaf9; }
+    .brand-badge {
+      font-size: 9px; font-weight: 700;
+      background: rgba(0, 122, 255, 0.15); color: #60a5fa;
+      padding: 2px 5px; border-radius: 4px; border: 1px solid #007aff;
+    }
+
+    /* 5 Compact Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 3px;
+      background: #141416;
+      padding: 3px;
+      border-radius: 8px;
+      margin-top: 8px;
+      border: 1px solid #27272a;
+    }
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 6px 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+    .tab-btn.active {
+      background: #27272a;
+      color: #38bdf8;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Tab Panes */
+    .tab-pane { display: none; margin-top: 10px; }
+    .tab-pane.active { display: block; }
+
+    /* Common Card */
+    .card {
+      background: #141416;
+      border: 1px solid #27272a;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .card-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .select-client {
+      width: 100%;
+      background: #18181b;
+      color: #fafaf9;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .client-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #27272a;
+      font-size: 10.5px;
+    }
+    .meta-box {
+      background: #18181b;
+      padding: 5px 7px;
+      border-radius: 5px;
+      border: 1px solid #27272a;
+    }
+    .meta-label { color: #71717a; font-size: 9px; margin-bottom: 1px; }
+    .meta-val { color: #f1f5f9; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Live Job Intelligence */
+    .job-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 10px; font-weight: 700;
+      padding: 2px 7px; border-radius: 9999px; border: 1px solid #059669;
+    }
+    .job-title-text { font-size: 14px; font-weight: 800; color: #fafaf9; margin-top: 5px; }
+    .job-company-text { font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 1px; }
+    .match-container {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #18181b; border-radius: 8px; padding: 8px 10px; margin-top: 8px; border: 1px solid #27272a;
+    }
+    .match-score { font-size: 17px; font-weight: 800; color: #34d399; }
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .skill-tag {
+      background: #18181b; color: #93c5fd; border: 1px solid #2563eb;
+      font-size: 9.5px; padding: 2px 5px; border-radius: 4px; font-weight: 600;
+    }
+
+    /* Primary CTAs */
+    .btn-autofill {
+      width: 100%;
+      background: #007aff;
+      color: #ffffff;
+      border: none;
+      padding: 11px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(0, 122, 255, 0.4);
+      margin-top: 10px;
+      transition: all 0.2s;
+    }
+    .btn-autofill:hover {
+      background: #0066d6;
+      transform: translateY(-1px);
+    }
+    .btn-advance {
+      width: 100%;
+      background: #18181b;
+      color: #38bdf8;
+      border: 1px solid #0284c7;
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 11.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .btn-advance:hover { background: #0284c7; color: #fff; }
+
+    .btn-secondary {
+      background: #18181b; color: #cbd5e1; border: 1px solid #27272a;
+      padding: 5px 8px; border-radius: 6px; font-size: 10.5px; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .btn-secondary:hover { background: #27272a; color: #fff; }
+
+    /* Template Cards */
+    .template-grid { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 8px 0; }
+    .tpl-card {
+      background: #18181b; border: 1.5px solid #27272a; border-radius: 8px;
+      padding: 10px; cursor: pointer; text-align: left; transition: all 0.2s;
+    }
+    .tpl-card.selected { border-color: #007aff; background: rgba(0, 122, 255, 0.08); }
+    .tpl-name { font-size: 12px; font-weight: 800; color: #fafaf9; }
+    .tpl-desc { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+
+    /* Question Item */
+    .q-item {
+      background: #18181b; border: 1px solid #27272a; border-radius: 8px;
+      padding: 9px; margin-bottom: 7px;
+    }
+    .q-text { font-size: 11px; font-weight: 700; color: #f1f5f9; margin-bottom: 5px; }
+    .q-answer-preview {
+      background: #111113; border: 1px solid #27272a; border-radius: 6px;
+      padding: 7px; font-size: 10.5px; color: #cbd5e1; line-height: 1.45;
+      max-height: 85px; overflow-y: auto; margin-bottom: 5px;
+    }
+
+    /* Job Hunter Queue Card */
+    .job-hunter-card {
+      background: #141416; border: 1px solid #27272a; border-radius: 8px;
+      padding: 10px; margin-bottom: 8px;
+      transition: border-color 0.2s ease;
+    }
+    .job-hunter-card:hover {
+      border-color: #007aff;
+    }
+    .job-hunter-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .job-hunter-title { font-size: 12.5px; font-weight: 700; color: #fafaf9; line-height: 1.3; }
+    .job-hunter-company { font-size: 11px; color: #38bdf8; font-weight: 600; margin-top: 2px; }
+    .job-hunter-meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 10px; color: #94a3b8; margin: 6px 0; }
+    .job-hunter-actions { display: flex; gap: 6px; margin-top: 8px; }
+    .freshness-pill {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #34d399;
+      background: rgba(6, 78, 59, 0.7);
+      border: 1px solid #059669;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85); z-index: 9999;
+      align-items: center; justify-content: center; padding: 12px;
+    }
+    .modal-content {
+      background: #141416; border: 1px solid #27272a; border-radius: 12px;
+      width: 100%; max-height: 90vh; overflow-y: auto; padding: 16px;
+    }
+    .form-group { margin-bottom: 8px; }
+    .form-group label { display: block; font-size: 10px; color: #94a3b8; margin-bottom: 2px; font-weight: 600; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; background: #18181b; border: 1px solid #27272a; border-radius: 6px;
+      color: #fafaf9; padding: 6px 8px; font-size: 11.5px; outline: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================== -->
+  <!-- STRICT LICENSE GATEKEEPER OVERLAY              -->
+  <!-- ============================================== -->
+  <div id="gatekeeper-screen" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0c0c0d; z-index: 99999; padding: 24px 16px; overflow-y: auto; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+    <div style="width: 56px; height: 56px; border-radius: 18px; background: rgba(0, 122, 255, 0.15); border: 1px solid #007aff; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0, 122, 255, 0.25); margin-bottom: 12px;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div style="font-size: 16.5px; font-weight: 800; color: #FFF; margin-bottom: 3px;">JobAssist Studio Locked</div>
+    <div style="font-size: 10.5px; color: #60a5fa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px;">
+      Administrator Permission Required
+    </div>
+    <div style="font-size: 11px; color: #94A3B8; line-height: 1.5; max-width: 320px; margin-bottom: 16px;">
+      To access 1-Click ATS AutoFill, Multi-Site Job Hunter, and Executive Resumes, enter your active License Key approved by the platform administrator.
+    </div>
+
+    <!-- Activation Card -->
+    <div style="width: 100%; max-width: 320px; background: #141416; border: 1px solid #27272a; border-radius: 10px; padding: 14px; text-align: left; margin-bottom: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
+      <label style="font-size: 10px; color: #94A3B8; font-weight: 700; display: block; margin-bottom: 4px;">ENTER LICENSE KEY (e.g. PREM-XXXX-XXXX)</label>
+      <div style="display: flex; gap: 6px; margin-bottom: 4px;">
+        <input type="text" id="gatekeeper-key-input" placeholder="PREM-..." style="flex: 1; background: #18181b; border: 1px solid #27272a; border-radius: 6px; color: #FFF; padding: 8px 10px; font-size: 12px; font-weight: 700; outline: none; text-transform: uppercase;">
+        <button id="btn-gatekeeper-activate" class="btn-autofill" style="margin-top: 0; padding: 8px 12px; font-size: 11.5px; font-weight: 800; background: #007aff;">
+          Unlock
+        </button>
+      </div>
+      <div id="gatekeeper-feedback" style="font-size: 10.5px; font-weight: 600; display: none; margin-top: 5px;"></div>
+    </div>
+
+    <!-- Get Key CTA -->
+    <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 320px;">
+      <a id="btn-gatekeeper-buy" href="http://localhost:3001/pricing" target="_blank" class="btn-autofill" style="text-decoration: none; justify-content: center; padding: 10px; font-size: 12px; font-weight: 800; background: #007aff;">
+        Get License Key / Subscribe (from 100 ETB / $4.99)
+      </a>
+      <button id="btn-gatekeeper-show-pay-info" class="btn-secondary" style="justify-content: center; padding: 8px; font-size: 11px; color: #38BDF8; border-color: #0284C7;">
+        Pay via Telebirr, CBE or Binance UID
+      </button>
+    </div>
+
+    <!-- Cloud URL Settings Link -->
+    <div style="margin-top: 16px;">
+      <button id="btn-gatekeeper-server-config" style="background: none; border: none; color: #64748B; font-size: 10px; text-decoration: underline; cursor: pointer;">
+        Cloud API Server Settings (Production Domain)
+      </button>
+      <div id="gatekeeper-server-box" style="display: none; margin-top: 8px; background: #141416; border: 1px solid #27272a; border-radius: 6px; padding: 8px; text-align: left; max-width: 320px;">
+        <label style="font-size: 9.5px; color: #94A3B8; display: block; margin-bottom: 2px;">Backend API URL</label>
+        <div style="display: flex; gap: 4px;">
+          <input type="text" id="gatekeeper-server-url" value="http://localhost:3001" style="flex: 1; background: #18181b; border: 1px solid #27272a; border-radius: 4px; color: #FFF; font-size: 10px; padding: 5px 8px;">
+          <button id="btn-gatekeeper-save-url" style="background: #007aff; color: #FFF; border: none; border-radius: 4px; font-size: 10px; font-weight: 800; padding: 5px 10px; cursor: pointer;">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div>
+        <div class="brand-title">JobAssist Studio</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px;">
+      <span id="extension-version-pill" style="font-size: 9.5px; color: #94A3B8; background: #18181b; border: 1px solid #27272a; padding: 2px 7px; border-radius: 9999px; cursor: pointer;" title="Extension Version: Click to verify latest build">v3.2.0 • Up to date</span>
+      <button id="btn-open-license-modal" style="background:rgba(16, 185, 129, 0.15); color:#34D399; border:1px solid #059669; padding:3px 9px; border-radius:9999px; font-size:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(16, 185, 129, 0.2);">
+        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#34D399;"></span>
+        <span id="license-badge-text">PREMIUM VIP</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 5 Main Navigation Tabs -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" data-tab="tab-autofill">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      AutoFill
+    </button>
+    <button class="tab-btn" data-tab="tab-hunter">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Hunter
+    </button>
+    <button class="tab-btn" data-tab="tab-resumes">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Resume
+    </button>
+    <button class="tab-btn" data-tab="tab-ai-qa">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Q&A
+    </button>
+    <button class="tab-btn" data-tab="tab-tracker">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      CRM
+    </button>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 1: AUTOFILL COPILOT                        -->
+  <!-- ============================================== -->
+  <div id="tab-autofill" class="tab-pane active">
+    <!-- Active Client Card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Candidate Profile</div>
+        <button id="btn-add-client-tab1" class="btn-secondary">+ Add</button>
+      </div>
+
+      <select id="client-select" class="select-client"></select>
+
+      <div class="client-meta">
+        <div class="meta-box">
+          <div class="meta-label">Email</div>
+          <div id="meta-email" class="meta-val">...</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Phone</div>
+          <div id="meta-phone" class="meta-val">...</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Work Auth</div>
+          <div id="meta-auth" class="meta-val" style="color: #34D399;">Authorized</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Target Salary</div>
+          <div id="meta-salary" class="meta-val">$95,000</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Job Intelligence Card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Page Detection</div>
+        <button id="btn-re-scan" class="btn-secondary" style="font-size: 10px; display: inline-flex; align-items: center; gap: 4px;">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Re-scan
+        </button>
+      </div>
+
+      <span id="detected-portal" class="job-badge">DETECTING...</span>
+      <div id="job-title" class="job-title-text">HubSpot Integrations Software Developer</div>
+      <div id="job-company" class="job-company-text">1406 Consulting • Remote</div>
+
+      <div class="match-container">
+        <div>
+          <div class="match-score">96%</div>
+          <div style="font-size: 9.5px; color: #94A3B8;">ATS Fit Score</div>
+        </div>
+        <div style="text-align: right; font-size: 10px; color: #34D399; font-weight: 600;">
+          ✓ Skills Aligned<br>✓ Requirements Met
+        </div>
+      </div>
+
+      <div class="card-title" style="margin-top: 8px; margin-bottom: 2px;">Tech Stack Keywords:</div>
+      <div id="job-keywords" class="skills-wrap"></div>
+    </div>
+
+    <!-- Hands-Free AutoPilot & Security Check -->
+    <div style="display: flex; justify-content: space-between; align-items: center; background: #18181b; border: 1px solid #27272a; border-radius: 8px; padding: 7px 10px; margin-top: 6px;">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: #FFF;">Hands-Free AutoPilot</div>
+          <div style="font-size: 9px; color: #94A3B8;">Auto-fills supported ATS tabs instantly</div>
+        </div>
+      </div>
+      <button id="btn-toggle-autopilot" style="background: #065F46; color: #34D399; border: 1px solid #10B981; border-radius: 9999px; padding: 3px 8px; font-size: 10px; font-weight: 800; cursor: pointer;">
+        ACTIVE
+      </button>
+    </div>
+
+    <!-- Form Health -->
+    <div class="card" style="margin-top: 6px; padding: 10px;">
+      <div class="card-header" style="margin-bottom: 6px;">
+        <div class="card-title">Form Completion Status</div>
+        <span id="telemetry-total-badge" style="font-size: 10px; font-weight: 800; color: #34D399; background: #064E3B; border: 1px solid #059669; padding: 2px 6px; border-radius: 4px;">100% READY</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 10px;">
+        <div style="background: #18181b; border-radius: 5px; padding: 4px 7px; display: flex; justify-content: space-between;">
+          <span style="color: #94A3B8;">Contact & ID</span>
+          <span style="color: #34D399; font-weight: 700;">100%</span>
+        </div>
+        <div style="background: #18181b; border-radius: 5px; padding: 4px 7px; display: flex; justify-content: space-between;">
+          <span style="color: #94A3B8;">Compensation</span>
+          <span style="color: #34D399; font-weight: 700;">100%</span>
+        </div>
+        <div style="background: #18181b; border-radius: 5px; padding: 4px 7px; display: flex; justify-content: space-between;">
+          <span style="color: #94A3B8;">Links & URLs</span>
+          <span style="color: #34D399; font-weight: 700;">100%</span>
+        </div>
+        <div style="background: #18181b; border-radius: 5px; padding: 4px 7px; display: flex; justify-content: space-between;">
+          <span style="color: #94A3B8;">PDF Resume</span>
+          <span style="color: #34D399; font-weight: 700;">Attached</span>
+        </div>
+        <div style="background: #18181b; border-radius: 5px; padding: 4px 7px; display: flex; justify-content: space-between;">
+          <span style="color: #94A3B8;">Custom Q&A</span>
+          <span style="color: #34D399; font-weight: 700;">Synthesized</span>
+        </div>
+        <div style="background: #18181b; border-radius: 5px; padding: 4px 7px; display: flex; justify-content: space-between;">
+          <span style="color: #94A3B8;">EEOC & Auth</span>
+          <span style="color: #34D399; font-weight: 700;">Aligned</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTAs -->
+    <button id="btn-run-autofill" class="btn-autofill">
+      1-CLICK AUTOFILL APPLICATION NOW
+    </button>
+
+    <button id="btn-attach-resume-form" class="btn-advance" style="background: #18181b; border-color: #007aff; color: #38bdf8; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; font-weight: 700;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+      Attach Tailored Resume to Form
+    </button>
+
+    <button id="btn-advance-step" class="btn-advance">
+      AUTOFILL & ADVANCE NEXT STEP
+    </button>
+
+    <button id="btn-save-to-tracker" class="btn-secondary" style="width: 100%; margin-top: 6px; justify-content: center; padding: 7px;">
+      Record in Application Tracker
+    </button>
+
+    <div style="display: flex; gap: 6px; margin-top: 6px;">
+      <a id="link-interview-prep" href="http://localhost:3001/interview-prep" target="_blank" class="btn-secondary" style="flex: 1; justify-content: center; padding: 6px 4px; font-size: 10px; color: #38BDF8; border-color: #0284C7; text-decoration: none;">
+        Interview Prep
+      </a>
+      <a id="link-pipeline-crm" href="http://localhost:3001/pipeline" target="_blank" class="btn-secondary" style="flex: 1; justify-content: center; padding: 6px 4px; font-size: 10px; color: #34D399; border-color: #059669; text-decoration: none;">
+        Pipeline CRM
+      </a>
+    </div>
+
+    <div id="status-feedback" style="text-align: center; font-size: 10.5px; color: #71717a; margin-top: 8px;">
+      Ready to populate active tab with selected client profile.
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 2: AUTONOMOUS JOB HUNTER & QUEUE           -->
+  <!-- ============================================== -->
+  <div id="tab-hunter" class="tab-pane">
+    <!-- Autonomous Fleet Batch Controller -->
+    <div class="card" style="border-color: #007aff; background: linear-gradient(180deg, rgba(0, 122, 255, 0.12) 0%, #141416 100%);">
+      <div class="card-header">
+        <div class="card-title" style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Autonomous Fleet Auto-Apply
+        </div>
+        <span id="fleet-status-badge" style="font-size: 9.5px; background: rgba(0, 122, 255, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">STANDBY</span>
+      </div>
+      <div style="font-size: 10px; color: #cbd5e1; margin-bottom: 8px;">
+        Sequentially processes verified jobs: generates tailored executive resume, solves custom questions, advances multi-step pages, and records to CRM.
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <button id="btn-run-fleet" class="btn-autofill" style="padding: 8.5px; font-size: 11.5px; margin-top: 0; flex: 2; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Run Autopilot Fleet
+        </button>
+        <button id="btn-pause-fleet" class="btn-secondary" style="flex: 1; padding: 8px; font-size: 11px; justify-content: center; display: none;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          Pause
+        </button>
+        <button id="btn-continue-fleet" class="btn-autofill" style="flex: 1; padding: 8px; font-size: 11px; justify-content: center; display: none; margin-top: 0; background: #007aff;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Continue
+        </button>
+      </div>
+
+      <div id="fleet-progress-bar-wrap" style="display: none; margin-top: 8px;">
+        <div style="display: flex; justify-content: space-between; font-size: 10px; color: #94A3B8; margin-bottom: 3px;">
+          <span id="fleet-progress-label">Batch Progress</span>
+          <span id="fleet-progress-pct" style="color: #34D399; font-weight: 700;">0%</span>
+        </div>
+        <div style="background: #18181b; height: 6px; border-radius: 3px; overflow: hidden;">
+          <div id="fleet-progress-bar" style="width: 0%; height: 100%; background: #007aff; transition: width 0.3s ease;"></div>
+        </div>
+        <div id="fleet-live-log" style="background: #09090b; border: 1px solid #27272a; border-radius: 6px; padding: 6px 8px; font-size: 9.5px; color: #a7f3d0; font-family: monospace; max-height: 80px; overflow-y: auto; margin-top: 6px; line-height: 1.4;">
+          [Fleet Standby] Ready to batch apply across 9 verified ATS portals.
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 ATS Portals Autonomous Hunter Card -->
+    <div class="card" style="border: 1.5px solid #007aff; background: linear-gradient(180deg, rgba(0, 122, 255, 0.08) 0%, #141416 100%);">
+      <div class="card-header">
+        <div class="card-title" style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Autonomous 9-Portal Job Hunter
+        </div>
+        <span style="font-size: 9.5px; color: #34d399; background: rgba(16, 185, 129, 0.15); border: 1px solid #059669; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
+          Max 5d Freshness
+        </span>
+      </div>
+
+      <div style="font-size: 10px; color: #94a3b8; margin-bottom: 8px; line-height: 1.35;">
+        Multi-ATS search across <strong>Greenhouse, Lever, Workday, Taleo, Ashby, BambooHR, LinkedIn Easy Apply, Indeed &amp; RemoteOK</strong>. Rejects stale ghost roles (&gt; 5d) with zero duplicate cards.
+      </div>
+
+      <div style="display: flex; gap: 6px; margin: 6px 0;">
+        <input type="text" id="hunter-query" value="Bookkeeper" placeholder="Target Role (e.g. Bookkeeper, Engineer)" style="flex:2; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; padding:6px 8px; font-size:11px;">
+        <input type="text" id="hunter-location" value="Remote" placeholder="Location" style="flex:1; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; padding:6px 8px; font-size:11px;">
+      </div>
+
+      <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+        <div style="flex: 1;">
+          <label style="font-size: 9px; color: #94A3B8; font-weight: 700; display: block; margin-bottom: 2px;">FRESHNESS WINDOW</label>
+          <select id="hunter-freshness" style="width: 100%; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#34D399; font-weight: 700; padding:5px 6px; font-size:10.5px; outline:none; cursor:pointer;">
+            <option value="1">Past 24 Hours (&lt; 1d)</option>
+            <option value="3">Past 3 Days (&lt; 3d)</option>
+            <option value="5" selected>Max 5 Days (Default)</option>
+            <option value="7">Past 7 Days (&lt; 1w)</option>
+          </select>
+        </div>
+        <div style="flex: 1;">
+          <label style="font-size: 9px; color: #94A3B8; font-weight: 700; display: block; margin-bottom: 2px;">TARGET ATS PORTAL</label>
+          <select id="hunter-portal" style="width: 100%; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-weight: 600; padding:5px 6px; font-size:10.5px; outline:none; cursor:pointer;">
+            <option value="all" selected>All 9 Target ATS Portals</option>
+            <option value="greenhouse">Greenhouse ATS (boards.greenhouse.io)</option>
+            <option value="lever">Lever ATS (jobs.lever.co)</option>
+            <option value="workday">Workday ATS (*.myworkdayjobs.com)</option>
+            <option value="taleo">Taleo ATS (*.taleo.net)</option>
+            <option value="ashby">Ashby ATS (jobs.ashbyhq.com)</option>
+            <option value="bamboohr">BambooHR ATS (*.bamboohr.com)</option>
+            <option value="linkedin_easy_apply">LinkedIn Easy Apply (f_AL=true)</option>
+            <option value="indeed">Indeed (fromage=5)</option>
+            <option value="remoteok">RemoteOK Live API</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Hunter Action Controls with Pause & Continue -->
+      <div style="display: flex; gap: 6px;">
+        <button id="btn-hunt-jobs" class="btn-autofill" style="padding: 8.5px; font-size: 11.5px; margin-top: 0; flex: 2; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Hunt Verified Jobs (&le; 5 Days)
+        </button>
+        <button id="btn-pause-hunt" class="btn-secondary" style="flex: 1; padding: 7px; font-size: 11px; justify-content: center; display: none;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          Pause
+        </button>
+        <button id="btn-continue-hunt" class="btn-autofill" style="flex: 1; padding: 7px; font-size: 11px; justify-content: center; display: none; margin-top: 0; background: #007aff;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Continue
+        </button>
+      </div>
+
+      <!-- Pause Notification Banner -->
+      <div id="hunter-pause-banner" style="display: none; background: rgba(0, 122, 255, 0.12); border: 1px solid #007aff; border-radius: 6px; padding: 8px 10px; margin-top: 8px; font-size: 10.5px; color: #93c5fd;">
+        <div style="font-weight: 700; color: #60a5fa; margin-bottom: 2px;">Hunting Paused — 1-Click AutoFill Ready</div>
+        <div>Click <strong>Open & Auto-Apply</strong> on any discovered role below to inject details, or click <strong>Continue</strong> to resume scanning remaining portals.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Priority Application Queue</div>
+        <span id="hunter-count" style="font-size: 10px; color: #34D399; font-weight: 700;">3 Jobs</span>
+      </div>
+      <div id="hunter-job-list" style="max-height: 280px; overflow-y: auto;">
+        <div style="text-align: center; color: #64748B; font-size: 11px; padding: 14px;">
+          Loading priority queue...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 3: EXECUTIVE MASTERWORK RESUME (ONE FOREVER) -->
+  <!-- ============================================== -->
+  <div id="tab-resumes" class="tab-pane">
+    <!-- Active Job Extraction & Tailor Status Card -->
+    <div class="card" style="border: 1px solid #007aff; background: linear-gradient(180deg, rgba(0, 122, 255, 0.1) 0%, #141416 100%);">
+      <div class="card-header">
+        <div class="card-title" style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Active Job Description Scanner
+        </div>
+        <span id="resume-scan-badge" style="font-size: 9.5px; background: rgba(0, 122, 255, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
+          LIVE SYNC
+        </span>
+      </div>
+
+      <div style="font-size: 10.5px; color: #fafaf9; margin-bottom: 4px;">
+        <span style="color: #94a3b8;">Target Opening:</span> <strong id="resume-target-role">HubSpot Integrations Software Developer</strong>
+      </div>
+      <div style="font-size: 10px; color: #38bdf8; margin-bottom: 8px;">
+        <span style="color: #94a3b8;">Target Company:</span> <strong id="resume-target-comp">1406 Consulting</strong> • <span id="resume-keywords-count" style="color:#34d399;">7 Keywords Extracted</span>
+      </div>
+
+      <button id="btn-deep-scan-job" class="btn-advance" style="margin-top: 0; padding: 7px; font-size: 11px; justify-content: center; background: #18181b; border-color: #007aff;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Deep-Scan Active Page &amp; Tailor Resume
+      </button>
+    </div>
+
+    <!-- The "One Forever" Executive Standard Card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Executive Masterwork Standard</div>
+        <span style="font-size: 9px; color: #10b981; background: rgba(16, 185, 129, 0.15); border: 1px solid #059669; padding: 2px 5px; border-radius: 4px; font-weight: 700;">
+          100% Free • No Canva
+        </span>
+      </div>
+
+      <div style="font-size: 10.5px; color: #cbd5e1; line-height: 1.45; margin-bottom: 8px;">
+        <strong>The "One Forever" Format:</strong> Built on Stanford &amp; Silicon Valley executive typography. Re-ranks skills and synthesizes authentic STAR bullet points for the exact job description extracted from the active page. Zero generic AI artifacts.
+      </div>
+
+      <button id="btn-tab3-attach-resume" class="btn-advance" style="width: 100%; padding: 8.5px; font-size: 11.5px; margin-top: 4px; margin-bottom: 8px; justify-content: center; background: #18181b; border-color: #007aff; color: #38bdf8; display: flex; align-items: center; gap: 6px; font-weight: 700;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        Rescan &amp; Attach Tailored Resume to Form
+      </button>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px;">
+        <button id="btn-preview-resume" class="btn-autofill" style="padding: 8.5px 6px; font-size: 11.5px; margin-top: 0; justify-content: center;">
+          Preview Masterwork
+        </button>
+        <button id="btn-print-canva-resume" class="btn-secondary" style="justify-content: center; padding: 8.5px 6px; color: #38bdf8; border-color: #0284c7; font-size: 11px; font-weight: 700;">
+          Print / Save PDF (Free)
+        </button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px;">
+        <button id="btn-download-resume" class="btn-secondary" style="padding: 7px 6px; font-size: 10.5px; justify-content: center;">
+          Download Plain Text ATS
+        </button>
+        <button id="btn-draft-outreach" class="btn-secondary" style="padding: 7px 6px; font-size: 10.5px; justify-content: center; color: #34d399; border-color: #059669;">
+          Recruiter InMail
+        </button>
+      </div>
+
+      <div style="font-size: 9.5px; color: #71717a; margin-top: 8px; line-height: 1.4;">
+        <b>Dynamic Guarantee:</b> Every export dynamically recalibrates for the targeted company, ensuring high ATS match scores and human executive appeal.
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 4: AI SCREENING Q&A SYNTHESIZER & ASK AI    -->
+  <!-- ============================================== -->
+  <div id="tab-ai-qa" class="tab-pane">
+    <!-- Interactive Ask AI Drag & Drop Sandbox -->
+    <div class="card" style="border: 1px solid #007aff; background: linear-gradient(180deg, rgba(0, 122, 255, 0.08) 0%, #141416 100%); margin-bottom: 10px;">
+      <div class="card-header">
+        <div class="card-title" style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Ask AI Question Solver
+        </div>
+        <span style="font-size: 9.5px; background: rgba(0, 122, 255, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
+          DRAG &amp; DROP READY
+        </span>
+      </div>
+
+      <div style="font-size: 10.5px; color: #94a3b8; margin-bottom: 6px;">
+        Drag or paste any tricky, non-common job question from the form:
+      </div>
+
+      <textarea id="askai-sidepanel-input" placeholder="e.g. 'Why do you want to work here?', 'Describe a challenging bug you solved', 'What experience do you have with API webhooks?'..." style="width: 100%; height: 60px; background: #18181b; border: 1px solid #27272a; border-radius: 6px; color: #FFF; font-size: 11px; padding: 6px 8px; resize: vertical; outline: none; margin-bottom: 6px;"></textarea>
+
+      <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+        <select id="askai-sidepanel-tone" style="flex: 1; background: #18181b; border: 1px solid #27272a; border-radius: 6px; color: #38bdf8; font-weight: 700; font-size: 10px; padding: 5px;">
+          <option value="star">STAR Method (Balanced)</option>
+          <option value="concise">Concise (1-2 Sentences)</option>
+          <option value="executive">Executive Strategic</option>
+          <option value="technical">Technical Deep Dive</option>
+        </select>
+        <button id="btn-askai-generate" class="btn-autofill" style="flex: 1; margin-top: 0; padding: 6px 10px; font-size: 11px; font-weight: 800; justify-content: center; background: #007aff;">
+          Ask AI Now
+        </button>
+      </div>
+
+      <div id="askai-sidepanel-result-box" style="display: none; background: #18181b; border: 1px solid #059669; border-radius: 6px; padding: 8px; margin-bottom: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <span style="font-size: 10px; color: #34d399; font-weight: 700;">Synthesized Answer:</span>
+          <div style="display: flex; gap: 4px;">
+            <button id="btn-askai-inject" class="btn-secondary" style="font-size: 9.5px; padding: 2px 6px; color: #34d399; border-color: #059669;">Inject into Form</button>
+            <button id="btn-askai-copy" class="btn-secondary" style="font-size: 9.5px; padding: 2px 6px;">Copy</button>
+          </div>
+        </div>
+        <div id="askai-sidepanel-output" style="font-size: 10.5px; color: #e4e4e7; line-height: 1.45; max-height: 140px; overflow-y: auto; white-space: pre-wrap;"></div>
+      </div>
+    </div>
+
+    <!-- Page Form Scanner -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Detected Form Questions</div>
+        <button id="btn-scan-qa" class="btn-secondary" style="font-size: 10px; display: inline-flex; align-items: center; gap: 4px;">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Scan Page
+        </button>
+      </div>
+      <div style="font-size: 10px; color: #94A3B8; margin-bottom: 8px;">
+        Synthesizes verified high-impact answers drawn from candidate career history.
+      </div>
+
+      <div id="qa-list-container">
+        <div style="text-align: center; color: #64748B; font-size: 11px; padding: 16px;">
+          Click "Scan Page" to extract open questions from the active tab.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- TAB 5: APPLICATION TRACKER & CRM               -->
+  <!-- ============================================== -->
+  <div id="tab-tracker" class="tab-pane">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Tracked Applications</div>
+        <button id="btn-export-csv" class="btn-secondary" style="font-size: 10px; display: inline-flex; align-items: center; gap: 4px;">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+      </div>
+      <div id="tracker-list" style="max-height: 220px; overflow-y: auto;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Candidates Database</div>
+        <button id="btn-add-client-tab5" class="btn-secondary">+ New Candidate</button>
+      </div>
+      <div id="clients-crm-list"></div>
+    </div>
+  </div>
+
+  <!-- Modal: Add New Candidate Profile (Full ATS Specification) -->
+  <div id="modal-add-client" class="modal-overlay">
+    <div class="modal-content" style="max-width: 440px; padding: 14px 16px;">
+      <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #27272a; padding-bottom:8px;">
+        <div>
+          <div style="font-size: 13.5px; font-weight: 800; color: #FFF; display:flex; align-items:center; gap:6px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Candidate Profile (Full ATS Spec)
+          </div>
+          <div style="font-size: 10px; color: #94A3B8;">Comprehensive profile used for 1-click ATS auto-fill, cross-checking &amp; Ask AI.</div>
+        </div>
+        <button id="btn-close-modal" style="background:none; border:none; color:#94A3B8; font-size:18px; cursor:pointer;">✕</button>
+      </div>
+
+      <!-- Section 1: Personal Information & Demographics -->
+      <div style="margin-bottom: 12px; background: #18181b; border: 1px solid #27272a; border-radius: 8px; padding: 10px;">
+        <div style="font-size: 11px; font-weight: 800; color: #38BDF8; margin-bottom: 8px; display: flex; align-items: center; gap: 4px;">
+          <span>1. Personal Information &amp; Demographics</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="new-name" placeholder="Raymond Wong"></div>
+          <div class="form-group"><label>Preferred Name</label><input type="text" id="new-pref-name" placeholder="Ray"></div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Email Address *</label><input type="email" id="new-email" placeholder="raymond@example.com"></div>
+          <div class="form-group"><label>Phone Number</label><input type="text" id="new-phone" placeholder="510-340-2070"></div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Location</label><input type="text" id="new-loc" placeholder="Atlanta, GA"></div>
+          <div class="form-group">
+            <label>Country</label>
+            <select id="new-country">
+              <option value="United States" selected>United States</option>
+              <option value="Canada">Canada</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Germany">Germany</option>
+              <option value="Ethiopia">Ethiopia</option>
+              <option value="Worldwide">Worldwide / Remote</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label>Work Arrangement</label>
+            <select id="new-work-arrangement">
+              <option value="Remote" selected>Remote</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="On-site">On-site</option>
+              <option value="Any">Any / Flexible</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Pronouns</label>
+            <select id="new-pronouns">
+              <option value="He/Him" selected>He/Him</option>
+              <option value="She/Her">She/Her</option>
+              <option value="They/Them">They/Them</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="new-gender">
+              <option value="Male" selected>Male</option>
+              <option value="Female">Female</option>
+              <option value="Non-binary">Non-binary</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Race / Ethnicity</label>
+            <select id="new-race">
+              <option value="Asian" selected>Asian</option>
+              <option value="Black or African American">Black or African American</option>
+              <option value="Hispanic or Latino">Hispanic or Latino</option>
+              <option value="White">White</option>
+              <option value="Two or More Races">Two or More Races</option>
+              <option value="American Indian or Alaska Native">American Indian / Alaska Native</option>
+              <option value="Native Hawaiian or Other Pacific Islander">Native Hawaiian / Pacific Islander</option>
+              <option value="Decline to self-identify">Decline to self-identify</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label>Veteran Status</label>
+            <select id="new-veteran">
+              <option value="I am not a protected veteran" selected>I am not a protected veteran</option>
+              <option value="I identify as one or more classifications of protected veteran">Protected Veteran</option>
+              <option value="I do not wish to answer">Decline to answer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Disability Status</label>
+            <select id="new-disability">
+              <option value="No, I do not have a disability" selected>No, I do not have a disability</option>
+              <option value="Yes, I have a disability">Yes, I have a disability</option>
+              <option value="I do not wish to answer">Decline to answer</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label>Sexual Orientation</label>
+            <select id="new-sexual-orientation">
+              <option value="Heterosexual / Straight" selected>Heterosexual / Straight</option>
+              <option value="Gay / Lesbian">Gay / Lesbian</option>
+              <option value="Bisexual">Bisexual</option>
+              <option value="Queer">Queer</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-group" style="display: flex; flex-direction: column; justify-content: center;">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; margin-top: 10px;">
+              <input type="checkbox" id="new-demo-notice" checked style="width: 14px; height: 14px; cursor: pointer;">
+              <span style="font-size: 10px; color: #FFF; font-weight: 600;">Demographic Notice Ack.</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Professional & Target Career -->
+      <div style="margin-bottom: 12px; background: #18181b; border: 1px solid #27272a; border-radius: 8px; padding: 10px;">
+        <div style="font-size: 11px; font-weight: 800; color: #34D399; margin-bottom: 8px;">2. Target Role &amp; Qualifications</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Target Role *</label><input type="text" id="new-headline" placeholder="Senior Back-End Engineer"></div>
+          <div class="form-group">
+            <label>Department</label>
+            <select id="new-dept">
+              <option value="Engineering" selected>Engineering</option>
+              <option value="Product & Design">Product &amp; Design</option>
+              <option value="Data & Analytics">Data &amp; Analytics</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Finance & Accounting">Finance &amp; Accounting</option>
+              <option value="Operations">Operations</option>
+              <option value="Sales & Marketing">Sales &amp; Marketing</option>
+              <option value="Legal & Compliance">Legal &amp; Compliance</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Experience</label><input type="text" id="new-years" placeholder="8 years"></div>
+          <div class="form-group">
+            <label>Seniority</label>
+            <select id="new-seniority">
+              <option value="Senior" selected>Senior</option>
+              <option value="Lead / Staff">Lead / Staff</option>
+              <option value="Principal / Architect">Principal</option>
+              <option value="Mid-level">Mid-level</option>
+              <option value="Entry-level">Entry-level</option>
+              <option value="Director / VP">Director / VP</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Employment Type</label>
+            <select id="new-emp-type">
+              <option value="Full-time" selected>Full-time</option>
+              <option value="Contract">Contract</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Internship">Internship</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Skills (Comma-separated)</label>
+          <input type="text" id="new-skills" placeholder="Go, Python, TypeScript, AWS, Kubernetes, PostgreSQL, Kafka, Redis">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Education</label><input type="text" id="new-education" placeholder="Master's in Computer Science"></div>
+          <div class="form-group"><label>Certifications</label><input type="text" id="new-certs" placeholder="AWS Solutions Architect, CKA"></div>
+        </div>
+        <div class="form-group"><label>Languages</label><input type="text" id="new-languages" placeholder="English (Native/Fluent), Spanish"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>LinkedIn URL</label><input type="text" id="new-linkedin" placeholder="https://linkedin.com/in/username"></div>
+          <div class="form-group"><label>GitHub URL</label><input type="text" id="new-github" placeholder="https://github.com/username"></div>
+        </div>
+        <div class="form-group"><label>Portfolio / Personal Website</label><input type="text" id="new-portfolio" placeholder="https://portfolio.com"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Current Employer</label><input type="text" id="new-employer" placeholder="Uber Eats"></div>
+          <div class="form-group"><label>Current Title</label><input type="text" id="new-cur-title" placeholder="Senior Software Engineer"></div>
+        </div>
+      </div>
+
+      <!-- Section 3: Compensation & Legal Authorization -->
+      <div style="margin-bottom: 12px; background: #18181b; border: 1px solid #27272a; border-radius: 8px; padding: 10px;">
+        <div style="font-size: 11px; font-weight: 800; color: #F59E0B; margin-bottom: 8px;">3. Compensation, Availability &amp; Authorization</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Desired Compensation</label><input type="text" id="new-salary" placeholder="$175,000 USD Yearly"></div>
+          <div class="form-group">
+            <label>Notice Period</label>
+            <select id="new-notice">
+              <option value="2 weeks" selected>2 weeks</option>
+              <option value="Immediate">Immediate</option>
+              <option value="1 week">1 week</option>
+              <option value="1 month">1 month</option>
+              <option value="2 months">2 months</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label>Work Authorization</label>
+            <select id="new-work-auth">
+              <option value="Authorized to work" selected>Authorized to work</option>
+              <option value="US Citizen">US Citizen</option>
+              <option value="Permanent Resident (Green Card)">Permanent Resident</option>
+              <option value="Requires Sponsorship">Requires Sponsorship</option>
+              <option value="F1-OPT / CPT">F1-OPT / CPT</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Requires Sponsorship?</label>
+            <select id="new-sponsor">
+              <option value="No" selected>No</option>
+              <option value="Yes">Yes</option>
+              <option value="Future sponsorship needed">Future sponsorship needed</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label>Relocation</label>
+            <select id="new-relocation">
+              <option value="Maybe" selected>Maybe</option>
+              <option value="Yes">Yes (Assisted)</option>
+              <option value="No">No / Remote Only</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Earliest Start Date</label><input type="text" id="new-start-date" placeholder="Immediately"></div>
+        </div>
+      </div>
+
+      <!-- Section 4: Pipeline CRM & Notes -->
+      <div style="margin-bottom: 12px; background: #18181b; border: 1px solid #27272a; border-radius: 8px; padding: 10px;">
+        <div style="font-size: 11px; font-weight: 800; color: #A78BFA; margin-bottom: 8px;">4. Pipeline CRM &amp; Recruiter Notes</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label>Source</label>
+            <select id="new-source">
+              <option value="LinkedIn" selected>LinkedIn</option>
+              <option value="Indeed">Indeed</option>
+              <option value="Company Website">Company Website</option>
+              <option value="Referral">Referral</option>
+              <option value="Recruiter Outreach">Recruiter Outreach</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="new-status">
+              <option value="New" selected>New</option>
+              <option value="Screening">Screening</option>
+              <option value="Interviewing">Interviewing</option>
+              <option value="Offer Received">Offer Received</option>
+              <option value="Placed">Placed</option>
+              <option value="Archived">Archived</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group"><label>Recruiter / Owner</label><input type="text" id="new-recruiter" placeholder="Executive Recruiter"></div>
+          <div class="form-group"><label>Job ID / Requisition</label><input type="text" id="new-job-id" placeholder="REQ-2026-904"></div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label>Rating</label>
+            <select id="new-rating">
+              <option value="Not rated" selected>Not rated</option>
+              <option value="5 Stars">⭐⭐⭐⭐⭐ 5 Stars</option>
+              <option value="4 Stars">⭐⭐⭐⭐ 4 Stars</option>
+              <option value="3 Stars">⭐⭐⭐ 3 Stars</option>
+              <option value="2 Stars">⭐⭐ 2 Stars</option>
+              <option value="1 Star">⭐ 1 Star</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Resume Reference</label><input type="text" id="new-resume-ref" placeholder="Executive Masterwork"></div>
+        </div>
+        <div class="form-group"><label>Notes / Strategy</label><textarea id="new-notes" rows="2" placeholder="Key strengths, interview preparation notes, recruiter briefing..."></textarea></div>
+      </div>
+
+      <button id="btn-save-new-client" class="btn-autofill" style="margin-top: 4px; padding: 10px; font-size: 12px; font-weight: 800; justify-content: center;">
+        Save Complete Candidate Profile
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: Recruiter Outreach -->
+  <div id="modal-outreach" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header" style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <div style="font-size: 13.5px; font-weight: 800; color: #FFF;">Tailored Recruiter Outreach</div>
+        <button id="btn-close-outreach" style="background:none; border:none; color:#94A3B8; font-size:16px; cursor:pointer;">✕</button>
+      </div>
+
+      <div style="display:flex; gap:4px; margin-bottom:8px;">
+        <button class="outreach-channel-btn active" data-channel="inmail" style="flex:1; background:#18181b; color:#34D399; border:1px solid #059669; border-radius:5px; font-size:10px; font-weight:700; padding:4px; cursor:pointer;">InMail</button>
+        <button class="outreach-channel-btn" data-channel="email" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:4px; cursor:pointer;">Email</button>
+        <button class="outreach-channel-btn" data-channel="connection_note" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:4px; cursor:pointer;">Note (300c)</button>
+        <button class="outreach-channel-btn" data-channel="followup" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:4px; cursor:pointer;">Follow-Up</button>
+      </div>
+
+      <textarea id="outreach-text" style="width:100%; height:200px; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:8px; line-height:1.45; outline:none;"></textarea>
+      <button id="btn-copy-outreach" class="btn-autofill" style="margin-top: 8px;">
+        Copy to Clipboard
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: License & Premium Multi-Currency Pass -->
+  <div id="modal-license" class="modal-overlay">
+    <div class="modal-content" style="max-width: 380px;">
+      <div class="modal-header" style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <div style="font-size: 13.5px; font-weight: 800; color: #FFF; display:flex; align-items:center; gap:6px;">
+          <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#007aff;"></span>
+          JobAssist Premium &amp; Access Pass
+        </div>
+        <button id="btn-close-license" style="background:none; border:none; color:#94A3B8; font-size:16px; cursor:pointer;">✕</button>
+      </div>
+
+      <!-- Current Status Card -->
+      <div style="background:#18181b; border:1px solid #059669; border-radius:8px; padding:10px; margin-bottom:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:11px; color:#94A3B8;">Current Status</span>
+          <span id="lic-status-badge" style="background:#064E3B; color:#34D399; font-size:10px; font-weight:800; padding:2px 7px; border-radius:4px;">ACTIVE VIP</span>
+        </div>
+        <div id="lic-plan-name" style="font-size:14px; font-weight:800; color:#FFF; margin-top:3px;">Yearly VIP Enterprise</div>
+        <div id="lic-expiry-text" style="font-size:11px; color:#34D399; font-weight:600; margin-top:2px;">365 Days Remaining (Expires: 10/22/2027)</div>
+      </div>
+
+      <!-- Section 1: Activate License Key -->
+      <div style="background:#141416; border:1px solid #27272a; border-radius:8px; padding:10px; margin-bottom:10px;">
+        <div style="font-size:11px; font-weight:700; color:#CBD5E1; margin-bottom:4px;">Activate License Key / Registered Email</div>
+        <div style="display:flex; gap:5px;">
+          <input type="text" id="input-license-key" placeholder="Enter key (e.g. PREM-...) or email" style="flex:1; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; padding:6px 8px; font-size:11px; outline:none;">
+          <button id="btn-activate-key" class="btn-autofill" style="margin-top:0; padding:6px 10px; font-size:11px;">Activate</button>
+        </div>
+        <div id="activate-feedback" style="font-size:10.5px; margin-top:4px; font-weight:600; display:none;"></div>
+      </div>
+
+      <!-- Section 2: Choose Subscription & Pay -->
+      <div style="background:#141416; border:1px solid #27272a; border-radius:8px; padding:10px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:11.5px; font-weight:800; color:#FFF;">Upgrade / Extend Pass</span>
+          <div style="display:flex; gap:3px;">
+            <button id="curr-toggle-etb" class="btn-secondary" style="font-size:9.5px; padding:2px 6px; background:#065F46; color:#34D399; border-color:#10B981;">ETB (Birr)</button>
+            <button id="curr-toggle-usd" class="btn-secondary" style="font-size:9.5px; padding:2px 6px;">USD (Binance)</button>
+          </div>
+        </div>
+
+        <!-- Plan Selection -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;">
+          <div class="pass-plan-card selected" data-plan="daily" style="background:#18181b; border:1.5px solid #10B981; border-radius:6px; padding:6px; cursor:pointer; text-align:center;">
+            <div style="font-size:10.5px; font-weight:700; color:#FFF;">Daily Pass</div>
+            <div class="plan-price-text" style="font-size:12px; font-weight:800; color:#34D399; margin-top:2px;">100 ETB</div>
+            <div style="font-size:8.5px; color:#94A3B8;">24 Hours</div>
+          </div>
+          <div class="pass-plan-card" data-plan="flex-3d" style="background:#18181b; border:1px solid #27272a; border-radius:6px; padding:6px; cursor:pointer; text-align:center;">
+            <div style="font-size:10.5px; font-weight:700; color:#FFF;">Flex Pass</div>
+            <div class="plan-price-text" style="font-size:12px; font-weight:800; color:#34D399; margin-top:2px;">250 ETB</div>
+            <div style="font-size:8.5px; color:#94A3B8;">3 Days / Week</div>
+          </div>
+          <div class="pass-plan-card" data-plan="monthly" style="background:#18181b; border:1px solid #27272a; border-radius:6px; padding:6px; cursor:pointer; text-align:center;">
+            <div style="font-size:10.5px; font-weight:700; color:#FFF;">Monthly Pro</div>
+            <div class="plan-price-text" style="font-size:12px; font-weight:800; color:#34D399; margin-top:2px;">1,200 ETB</div>
+            <div style="font-size:8.5px; color:#94A3B8;">30 Days Full</div>
+          </div>
+          <div class="pass-plan-card" data-plan="yearly" style="background:#18181b; border:1px solid #27272a; border-radius:6px; padding:6px; cursor:pointer; text-align:center;">
+            <div style="font-size:10.5px; font-weight:700; color:#FFF;">Yearly VIP</div>
+            <div class="plan-price-text" style="font-size:12px; font-weight:800; color:#34D399; margin-top:2px;">9,500 ETB</div>
+            <div style="font-size:8.5px; color:#94A3B8;">365 Days</div>
+          </div>
+        </div>
+
+        <!-- Payment Instructions -->
+        <div id="payment-gateway-info" style="background:#18181b; border-radius:6px; padding:8px; font-size:10.5px; color:#CBD5E1; line-height:1.4; margin-bottom:8px;">
+          <div><b>Telebirr Transfer:</b> Send to <b>0948232717</b> (JobAssist Ethiopia)</div>
+          <div style="margin-top:2px; color:#94A3B8;">Or Commercial Bank of Ethiopia (CBE): <b>1000542193275</b> | Binance UID: <b>1032674236</b></div>
+        </div>
+
+        <!-- Submit Reference Form -->
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <input type="text" id="pay-reference-input" placeholder="Enter Telebirr Transaction ID / CBE Reference / Binance Order ID" style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; padding:6px 8px; font-size:10.5px; outline:none;">
+          <button id="btn-submit-payment-proof" class="btn-autofill" style="margin-top:0; padding:8px; font-size:11.5px; justify-content:center;">
+            Submit Payment for Verification
+          </button>
+        </div>
+        <div id="payment-submit-feedback" style="font-size:10.5px; margin-top:4px; font-weight:600; display:none;"></div>
+
+        <!-- Web Checkout & Server Settings Link -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:8px; border-top:1px solid #27272a;">
+          <a id="link-web-pricing" href="http://localhost:3001/pricing" target="_blank" style="font-size:10px; color:#34D399; text-decoration:none; font-weight:700;">Open Web Checkout Portal &rarr;</a>
+          <button id="btn-toggle-server-settings" style="background:none; border:none; color:#94A3B8; font-size:10px; cursor:pointer; text-decoration:underline;">Cloud Server URL</button>
+        </div>
+
+        <div id="server-settings-box" style="display:none; margin-top:8px; background:#18181b; border-radius:6px; padding:8px;">
+          <label style="font-size:9.5px; color:#94A3B8; display:block; margin-bottom:2px;">Production Cloud URL (Render, Railway, VPS)</label>
+          <div style="display:flex; gap:4px;">
+            <input type="text" id="input-server-url" value="http://localhost:3001" style="flex:1; background:#141416; border:1px solid #27272a; border-radius:4px; color:#FFF; font-size:10px; padding:4px 6px;">
+            <button id="btn-save-server-url" style="background:#10B981; color:#022C22; border:none; border-radius:4px; font-size:10px; font-weight:800; padding:4px 8px; cursor:pointer;">Save</button>
+          </div>
+          <div id="server-url-feedback" style="font-size:9.5px; margin-top:3px; color:#34D399; display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="clients.js"></script>
+  <script src="resume_generator.js"></script>
+  <script src="ai_answer_synthesizer.js"></script>
+  <script src="recruiter_outreach.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
