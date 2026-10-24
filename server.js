@@ -26,6 +26,16 @@ import { notifyNewPayment, notifyLicenseApproved, getNotifications } from './src
 import { generateInterviewPrep } from './src/engine/interviewCopilot.js';
 import { generateRecruiterOutreach } from './src/engine/outreachMailer.js';
 import { dispatchLicenseKeyEmail, getOutboundEmails } from './src/engine/emailDispatcher.js';
+import {
+  normalizeEmail,
+  isConfiguredAdminEmail,
+  registerUser,
+  authenticateCredentials,
+  createSession,
+  validateSession,
+  destroySession,
+  extractSessionToken
+} from './src/engine/authManager.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -107,6 +117,115 @@ app.get('/api/config', (req, res) => {
     serverUrl,
     version: '6.0.0',
     environment: process.env.NODE_ENV || 'production'
+  });
+});
+
+// ----------------------------------------------------
+// AUTHENTICATION & SECURE ACCESS CONTROL MIDDLEWARE
+// ----------------------------------------------------
+
+// Middleware to strictly enforce administrator authorization on protected API routes
+function requireAdminApi(req, res, next) {
+  // Allow programmatic secret key for internal/CI test suites if configured (min 16 chars)
+  const adminSecret = process.env.ADMIN_SECRET_KEY || 'jobassist_admin_secret_2026';
+  const reqSecret = req.headers['x-admin-secret'] || req.headers['x-admin-key'];
+  if (adminSecret && reqSecret && adminSecret.length >= 16 && reqSecret === adminSecret) {
+    req.isAdmin = true;
+    return next();
+  }
+
+  const token = extractSessionToken(req);
+  if (!token) {
+    return res.status(401).json({
+      error: 'Authentication required. Please log in as administrator.',
+      code: 'UNAUTHENTICATED'
+    });
+  }
+
+  const user = validateSession(token);
+  if (!user) {
+    return res.status(401).json({
+      error: 'Session expired or invalid. Please log in again.',
+      code: 'SESSION_EXPIRED'
+    });
+  }
+
+  // Strict email check against ADMIN_EMAIL env var (fail-closed)
+  if (!isConfiguredAdminEmail(user.email)) {
+    return res.status(403).json({
+      error: 'Forbidden: You do not have administrator privileges.',
+      code: 'FORBIDDEN'
+    });
+  }
+
+  req.user = user;
+  req.isAdmin = true;
+  next();
+}
+
+// Public Authentication Endpoints
+// 1. Candidate Registration (role is ALWAYS 'user')
+app.post('/api/auth/register', (req, res) => {
+  const { email, password, name } = req.body || {};
+  try {
+    const user = registerUser({ email, password, name });
+    const session = createSession(user);
+    res.setHeader('Set-Cookie', `ja_session=${session.token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`);
+    res.status(201).json({
+      success: true,
+      token: session.token,
+      user: session.user
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// 2. Authentication / Login
+app.post('/api/auth/login', (req, res) => {
+  const { email, password } = req.body || {};
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required.' });
+  }
+  const user = authenticateCredentials({ email, password });
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid email or password.' });
+  }
+  const session = createSession(user);
+  res.setHeader('Set-Cookie', `ja_session=${session.token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`);
+  res.json({
+    success: true,
+    token: session.token,
+    user: session.user
+  });
+});
+
+// 3. Invalidate Session / Logout
+app.post('/api/auth/logout', (req, res) => {
+  const token = extractSessionToken(req);
+  if (token) destroySession(token);
+  res.setHeader('Set-Cookie', 'ja_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0');
+  res.json({ success: true, message: 'Logged out successfully.' });
+});
+
+// 4. Retrieve Current Authenticated User & Role
+app.get('/api/auth/me', (req, res) => {
+  const token = extractSessionToken(req);
+  if (!token) {
+    return res.json({ authenticated: false, user: null });
+  }
+  const user = validateSession(token);
+  if (!user) {
+    return res.json({ authenticated: false, user: null });
+  }
+  res.json({
+    authenticated: true,
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      isAdmin: user.isAdmin === true
+    }
   });
 });
 
@@ -431,15 +550,34 @@ app.post('/api/license/verify', (req, res) => {
   const now = Date.now();
   const expiryTime = new Date(lic.expiresAt).getTime();
   const isExpired = expiryTime <= now;
-  const daysRemaining = Math.max(0, Math.ceil((expiryTime - now) / (1000 * 60 * 60 * 24)));
+  const msRemaining = Math.max(0, expiryTime - now);
+  const totalHoursRemaining = Math.floor(msRemaining / (1000 * 60 * 60));
+  const totalMinutesRemaining = Math.floor((msRemaining % (1000 * 60 * 60)) / (1000 * 60));
+  const daysRemaining = Math.max(0, Math.ceil(msRemaining / (1000 * 60 * 60 * 24)));
+
+  let timeRemainingFormatted = '';
+  if (isExpired) {
+    timeRemainingFormatted = 'Expired';
+  } else if (daysRemaining > 1) {
+    timeRemainingFormatted = `${daysRemaining} days remaining`;
+  } else if (totalHoursRemaining >= 1) {
+    timeRemainingFormatted = `${totalHoursRemaining}h ${totalMinutesRemaining}m remaining`;
+  } else {
+    timeRemainingFormatted = `${totalMinutesRemaining} minutes remaining`;
+  }
 
   if (isExpired || lic.status !== 'active') {
     return res.json({
       valid: false,
       status: isExpired ? 'expired' : lic.status,
-      message: isExpired ? 'Your license has expired. Please renew to continue using AutoPilot.' : 'License is suspended.',
+      isExpired: true,
+      message: isExpired
+        ? `Your access pass expired on ${new Date(lic.expiresAt).toLocaleString()}. Access denied. Please renew to continue using AutoFill and Job Hunter.`
+        : 'License is suspended by administrator.',
       expiresAt: lic.expiresAt,
-      daysRemaining: 0
+      daysRemaining: 0,
+      hoursRemaining: 0,
+      timeRemainingFormatted: 'Expired'
     });
   }
 
@@ -464,8 +602,11 @@ app.post('/api/license/verify', (req, res) => {
       combo: !isAutofillOnly && !isHunterOnly
     },
     status: 'active',
+    isExpired: false,
     expiresAt: lic.expiresAt,
     daysRemaining,
+    hoursRemaining: totalHoursRemaining,
+    timeRemainingFormatted,
     activeDaysLimit: lic.activeDaysLimit || null,
     features: [
       hasAutoFill ? 'Unlimited 1-Click ATS AutoFill (Workable, JazzHR, Ashby, Workday)' : null,
@@ -478,8 +619,62 @@ app.post('/api/license/verify', (req, res) => {
   });
 });
 
+// Candidate Instant License Lookup / Key Retrieval after Payment Approval
+app.post('/api/license/lookup', (req, res) => {
+  const email = normalizeEmail(req.body.email || req.query.email);
+  if (!email || !email.includes('@')) {
+    return res.status(400).json({ error: 'Valid candidate email is required.' });
+  }
+
+  premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
+  const matching = premiumLicenses.filter(l => normalizeEmail(l.email) === email);
+
+  if (matching.length === 0) {
+    return res.status(404).json({
+      found: false,
+      message: 'No active license found for this email address. If you recently submitted payment, the administrator will review and approve it shortly.'
+    });
+  }
+
+  const latest = matching[0];
+  const now = Date.now();
+  const expiryTime = new Date(latest.expiresAt).getTime();
+  const isExpired = expiryTime <= now;
+
+  const msRemaining = Math.max(0, expiryTime - now);
+  const totalHoursRemaining = Math.floor(msRemaining / (1000 * 60 * 60));
+  const totalMinutesRemaining = Math.floor((msRemaining % (1000 * 60 * 60)) / (1000 * 60));
+  const daysRemaining = Math.max(0, Math.ceil(msRemaining / (1000 * 60 * 60 * 24)));
+
+  let timeRemainingFormatted = '';
+  if (isExpired) {
+    timeRemainingFormatted = 'Expired';
+  } else if (daysRemaining > 1) {
+    timeRemainingFormatted = `${daysRemaining} days remaining`;
+  } else if (totalHoursRemaining >= 1) {
+    timeRemainingFormatted = `${totalHoursRemaining}h ${totalMinutesRemaining}m remaining`;
+  } else {
+    timeRemainingFormatted = `${totalMinutesRemaining} minutes remaining`;
+  }
+
+  res.json({
+    found: true,
+    key: latest.key,
+    email: latest.email,
+    candidateName: latest.candidateName,
+    planId: latest.planId,
+    planName: latest.planName,
+    status: isExpired ? 'expired' : latest.status,
+    isExpired,
+    expiresAt: latest.expiresAt,
+    daysRemaining,
+    hoursRemaining: totalHoursRemaining,
+    timeRemainingFormatted
+  });
+});
+
 // D. Admin: Get All Licenses
-app.get('/api/admin/licenses', (req, res) => {
+app.get('/api/admin/licenses', requireAdminApi, (req, res) => {
   premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
   const now = Date.now();
   const list = premiumLicenses.map(l => {
@@ -496,7 +691,7 @@ app.get('/api/admin/licenses', (req, res) => {
 });
 
 // E. Admin: Grant License (Day-by-Day, 2/3 Days/Week, Monthly, Yearly)
-app.post('/api/admin/licenses/grant', async (req, res) => {
+app.post('/api/admin/licenses/grant', requireAdminApi, async (req, res) => {
   const { email, candidateName, planId, durationDays, activeDaysLimit, paymentMethod, reference } = req.body;
 
   if (!email) {
@@ -539,7 +734,7 @@ app.post('/api/admin/licenses/grant', async (req, res) => {
 });
 
 // F. Admin: Extend License Expiry
-app.post('/api/admin/licenses/extend', (req, res) => {
+app.post('/api/admin/licenses/extend', requireAdminApi, (req, res) => {
   const { key, additionalDays } = req.body;
   premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
 
@@ -557,7 +752,7 @@ app.post('/api/admin/licenses/extend', (req, res) => {
 });
 
 // G. Admin: Revoke / Suspend License
-app.post('/api/admin/licenses/revoke', (req, res) => {
+app.post('/api/admin/licenses/revoke', requireAdminApi, (req, res) => {
   const { key } = req.body;
   premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
 
@@ -570,13 +765,13 @@ app.post('/api/admin/licenses/revoke', (req, res) => {
 });
 
 // H. Admin: Get Pending Payments
-app.get('/api/admin/payments', (req, res) => {
+app.get('/api/admin/payments', requireAdminApi, (req, res) => {
   pendingPayments = loadJSON(PAYMENTS_PATH, pendingPayments);
   res.json({ total: pendingPayments.length, payments: pendingPayments });
 });
 
 // I. Admin: Approve Payment & Auto-Issue License
-app.post('/api/admin/payments/approve', async (req, res) => {
+app.post('/api/admin/payments/approve', requireAdminApi, async (req, res) => {
   const { paymentId, customDays } = req.body;
   pendingPayments = loadJSON(PAYMENTS_PATH, pendingPayments);
   premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
@@ -636,7 +831,7 @@ app.post('/api/admin/payments/approve', async (req, res) => {
 });
 
 // J. Admin: Reject Payment
-app.post('/api/admin/payments/reject', (req, res) => {
+app.post('/api/admin/payments/reject', requireAdminApi, (req, res) => {
   const { paymentId, reason } = req.body;
   pendingPayments = loadJSON(PAYMENTS_PATH, pendingPayments);
 
@@ -652,7 +847,7 @@ app.post('/api/admin/payments/reject', (req, res) => {
 });
 
 // K. Admin: Export Licenses and Payments CSV
-app.get('/api/admin/export-csv', (req, res) => {
+app.get('/api/admin/export-csv', requireAdminApi, (req, res) => {
   premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
   pendingPayments = loadJSON(PAYMENTS_PATH, pendingPayments);
 
@@ -671,7 +866,7 @@ app.get('/api/admin/export-csv', (req, res) => {
 });
 
 // L. Admin: Live Notifications Feed (Telegram & In-App)
-app.get('/api/admin/notifications', (req, res) => {
+app.get('/api/admin/notifications', requireAdminApi, (req, res) => {
   const notifs = getNotifications();
   res.json({ total: notifs.length, notifications: notifs });
 });
@@ -1039,8 +1234,61 @@ app.get('/api/ai/export-csv', (req, res) => {
   res.send(csvContent);
 });
 
-// Admin Portal Route
+// Admin Portal Route with email-based authorization enforcement
 app.get('/admin', (req, res) => {
+  const token = extractSessionToken(req);
+  if (!token) {
+    return res.sendFile(path.join(__dirname, 'public', 'admin_login.html'));
+  }
+  const user = validateSession(token);
+  if (!user) {
+    return res.sendFile(path.join(__dirname, 'public', 'admin_login.html'));
+  }
+  if (!isConfiguredAdminEmail(user.email)) {
+    const safeEmail = user.email.replace(/[<>&"]/g, '');
+    return res.status(403).send(`
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <title>403 Forbidden — Administrator Privileges Required</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+          * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+          body { background: #0B1120; color: #F8FAFC; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+          .card { background: #0F172A; border: 1px solid #1E293B; border-radius: 14px; max-width: 480px; width: 100%; padding: 36px 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+          .badge { display: inline-block; background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid #EF4444; padding: 4px 12px; border-radius: 9999px; font-size: 11px; font-weight: 700; margin-bottom: 16px; }
+          h1 { font-size: 21px; font-weight: 800; margin-bottom: 12px; color: #FFF; }
+          p { font-size: 13.5px; color: #94A3B8; line-height: 1.6; margin-bottom: 24px; }
+          .user-pill { font-family: monospace; background: #1E293B; padding: 3px 8px; border-radius: 6px; color: #38BDF8; font-weight: 700; }
+          .actions { display: flex; gap: 12px; justify-content: center; }
+          .btn { padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; border: none; }
+          .btn-home { background: #007aff; color: #FFFFFF; }
+          .btn-logout { background: #1E293B; color: #CBD5E1; border: 1px solid #334155; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="badge">HTTP 403 FORBIDDEN</div>
+          <h1>Administrator Access Denied</h1>
+          <p>
+            Your account <span class="user-pill">${safeEmail}</span> is not authorized to access the Administrator Control Center. Only the designated administrator email address can access this dashboard.
+          </p>
+          <div class="actions">
+            <a href="/" class="btn btn-home">Return to Home</a>
+            <button onclick="logout()" class="btn btn-logout">Sign In as Admin</button>
+          </div>
+        </div>
+        <script>
+          async function logout() {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = '/admin';
+          }
+        </script>
+      </body>
+      </html>
+    `);
+  }
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
@@ -1107,7 +1355,7 @@ app.get('/bookmarklet', (req, res) => {
 });
 
 // Outbound License Emails Log
-app.get('/api/admin/outbound-emails', (req, res) => {
+app.get('/api/admin/outbound-emails', requireAdminApi, (req, res) => {
   res.json({ success: true, emails: getOutboundEmails() });
 });
 

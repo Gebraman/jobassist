@@ -64,7 +64,10 @@
   }
 
   function isLicenseValid() {
-    return activeLicense && activeLicense.valid === true && (activeLicense.daysRemaining > 0 || activeLicense.status === 'active');
+    if (!activeLicense || activeLicense.valid !== true) return false;
+    if (activeLicense.isExpired === true || activeLicense.status !== 'active') return false;
+    if (activeLicense.expiresAt && new Date(activeLicense.expiresAt).getTime() <= Date.now()) return false;
+    return (activeLicense.daysRemaining > 0 || (activeLicense.hoursRemaining && activeLicense.hoursRemaining > 0) || activeLicense.status === 'active');
   }
 
   refreshLicenseState();

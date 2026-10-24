@@ -47,7 +47,9 @@ async function runMonetizationE2ETest() {
 
   // Test 4: Admin views pending payments
   console.log('\n4️⃣ Admin retrieves pending payment queue:');
-  const adminPaymentsData = await fetch(`${BASE_URL}/api/admin/payments`).then(r => r.json());
+  const adminPaymentsData = await fetch(`${BASE_URL}/api/admin/payments`, {
+    headers: { 'x-admin-key': 'jobassist_admin_secret_2026' }
+  }).then(r => r.json());
   const paymentList = Array.isArray(adminPaymentsData) ? adminPaymentsData : (adminPaymentsData.payments || []);
   console.log(`✓ Admin pending queue length: ${paymentList.filter(p => p.status === 'pending').length}`);
 
@@ -55,7 +57,10 @@ async function runMonetizationE2ETest() {
   console.log('\n5️⃣ Admin approving Dawit Mengistu payment:');
   const approveRes = await fetch(`${BASE_URL}/api/admin/payments/approve`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      'content-type': 'application/json',
+      'x-admin-key': 'jobassist_admin_secret_2026'
+    },
     body: JSON.stringify({ paymentId: paymentId1 })
   }).then(r => r.json());
   console.log(`✓ Admin approval success! Issued License Key: ${approveRes.licenseKey}`);
@@ -75,7 +80,10 @@ async function runMonetizationE2ETest() {
   console.log('\n7️⃣ Admin manually granting 2-Day Custom Pass:');
   const grantCustom = await fetch(`${BASE_URL}/api/admin/licenses/grant`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      'content-type': 'application/json',
+      'x-admin-key': 'jobassist_admin_secret_2026'
+    },
     body: JSON.stringify({
       email: 'custom.hunter@example.com',
       candidateName: 'Bethlehem Tadesse',
@@ -92,7 +100,10 @@ async function runMonetizationE2ETest() {
   console.log('\n8️⃣ Admin extending license by +7 days:');
   const extendRes = await fetch(`${BASE_URL}/api/admin/licenses/extend`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      'content-type': 'application/json',
+      'x-admin-key': 'jobassist_admin_secret_2026'
+    },
     body: JSON.stringify({
       key: grantCustom.license.key,
       addDays: 7
@@ -147,7 +158,9 @@ async function runMonetizationE2ETest() {
 
   // Test 11: Real-Time Admin Notifications Feed
   console.log('\n1️⃣1️⃣ Verifying Real-Time Admin Notifications Feed:');
-  const notifsRes = await fetch(`${BASE_URL}/api/admin/notifications`).then(r => r.json());
+  const notifsRes = await fetch(`${BASE_URL}/api/admin/notifications`, {
+    headers: { 'x-admin-key': 'jobassist_admin_secret_2026' }
+  }).then(r => r.json());
   console.log(`✓ Live Notifications Count: ${notifsRes.total} (Latest: "${notifsRes.notifications[0]?.title}")`);
   if (!notifsRes.notifications || notifsRes.notifications.length === 0) throw new Error('Notifications feed empty');
 

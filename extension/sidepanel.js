@@ -1603,23 +1603,24 @@ function updateLicenseUI(lic) {
     if (planName) planName.textContent = lic.planName || 'Active Premium Pass';
     if (expiryText) {
       const expDate = lic.expiresAt ? `(Expires: ${new Date(lic.expiresAt).toLocaleDateString()})` : '';
-      expiryText.textContent = `${lic.daysRemaining} Days Remaining ${expDate}`;
+      const timeStr = lic.timeRemainingFormatted || `${lic.daysRemaining} Days Remaining`;
+      expiryText.textContent = `${timeStr} ${expDate}`;
       expiryText.style.color = '#34D399';
     }
   } else {
     if (gatekeeper) gatekeeper.style.display = 'flex';
-    if (badgeText) badgeText.textContent = 'UNLICENSED';
+    if (badgeText) badgeText.textContent = lic && lic.isExpired ? 'EXPIRED' : 'UNLICENSED';
     if (badgeBtn) {
       badgeBtn.style.background = '#7F1D1D';
       badgeBtn.style.color = '#FCA5A5';
       badgeBtn.style.borderColor = '#EF4444';
     }
     if (statusBadge) {
-      statusBadge.textContent = (lic && lic.status) ? lic.status.toUpperCase() : 'LOCKED / UNLICENSED';
+      statusBadge.textContent = lic && lic.isExpired ? 'EXPIRED / DENIED' : ((lic && lic.status) ? lic.status.toUpperCase() : 'LOCKED / UNLICENSED');
       statusBadge.style.background = '#7F1D1D';
       statusBadge.style.color = '#FCA5A5';
     }
-    if (planName) planName.textContent = 'No Active License';
+    if (planName) planName.textContent = lic && lic.isExpired ? 'Pass Expired' : 'No Active License';
     if (expiryText) {
       expiryText.textContent = (lic && lic.message) || 'Administrator permission required. Enter key or subscribe.';
       expiryText.style.color = '#F87171';

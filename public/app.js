@@ -109,12 +109,13 @@ function showToast(message, type = 'info') {
 // --------------------------------------------------------
 async function loadInitialData() {
   try {
-    const [plansRes, faqsRes, jobsRes, compRes, catRes] = await Promise.all([
-      fetch('/api/plans').then(r => r.json()),
-      fetch('/api/faqs').then(r => r.json()),
-      fetch('/api/jobs').then(r => r.json()),
-      fetch('/api/companies').then(r => r.json()),
-      fetch('/api/categories').then(r => r.json())
+    const [plansRes, faqsRes, jobsRes, compRes, catRes, authRes] = await Promise.all([
+      fetch('/api/plans').then(r => r.json()).catch(() => ({ plans: [] })),
+      fetch('/api/faqs').then(r => r.json()).catch(() => ({ faqs: [] })),
+      fetch('/api/jobs').then(r => r.json()).catch(() => ({ jobs: [] })),
+      fetch('/api/companies').then(r => r.json()).catch(() => ({ companies: [] })),
+      fetch('/api/categories').then(r => r.json()).catch(() => ({ categories: [] })),
+      fetch('/api/auth/me').then(r => r.json()).catch(() => ({ authenticated: false }))
     ]);
 
     state.plans = plansRes.plans || [];
@@ -122,6 +123,14 @@ async function loadInitialData() {
     state.jobs = jobsRes.jobs || [];
     state.companies = compRes.companies || [];
     state.categories = catRes.categories || [];
+
+    if (authRes && authRes.authenticated && authRes.user && authRes.user.isAdmin === true) {
+      state.isAdmin = true;
+      state.currentUser = authRes.user;
+    } else {
+      state.isAdmin = false;
+      state.currentUser = authRes && authRes.user ? authRes.user : null;
+    }
   } catch (err) {
     console.error('Failed to load initial data:', err);
   }
@@ -192,11 +201,7 @@ function renderFunnelHeader() {
 
 // Marketing Full Header - JobWizard Style
 function renderMarketingHeader() {
-  const isAdmin = (
-    sessionStorage.getItem('ja_admin_logged') === 'true' || 
-    localStorage.getItem('ja_admin_logged') === 'true' || 
-    window.location.search.includes('admin=1')
-  );
+  const isAdmin = state.isAdmin === true;
 
   return `
     <header class="jw-navbar-wrapper">
@@ -219,7 +224,7 @@ function renderMarketingHeader() {
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
           ${isAdmin ? `
-            <a href="/admin" class="jw-btn-outline" style="padding: 8px 14px; font-size: 12.5px;">
+            <a href="/admin" class="jw-btn-outline" style="padding: 8px 14px; font-size: 12.5px; border-color: #38bdf8; color: #38bdf8; font-weight: 700;">
               Admin
             </a>
           ` : ''}
@@ -238,11 +243,7 @@ function renderMarketingHeader() {
 
 // Dark Minimalist Footer - JobWizard Style
 function renderDarkFooter() {
-  const isAdmin = (
-    sessionStorage.getItem('ja_admin_logged') === 'true' || 
-    localStorage.getItem('ja_admin_logged') === 'true' || 
-    window.location.search.includes('admin=1')
-  );
+  const isAdmin = state.isAdmin === true;
 
   return `
     <footer id="about-section" style="border-top: 1px solid rgba(255, 255, 255, 0.08); background: #0c0c0d; padding: 60px 20px 40px;">

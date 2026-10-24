@@ -16,3 +16,5 @@ services:
         value: "1000542193275"
       - key: BINANCE_PAY_ID
         value: "1032674236"
+      - key: ADMIN_EMAIL
+        value: "" # Enter your administrator email in the Render dashboard

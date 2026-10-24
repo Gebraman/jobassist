@@ -1,5 +1,118 @@
 [
   {
+    "id": "notif_1792835180946",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-TC55-P46E",
+    "message": "Granted 1 days of Daily Pass (24 Hours) to Dawit Mengistu (dawit.m@example.com).",
+    "timestamp": "2026-10-24T09:46:20.946Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-TC55-P46E",
+      "email": "dawit.m@example.com",
+      "plan": "Daily Pass (24 Hours)",
+      "expiresAt": "2026-10-25T09:46:20.945Z"
+    }
+  },
+  {
+    "id": "notif_1792835180911",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-24T09:46:20.911Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792835180910_7tk0j",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792835180895",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-24T09:46:20.895Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792835180894_j3pkv",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792835129468",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: $4.99 (BINANCE)",
+    "message": "Alex Thorne (alex.thorne@example.com) submitted proof for Flex Pass (3 Days / Week). Ref: BINANCE-TX-9028471928",
+    "timestamp": "2026-10-24T09:45:29.468Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792835129467_a2pi4",
+      "email": "alex.thorne@example.com",
+      "amount": "$4.99",
+      "plan": "Flex Pass (3 Days / Week)",
+      "reference": "BINANCE-TX-9028471928",
+      "confidence": 98,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792835129447",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 100 ETB (TELEBIRR)",
+    "message": "Dawit Mengistu (dawit.m@example.com) submitted proof for Daily Pass (24 Hours). Ref: TB-9823419-ET",
+    "timestamp": "2026-10-24T09:45:29.447Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792835129446_y2hud",
+      "email": "dawit.m@example.com",
+      "amount": "100 ETB",
+      "plan": "Daily Pass (24 Hours)",
+      "reference": "TB-9823419-ET",
+      "confidence": 94,
+      "fraudRisk": "LOW"
+    }
+  },
+  {
+    "id": "notif_1792789444846",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-VUDM-J3NM",
+    "message": "Granted 365 days of Yearly VIP Enterprise (365 Days) to Gebremedhin (gebremedhinendeshawe@gmail.com).",
+    "timestamp": "2026-10-23T21:04:04.846Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-VUDM-J3NM",
+      "email": "gebremedhinendeshawe@gmail.com",
+      "plan": "Yearly VIP Enterprise (365 Days)",
+      "expiresAt": "2027-10-23T21:04:04.840Z"
+    }
+  },
+  {
+    "id": "notif_1792789297202",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 9,500 ETB (TELEBIRR)",
+    "message": "Gebremedhin (gebremedhinendeshawe@gmail.com) submitted proof for Yearly VIP Enterprise (365 Days). Ref: W8100",
+    "timestamp": "2026-10-23T21:01:37.202Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792789297199_ayvd2",
+      "email": "gebremedhinendeshawe@gmail.com",
+      "amount": "9,500 ETB",
+      "plan": "Yearly VIP Enterprise (365 Days)",
+      "reference": "W8100",
+      "confidence": 60,
+      "fraudRisk": "MEDIUM"
+    }
+  },
+  {
     "id": "notif_1792781845446",
     "type": "LICENSE_ISSUED",
     "title": "License Issued: PREM-SEYT-5G2T",

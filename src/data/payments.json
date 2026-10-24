@@ -1,5 +1,147 @@
 [
   {
+    "id": "pay_1792835180910_7tk0j",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-24T09:46:20.910Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792835180894_j3pkv",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "approved",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-24T09:46:20.894Z",
+    "notes": "",
+    "approvedAt": "2026-10-24T09:46:20.944Z",
+    "licenseKeyIssued": "PREM-TC55-P46E"
+  },
+  {
+    "id": "pay_1792835129467_a2pi4",
+    "email": "alex.thorne@example.com",
+    "candidateName": "Alex Thorne",
+    "planId": "flex-3d",
+    "planName": "Flex Pass (3 Days / Week)",
+    "currency": "USD",
+    "amount": "$4.99",
+    "paymentMethod": "binance",
+    "reference": "BINANCE-TX-9028471928",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 98,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Binance Pay / Crypto Network",
+        "txHash": "BINANCE-TX-9028471928",
+        "type": "Binance Pay Order ID",
+        "currency": "USD (USDT)"
+      }
+    },
+    "submittedAt": "2026-10-24T09:45:29.467Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792835129446_y2hud",
+    "email": "dawit.m@example.com",
+    "candidateName": "Dawit Mengistu",
+    "planId": "daily",
+    "planName": "Daily Pass (24 Hours)",
+    "currency": "ETB",
+    "amount": "100 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "TB-9823419-ET",
+    "status": "pending",
+    "verification": {
+      "validFormat": true,
+      "confidence": 94,
+      "fraudRisk": "LOW",
+      "flags": [
+        "ALREADY_SUBMITTED_BY_USER"
+      ],
+      "recommendedAction": "AUTO_APPROVE_ELIGIBLE",
+      "extractedData": {
+        "detectedGateway": "Telebirr Ethiopia",
+        "txId": "TB-9823419-ET",
+        "currency": "ETB"
+      }
+    },
+    "submittedAt": "2026-10-24T09:45:29.446Z",
+    "notes": ""
+  },
+  {
+    "id": "pay_1792789297199_ayvd2",
+    "email": "gebremedhinendeshawe@gmail.com",
+    "candidateName": "Gebremedhin",
+    "planId": "yearly",
+    "planName": "Yearly VIP Enterprise (365 Days)",
+    "currency": "ETB",
+    "amount": "9,500 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "W8100",
+    "status": "approved",
+    "verification": {
+      "validFormat": false,
+      "confidence": 60,
+      "fraudRisk": "MEDIUM",
+      "flags": [
+        "NON_STANDARD_TELEBIRR_REFERENCE"
+      ],
+      "recommendedAction": "MANUAL_REVIEW",
+      "extractedData": {}
+    },
+    "submittedAt": "2026-10-23T21:01:37.199Z",
+    "notes": "",
+    "approvedAt": "2026-10-23T21:04:04.839Z",
+    "licenseKeyIssued": "PREM-VUDM-J3NM"
+  },
+  {
     "id": "pay_1792781823865_7vq02",
     "email": "gebra@gmail.com",
     "candidateName": "gebra",

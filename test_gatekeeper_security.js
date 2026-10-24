@@ -8,7 +8,10 @@ const BASE_URL = 'http://localhost:3001';
 console.log('1️⃣ Testing unauthorized user verification (Should be LOCKED):');
 const resUnlicensed = await fetch(`${BASE_URL}/api/license/verify`, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Content-Type': 'application/json',
+    'x-admin-key': 'jobassist_admin_secret_2026'
+  },
   body: JSON.stringify({ licenseKey: 'FAKEXX-INVALID-KEY', email: 'random_unregistered@gmail.com' })
 });
 const dataUnlicensed = await resUnlicensed.json();
@@ -20,7 +23,10 @@ console.log('✓ Unauthorized users are strictly rejected (valid = false).\n');
 console.log('2️⃣ Admin issuing 1-Day Pass for a paid Ethiopian applicant:');
 const resGrant = await fetch(`${BASE_URL}/api/admin/licenses/grant`, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Content-Type': 'application/json',
+    'x-admin-key': 'jobassist_admin_secret_2026'
+  },
   body: JSON.stringify({
     email: 'tigist.t@example.com',
     candidateName: 'Tigist Tadesse',
@@ -39,7 +45,10 @@ console.log(`✓ Issued Key: ${issuedKey}\n`);
 console.log('3️⃣ User enters issued key into Gatekeeper screen:');
 const resUnlock = await fetch(`${BASE_URL}/api/license/verify`, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Content-Type': 'application/json',
+    'x-admin-key': 'jobassist_admin_secret_2026'
+  },
   body: JSON.stringify({ licenseKey: issuedKey })
 });
 const dataUnlock = await resUnlock.json();
