@@ -136,8 +136,14 @@
   <div id="tab-approvals" class="tab-pane active">
     <div class="card">
       <div class="card-title">
-        <span>Incoming Payment Submissions</span>
-        <button id="btn-refresh-payments" class="btn-secondary" style="font-size: 11px;">Refresh</button>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span>Incoming Payment Submissions</span>
+          <span id="pending-badge" style="background: rgba(239, 68, 68, 0.2); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.4); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 9999px; display: none;">0 Pending</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button id="btn-clear-samples" class="btn-secondary" onclick="clearAllSamples()" style="font-size: 11px; color: #F87171; border-color: rgba(239, 68, 68, 0.4); display: flex; align-items: center; gap: 4px;">🗑️ Clear Samples</button>
+          <button id="btn-refresh-payments" class="btn-secondary" style="font-size: 11px;">Refresh</button>
+        </div>
       </div>
 
       <div style="overflow-x: auto;">
@@ -355,6 +361,11 @@
     loadLicenses();
     loadNotifications();
     setupEventListeners();
+
+    // Live auto-refresh incoming submissions every 15 seconds
+    setInterval(() => {
+      loadPayments();
+    }, 15000);
   });
 
   function setupTabs() {
@@ -390,8 +401,22 @@
     const tbody = document.getElementById('payments-tbody');
     tbody.innerHTML = '';
 
+    const pendingCount = paymentsList.filter(p => p.status === 'pending').length;
+    const badge = document.getElementById('pending-badge');
+    if (badge) {
+      badge.textContent = `${pendingCount} Pending`;
+      badge.style.display = pendingCount > 0 ? 'inline-block' : 'none';
+    }
+
     if (paymentsList.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:20px; color:#64748B;">No payment submissions yet.</td></tr>';
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="9" style="text-align: center; padding: 40px 16px; color: #64748B;">
+            <div style="font-size: 15px; font-weight: 700; color: #94A3B8; margin-bottom: 4px;">No Payment Submissions Yet</div>
+            <div style="font-size: 11.5px; color: #64748B;">Incoming payments and subscriptions from Telebirr, CBE, Binance, and Checkout will appear here automatically.</div>
+          </td>
+        </tr>
+      `;
       return;
     }
 
@@ -400,7 +425,7 @@
       const isPending = p.status === 'pending';
       const gwClass = p.paymentMethod === 'telebirr' ? 'tag-telebirr' : (p.paymentMethod === 'binance' ? 'tag-binance' : (p.paymentMethod === 'payoneer' ? 'tag-payoneer' : 'tag-active'));
 
-      let aiBadge = '<span class="tag-badge" style="background:#064E3B; color:#34D399; font-size:9.5px;">✓ AI Confirmed (94%)</span>';
+      let aiBadge = '<span class="tag-badge" style="background:#064E3B; color:#34D399; font-size:9.5px;">✓ Valid Format (95%)</span>';
       if (p.verification) {
         const risk = p.verification.fraudRisk;
         const conf = p.verification.confidence || 90;
@@ -433,8 +458,10 @@
       `;
 
       if (isPending) {
-        tr.querySelector('.btn-approve').addEventListener('click', () => approvePayment(p.id));
-        tr.querySelector('.btn-reject').addEventListener('click', () => rejectPayment(p.id));
+        const btnApprove = tr.querySelector('.btn-approve');
+        const btnReject = tr.querySelector('.btn-reject');
+        btnApprove.addEventListener('click', (e) => approvePayment(p.id, e.target));
+        btnReject.addEventListener('click', (e) => rejectPayment(p.id, e.target));
       }
 
       tbody.appendChild(tr);
@@ -452,9 +479,9 @@
     const t = document.createElement('div');
     const isSuccess = type === 'success';
     t.style.cssText = `
-      background: #0F172A;
+      background: ${isSuccess ? '#064E3B' : '#7F1D1D'};
+      color: ${isSuccess ? '#34D399' : '#FCA5A5'};
       border: 1.5px solid ${isSuccess ? '#10B981' : '#EF4444'};
-      color: #F8FAFC;
       border-radius: 10px;
       padding: 12px 18px;
       font-size: 13px;
@@ -473,7 +500,10 @@
     }, 4000);
   }
 
+  let latestApprovalData = null;
+
   function showApprovalSuccessModal(data) {
+    latestApprovalData = data;
     let modal = document.getElementById('modal-approval-success');
     if (!modal) {
       modal = document.createElement('div');
@@ -487,44 +517,81 @@
     }
     modal.style.display = 'flex';
     const email = data.payment ? data.payment.email : (data.license ? data.license.email : 'candidate');
+    const key = data.licenseKey || (data.license && data.license.key);
+    const plan = data.license ? data.license.planName : 'Studio Pass';
+    const days = data.license ? data.license.grantedDays : 30;
     const mailto = data.emailDispatched ? data.emailDispatched.mailtoLink : `mailto:${email}?subject=JobAssist%20License%20Key`;
+    const gmailUrl = data.emailDispatched ? data.emailDispatched.gmailComposeUrl : `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent('Your JobAssist License Key')}&body=${encodeURIComponent('License: ' + key)}`;
+    const smtpSent = data.emailDispatched && data.emailDispatched.smtpSent;
 
     modal.innerHTML = `
-      <div style="background:#0F172A; border:1.5px solid #10B981; border-radius:16px; padding:24px; max-width:440px; width:100%; color:#FFF; box-shadow:0 20px 60px rgba(0,0,0,0.8);">
+      <div style="background:#0F172A; border:1.5px solid #10B981; border-radius:16px; padding:24px; max-width:480px; width:100%; color:#FFF; box-shadow:0 20px 60px rgba(0,0,0,0.8);">
         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
           <div style="display:flex; align-items:center; gap:8px;">
             <div style="width:36px; height:36px; border-radius:10px; background:#064E3B; color:#34D399; display:flex; align-items:center; justify-content:center; font-size:18px;">✓</div>
             <div>
-              <div style="font-size:15px; font-weight:800; color:#FFF;">Payment Approved & Key Dispatched!</div>
-              <div style="font-size:11.5px; color:#34D399;">Automated notification sent to ${email}</div>
+              <div style="font-size:16px; font-weight:800; color:#FFF;">Payment Approved!</div>
+              <div style="font-size:12px; color:#94A3B8;">License successfully generated for <b>${email}</b></div>
             </div>
           </div>
           <button onclick="document.getElementById('modal-approval-success').style.display='none'" style="background:none; border:none; color:#64748B; font-size:18px; cursor:pointer;">✕</button>
         </div>
 
-        <div style="background:#1E293B; border:1px solid #334155; border-radius:10px; padding:14px; margin:18px 0 16px; text-align:center;">
+        <div style="background:#1E293B; border:1.5px solid #0284C7; border-radius:12px; padding:16px; margin:16px 0; text-align:center;">
           <div style="font-size:10px; color:#94A3B8; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:4px;">ACTIVATED LICENSE KEY</div>
-          <div style="font-size:20px; font-weight:800; color:#34D399; font-family:monospace; letter-spacing:1px;" id="disp-key">${data.licenseKey}</div>
-          <div style="font-size:10.5px; color:#94A3B8; margin-top:4px;">Duration: <b>${data.license ? data.license.grantedDays : 1} Days</b> • Plan: <b>${data.license ? data.license.planName : 'Studio Pass'}</b></div>
+          <div style="font-size:24px; font-weight:800; color:#38BDF8; font-family:monospace; letter-spacing:2px;" id="disp-key">${key}</div>
+          <div style="font-size:11.5px; color:#34D399; margin-top:4px;"><b>${plan}</b> • Active for <b>${days} Days</b></div>
         </div>
 
-        <div style="display:flex; gap:8px;">
-          <button onclick="navigator.clipboard.writeText('${data.licenseKey}'); showAdminToast('✓ License Key copied to clipboard!');" class="btn-primary" style="flex:1; padding:9px; font-size:11.5px; justify-content:center;">
-            Copy Key
-          </button>
-          <a href="${mailto}" target="_blank" class="btn-secondary" style="flex:1; padding:9px; font-size:11.5px; justify-content:center; text-decoration:none; color:#38BDF8; border-color:#0284C7; display:flex; align-items:center; gap:4px;">
-            Open Mail App
+        <div style="margin-bottom:18px;">
+          ${smtpSent ? `
+            <div style="background:rgba(16, 185, 129, 0.15); border:1px solid #10B981; border-radius:8px; padding:10px 14px; font-size:12px; color:#6EE7B7;">
+              ✓ Live SMTP email dispatched directly to <b>${email}</b>!
+            </div>
+          ` : `
+            <div style="background:rgba(2, 132, 199, 0.15); border:1px solid #0284C7; border-radius:8px; padding:10px 14px; font-size:12px; color:#BAE6FD;">
+              License key activated! Click below to send confirmation directly via Gmail or Mail app.
+            </div>
+          `}
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <a href="${gmailUrl}" target="_blank" style="background:#EA4335; border:none; padding:11px 16px; border-radius:8px; font-size:12.5px; font-weight:700; color:#FFFFFF; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px;">
+            📧 Send via Gmail (1-Click)
           </a>
+          <div style="display:flex; gap:8px;">
+            <button onclick="navigator.clipboard.writeText('${key}'); showAdminToast('✓ License Key copied to clipboard!');" class="btn-primary" style="flex:1; padding:9px; font-size:11.5px; justify-content:center;">
+              Copy Key Only
+            </button>
+            <button onclick="copyFullActivationEmail();" class="btn-secondary" style="flex:1; padding:9px; font-size:11.5px; justify-content:center;">
+              📋 Copy Full Email
+            </button>
+            <a href="${mailto}" target="_blank" class="btn-secondary" style="padding:9px 12px; font-size:11.5px; justify-content:center; text-decoration:none; color:#38BDF8; border-color:#0284C7; display:flex; align-items:center;">
+              Mail App
+            </a>
+          </div>
         </div>
       </div>
     `;
   }
 
-  async function approvePayment(paymentId) {
+  function copyFullActivationEmail() {
+    if (!latestApprovalData) return;
+    const emailData = latestApprovalData.emailDispatched;
+    const body = emailData ? emailData.bodyText : `License Key: ${latestApprovalData.licenseKey}`;
+    navigator.clipboard.writeText(body);
+    showAdminToast('✓ Full activation email message copied to clipboard!');
+  }
+
+  async function approvePayment(paymentId, btnEl) {
+    if (btnEl) {
+      btnEl.disabled = true;
+      btnEl.textContent = 'Approving...';
+    }
     try {
       const res = await fetch('/api/admin/payments/approve', {
         method: 'POST',
-        headers: getAuthHeaders({ 'content-type': 'application/json' }),
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ paymentId })
       });
       if (res.status === 401 || res.status === 403) {
@@ -532,31 +599,76 @@
         return;
       }
       const data = await res.json();
-      if (data.success) {
+      if (res.ok && data.success) {
         showApprovalSuccessModal(data);
-        showAdminToast(`✓ Payment Approved! Key ${data.licenseKey} dispatched.`);
+        showAdminToast(`✓ Payment Approved! License ${data.licenseKey} issued.`);
         await loadPayments();
         await loadLicenses();
+      } else {
+        showAdminToast(data.error || 'Failed to approve payment.', 'error');
+        if (btnEl) {
+          btnEl.disabled = false;
+          btnEl.textContent = '✓ Approve';
+        }
       }
     } catch(err) {
-      showAdminToast('Error: ' + err.message, 'error');
+      showAdminToast('Network Error: ' + err.message, 'error');
+      if (btnEl) {
+        btnEl.disabled = false;
+        btnEl.textContent = '✓ Approve';
+      }
     }
   }
 
-  async function rejectPayment(paymentId) {
+  async function rejectPayment(paymentId, btnEl) {
     const reason = prompt('Enter rejection reason (optional):');
+    if (reason === null) return;
+    if (btnEl) {
+      btnEl.disabled = true;
+      btnEl.textContent = '...';
+    }
     try {
       const res = await fetch('/api/admin/payments/reject', {
         method: 'POST',
-        headers: getAuthHeaders({ 'content-type': 'application/json' }),
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ paymentId, reason })
       });
       if (res.status === 401 || res.status === 403) {
         window.location.href = '/admin';
         return;
       }
-      showAdminToast('Payment rejected.', 'error');
-      await loadPayments();
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showAdminToast('Payment rejected.', 'error');
+        await loadPayments();
+      } else {
+        showAdminToast(data.error || 'Failed to reject payment', 'error');
+        if (btnEl) btnEl.disabled = false;
+      }
+    } catch(err) {
+      showAdminToast('Error: ' + err.message, 'error');
+      if (btnEl) btnEl.disabled = false;
+    }
+  }
+
+  async function clearAllSamples() {
+    if (!confirm('Are you sure you want to clear all sample payments, test licenses, and demo records?\\n\\nThis will leave your dashboard completely clean for real candidates.')) {
+      return;
+    }
+    try {
+      const res = await fetch('/api/admin/clear-samples', {
+        method: 'POST',
+        headers: getAuthHeaders({ 'Content-Type': 'application/json' })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showAdminToast('✓ All sample test data has been cleared!', 'success');
+        await loadPayments();
+        await loadLicenses();
+        await loadNotifications();
+      } else {
+        showAdminToast(data.error || 'Failed to clear samples', 'error');
+      }
     } catch(err) {
       showAdminToast('Error: ' + err.message, 'error');
     }

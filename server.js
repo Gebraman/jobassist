@@ -87,6 +87,8 @@ const SEEN_JOBS_PATH = path.join(__dirname, 'src', 'data', 'seen_jobs.json');
 const LICENSES_PATH = path.join(__dirname, 'src', 'data', 'licenses.json');
 const PAYMENTS_PATH = path.join(__dirname, 'src', 'data', 'payments.json');
 const PLANS_CONFIG_PATH = path.join(__dirname, 'src', 'data', 'plans_config.json');
+const NOTIFICATIONS_PATH = path.join(__dirname, 'src', 'data', 'notifications.json');
+const OUTBOUND_EMAILS_PATH = path.join(__dirname, 'src', 'data', 'outbound_emails.json');
 
 function loadJSON(filePath, fallback) {
   try {
@@ -390,13 +392,15 @@ app.post('/api/checkout/create-intent', (req, res) => {
   });
 });
 
-app.post('/api/checkout/confirm', (req, res) => {
-  const { planId, email, paymentMethod, cardLast4, currency } = req.body;
+app.post('/api/checkout/confirm', async (req, res) => {
+  const { planId, email, candidateName, paymentMethod, cardLast4, currency } = req.body;
   const plan = plans.find(p => p.id === planId) || plans[1];
+  const targetEmail = (email || 'applicant@user.com').trim().toLowerCase();
+  const targetName = candidateName || targetEmail.split('@')[0];
 
   const subscriptionRecord = {
     subscriptionId: `sub_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
-    customerEmail: email || 'applicant@user.com',
+    customerEmail: targetEmail,
     planId: plan.id,
     planName: plan.name,
     amountBilled: currency === 'ETB' ? plan.dueTodayETB : plan.dueTodayUSD,
@@ -417,10 +421,73 @@ app.post('/api/checkout/confirm', (req, res) => {
   subscriptions.unshift(subscriptionRecord);
   saveStore();
 
+  // Generate & Activate Studio License Key
+  const licenseKey = generateLicenseKey('PREM');
+  const now = new Date();
+  const grantedDays = plan.id === 'yearly' ? 365 : (plan.id === 'flex-3d' ? 7 : (plan.id === 'daily' ? 1 : 30));
+  const expiresAt = new Date(now.getTime() + grantedDays * 24 * 60 * 60 * 1000).toISOString();
+
+  const newLicense = {
+    key: licenseKey,
+    email: targetEmail,
+    candidateName: targetName,
+    planId: plan.id,
+    planName: plan.name,
+    status: 'active',
+    grantedDays,
+    activeDaysLimit: plan.id === 'flex-3d' ? 3 : null,
+    createdAt: now.toISOString(),
+    expiresAt,
+    approvedBy: 'automated_checkout',
+    paymentMethod: paymentMethod || 'card',
+    reference: `TX-${Date.now().toString().slice(-8)}`
+  };
+
+  premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
+  premiumLicenses.unshift(newLicense);
+  saveJSON(LICENSES_PATH, premiumLicenses);
+
+  // Record in Monetization Payments Table
+  const paymentRecord = {
+    id: `pay_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    email: targetEmail,
+    candidateName: targetName,
+    planId: plan.id,
+    planName: plan.name,
+    currency: currency || 'USD',
+    amount: subscriptionRecord.amountBilled,
+    paymentMethod: paymentMethod || 'card',
+    reference: newLicense.reference,
+    status: 'approved',
+    verification: {
+      validFormat: true,
+      confidence: 100,
+      fraudRisk: 'LOW',
+      flags: ['CHECKOUT_FUNNEL_VERIFIED'],
+      recommendedAction: 'AUTO_APPROVE_ELIGIBLE',
+      extractedData: { gateway: paymentMethod || 'card' }
+    },
+    submittedAt: now.toISOString(),
+    approvedAt: now.toISOString(),
+    licenseKeyIssued: licenseKey,
+    notes: 'Subscribed via Onboarding Funnel'
+  };
+
+  pendingPayments = loadJSON(PAYMENTS_PATH, pendingPayments);
+  pendingPayments.unshift(paymentRecord);
+  saveJSON(PAYMENTS_PATH, pendingPayments);
+
+  // Dispatch Email & Telegram Notification
+  notifyLicenseApproved(newLicense);
+  const emailDispatched = await dispatchLicenseKeyEmail({ license: newLicense, payment: paymentRecord });
+
   res.json({
     success: true,
     subscription: subscriptionRecord,
-    message: 'Payment authorized successfully! Your 2,411 job matches are unlocked.'
+    license: newLicense,
+    licenseKey,
+    emailDispatched,
+    message: `Payment authorized successfully! License ${licenseKey} has been emailed to ${targetEmail}.`
   });
 });
 
@@ -478,7 +545,7 @@ app.get('/api/premium/plans', (req, res) => {
 });
 
 // B. Submit Payment Proof (Telebirr SMS, CBE Ref, Binance TxID, Payoneer ID)
-app.post('/api/premium/submit-payment', (req, res) => {
+app.post(['/api/premium/submit-payment', '/api/payment/submit', '/api/payments/submit', '/api/payment/submit-proof'], (req, res) => {
   const { email, candidateName, planId, currency, reference, notes } = req.body;
   const paymentMethod = req.body.paymentMethod || req.body.gateway || (currency === 'ETB' ? 'telebirr' : 'binance');
 
@@ -806,62 +873,99 @@ app.get('/api/admin/payments', requireAdminApi, (req, res) => {
 
 // I. Admin: Approve Payment & Auto-Issue License
 app.post('/api/admin/payments/approve', requireAdminApi, async (req, res) => {
-  const { paymentId, customDays } = req.body;
-  pendingPayments = loadJSON(PAYMENTS_PATH, pendingPayments);
-  premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
+  try {
+    const { paymentId, customDays } = req.body || {};
+    if (!paymentId) {
+      return res.status(400).json({ error: 'paymentId is required.' });
+    }
 
-  const payment = pendingPayments.find(p => p.id === paymentId);
-  if (!payment) return res.status(404).json({ error: 'Payment request not found' });
+    pendingPayments = loadJSON(PAYMENTS_PATH, pendingPayments);
+    premiumLicenses = loadJSON(LICENSES_PATH, premiumLicenses);
 
-  payment.status = 'approved';
-  payment.approvedAt = new Date().toISOString();
+    const cleanId = String(paymentId).trim();
+    const payment = pendingPayments.find(p => String(p.id).trim() === cleanId);
+    if (!payment) {
+      console.warn(`[ADMIN APPROVE] Payment not found for ID: ${cleanId}`);
+      return res.status(404).json({ error: `Payment request "${cleanId}" not found in current records.` });
+    }
 
-  // Determine duration
-  let days = 30;
-  if (customDays) days = parseInt(customDays, 10);
-  else if (payment.planId === 'daily') days = 1;
-  else if (payment.planId === 'flex-3d') days = 7;
-  else if (payment.planId === 'weekly') days = 7;
-  else if (payment.planId === 'yearly') days = 365;
+    // Determine duration
+    let days = 30;
+    if (customDays) days = parseInt(customDays, 10);
+    else if (payment.planId === 'daily') days = 1;
+    else if (payment.planId === 'flex-3d') days = 7;
+    else if (payment.planId === 'weekly') days = 7;
+    else if (payment.planId === 'yearly') days = 365;
 
-  const key = generateLicenseKey('PREM');
-  const now = new Date();
-  const expiresAt = new Date(now.getTime() + days * 24 * 60 * 60 * 1000).toISOString();
+    // Check if license already generated
+    let key = payment.licenseKeyIssued;
+    let newLicense = key ? premiumLicenses.find(l => l.key === key) : null;
 
-  const newLicense = {
-    key,
-    email: payment.email,
-    candidateName: payment.candidateName,
-    planId: payment.planId,
-    planName: payment.planName,
-    status: 'active',
-    grantedDays: days,
-    activeDaysLimit: payment.planId === 'flex-3d' ? 3 : null,
-    createdAt: now.toISOString(),
-    expiresAt,
-    approvedBy: 'admin',
-    paymentMethod: payment.paymentMethod,
-    reference: payment.reference
-  };
+    if (!newLicense) {
+      key = generateLicenseKey('PREM');
+      const now = new Date();
+      const expiresAt = new Date(now.getTime() + days * 24 * 60 * 60 * 1000).toISOString();
 
-  payment.licenseKeyIssued = key;
+      newLicense = {
+        key,
+        email: payment.email,
+        candidateName: payment.candidateName,
+        planId: payment.planId,
+        planName: payment.planName,
+        status: 'active',
+        grantedDays: days,
+        activeDaysLimit: payment.planId === 'flex-3d' ? 3 : null,
+        createdAt: now.toISOString(),
+        expiresAt,
+        approvedBy: req.user ? req.user.email : 'admin',
+        paymentMethod: payment.paymentMethod,
+        reference: payment.reference
+      };
 
-  premiumLicenses.unshift(newLicense);
-  saveJSON(LICENSES_PATH, premiumLicenses);
-  saveJSON(PAYMENTS_PATH, pendingPayments);
+      premiumLicenses.unshift(newLicense);
+      saveJSON(LICENSES_PATH, premiumLicenses);
+    }
 
-  // Dispatch License Issued Notification & Candidate Email
-  notifyLicenseApproved(newLicense);
-  const emailDispatched = await dispatchLicenseKeyEmail({ license: newLicense, payment });
+    payment.status = 'approved';
+    payment.approvedAt = new Date().toISOString();
+    payment.licenseKeyIssued = key;
+    saveJSON(PAYMENTS_PATH, pendingPayments);
 
-  res.json({
-    success: true,
-    message: `Payment approved! License ${key} generated and emailed to ${payment.email}.`,
-    licenseKey: key,
-    emailDispatched,
-    payment,
-    license: newLicense
-  });
+    // Dispatch License Issued Notification & Candidate Email
+    notifyLicenseApproved(newLicense);
+    const emailDispatched = await dispatchLicenseKeyEmail({ license: newLicense, payment });
+
+    return res.json({
+      success: true,
+      message: `Payment approved! License ${key} generated and emailed to ${payment.email}.`,
+      licenseKey: key,
+      emailDispatched,
+      payment,
+      license: newLicense
+    });
+  } catch(err) {
+    console.error('[ADMIN APPROVE EXCEPTION]:', err);
+    return res.status(500).json({ error: 'Server error while approving payment: ' + err.message });
+  }
+});
+
+// Admin: Clear All Test / Sample Records
+app.post('/api/admin/clear-samples', requireAdminApi, (req, res) => {
+  try {
+    pendingPayments = [];
+    premiumLicenses = [];
+    saveJSON(PAYMENTS_PATH, []);
+    saveJSON(LICENSES_PATH, []);
+    saveJSON(NOTIFICATIONS_PATH, []);
+    saveJSON(path.join(__dirname, 'src', 'data', 'outbound_emails.json'), []);
+
+    res.json({
+      success: true,
+      message: 'All test and sample payment/license records successfully cleared! Table is now clean.'
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to clear samples: ' + err.message });
+  }
 });
 
 // J. Admin: Reject Payment

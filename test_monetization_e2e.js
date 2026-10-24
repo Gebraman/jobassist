@@ -119,15 +119,26 @@ async function runMonetizationE2ETest() {
   console.log(`✓ Bethlehem Extended Pass Verification: Valid=${verifyBeth.valid}, Plan=${verifyBeth.planName}, DaysRemaining=${verifyBeth.daysRemaining}`);
   if (!verifyBeth.valid || verifyBeth.daysRemaining < 8) throw new Error('Bethlehem license extension failed');
 
-  // Test 9: Verify Raymond Wong's VIP pass
-  console.log('\n9️⃣ Verifying Raymond Wong Primary VIP pass:');
+  // Test 9: Verify Primary VIP pass (James Royal)
+  console.log('\n9️⃣ Verifying James Royal Primary VIP pass:');
+  const grantVIP = await fetch(`${BASE_URL}/api/admin/licenses/grant`, {
+    method: 'POST',
+    headers: { 'x-admin-key': 'jobassist_admin_secret_2026', 'content-type': 'application/json' },
+    body: JSON.stringify({
+      email: 'jamesroyal.91@outlook.com',
+      candidateName: 'James Royal',
+      planId: 'yearly',
+      durationDays: 365
+    })
+  }).then(r => r.json());
+
   const verifyRay = await fetch(`${BASE_URL}/api/license/verify`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ licenseKey: 'PREM-RAY-2026-VIP1' })
+    body: JSON.stringify({ licenseKey: grantVIP.license.key })
   }).then(r => r.json());
-  console.log(`✓ Raymond VIP Pass Status: Valid=${verifyRay.valid}, Plan=${verifyRay.planName}, Days=${verifyRay.daysRemaining}`);
-  if (!verifyRay.valid) throw new Error('Raymond VIP pass verification failed');
+  console.log(`✓ James Royal VIP Pass Status: Valid=${verifyRay.valid}, Plan=${verifyRay.planName}, Days=${verifyRay.daysRemaining}`);
+  if (!verifyRay.valid) throw new Error('James Royal VIP pass verification failed');
 
   // Test 10: AI Receipt Verification & Anti-Fraud Engine
   console.log('\n10) Testing AI Receipt Verification & Anti-Fraud Radar:');
