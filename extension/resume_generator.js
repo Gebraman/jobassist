@@ -37,9 +37,11 @@ function getTailoredSummary(client, company = '', role = '', jobOverview = '') {
   const desc = (jobOverview || '').toLowerCase();
   const cleanComp = (!company || ['Target Company', 'Enterprise Company', 'Hiring Company'].includes(company)) ? '' : company;
 
-  // Detect domain context organically from the job overview
+  // Detect domain context organically from the job overview or client title
   let domainFocus = 'high-throughput distributed backends, scalable microservices, and resilient cloud architectures';
-  if (desc.includes('integrat') || desc.includes('hubspot') || desc.includes('zapier') || desc.includes('workato') || desc.includes('mulesoft')) {
+  if (desc.includes('data') || desc.includes('etl') || desc.includes('elt') || desc.includes('pipeline') || desc.includes('spark') || desc.includes('snowflake') || desc.includes('kafka') || desc.includes('airflow') || desc.includes('warehouse') || desc.includes('lakehouse') || desc.includes('dbt') || desc.includes('redshift') || desc.includes('bigquery') || (client.headline && client.headline.toLowerCase().includes('data'))) {
+    domainFocus = 'petabyte-scale data pipelines, incremental ETL/ELT ingestion, distributed streaming, and cloud data warehousing';
+  } else if (desc.includes('integrat') || desc.includes('hubspot') || desc.includes('zapier') || desc.includes('workato') || desc.includes('mulesoft')) {
     domainFocus = 'enterprise API integrations, bidirectional data synchronization pipelines, and automated cloud workflows';
   } else if (desc.includes('kubernetes') || desc.includes('devops') || desc.includes('sre') || desc.includes('cloud') || desc.includes('terraform')) {
     domainFocus = 'cloud-native infrastructure, Kubernetes container orchestration, and automated CI/CD deployment pipelines';
@@ -53,7 +55,15 @@ function getTailoredSummary(client, company = '', role = '', jobOverview = '') {
     return client.summary;
   }
 
-  return `Senior software engineering practitioner with ${years} years of production experience architecting and operating ${domainFocus}. Track record leading core backend systems and distributed services sustaining 99.99% operational uptime and sub-20ms latency under high concurrent load. Hands-on technical background spanning Go, Python, TypeScript, AWS, Kubernetes, Kafka, and PostgreSQL, with a consistent focus on resilient system design, test automation, and engineering velocity.`;
+  const topSkillsStr = (client.skills && client.skills.length > 0)
+    ? client.skills.slice(0, 6).join(', ')
+    : 'Python, SQL, Spark, Kafka, Snowflake, Airflow';
+
+  if (client.summary && client.summary.length > 50 && cleanComp) {
+    return `${client.summary} Prepared to drive immediate value for ${cleanComp}'s engineering and technical integration initiatives.`;
+  }
+
+  return `Senior technical engineering practitioner with ${years} years of production experience architecting and operating ${domainFocus}. Track record leading core data and distributed systems sustaining 99.99% operational reliability and high throughput. Hands-on background spanning ${topSkillsStr}, with a consistent focus on resilient system design, automated data validation, and engineering velocity.`;
 }
 
 // ------------------------------------------------------------------------
@@ -91,9 +101,9 @@ function generateExecutiveMasterworkResume(client, jobInfo = {}) {
 
   // Group skills into executive categories
   const targetMatches = (jobInfo.keywords && jobInfo.keywords.length > 0) ? jobInfo.keywords.slice(0, 8) : allSkills.slice(0, 6);
-  const coreLanguages = allSkills.filter(s => ['python', 'node.js', 'typescript', 'javascript', 'go', 'golang', 'sql', 'java', 'c++', 'c#', 'react'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
-  const cloudSystems = allSkills.filter(s => ['aws', 'cloud', 'gcp', 'google cloud', 'docker', 'kubernetes', 'k8s', 'terraform', 'ci/cd', 'redis', 'postgresql', 'kafka'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
-  const architectures = allSkills.filter(s => ['api', 'rest', 'graphql', 'distributed', 'microservices', 'integrations', 'zapier', 'workato', 'hubspot', 'crm', 'accounting', 'bookkeeping'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
+  const coreLanguages = allSkills.filter(s => ['python', 'sql', 'scala', 'java', 'bash', 'node.js', 'typescript', 'javascript', 'go', 'golang', 'c++', 'c#', 'react'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
+  const cloudSystems = allSkills.filter(s => ['snowflake', 'redshift', 's3', 'parquet', 'spark', 'pyspark', 'kafka', 'aws', 'cloud', 'gcp', 'google cloud', 'docker', 'kubernetes', 'k8s', 'terraform', 'ci/cd', 'redis', 'postgresql', 'mysql', 'oracle'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
+  const architectures = allSkills.filter(s => ['dbt', 'etl', 'elt', 'airflow', 'pipeline', 'dimensional', 'governance', 'schema', 'api', 'rest', 'graphql', 'distributed', 'microservices', 'integrations', 'zapier', 'workato', 'hubspot', 'crm', 'accounting', 'bookkeeping'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
 
   return `<!DOCTYPE html>
 <html lang="en">

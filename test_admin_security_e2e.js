@@ -20,8 +20,8 @@ const BASE_URL = process.env.TEST_URL || 'http://localhost:3001';
 
 async function runTests() {
   const timestamp = Date.now();
-  // Server is running with ADMIN_EMAIL="admin_test@jobassist.ai"
-  const adminEmail = 'admin_test@jobassist.ai';
+  // Server is running with ADMIN_EMAIL (defaults to admin_test@jobassist.ai or process.env.ADMIN_EMAIL)
+  const adminEmail = (process.env.ADMIN_EMAIL || 'admin_test@jobassist.ai').toLowerCase().trim();
   const normalUserEmail = `candidate_${timestamp}@example.com`;
   const userPassword = 'SecurePassword123!';
 
@@ -132,7 +132,7 @@ async function runTests() {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      email: `  Admin_Test@jobassist.ai  `, // Mixed case + whitespace
+      email: `  ${adminEmail.toUpperCase()}  `, // Mixed case + whitespace to verify normalization
       password: userPassword,
       name: 'System Admin'
     })

@@ -74,12 +74,20 @@
 
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(['jobassist_clients', 'active_client_id'], (data) => {
-      if (data.jobassist_clients && data.jobassist_clients.length > 0) {
+      const defaultList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
+      const hasLegacy = data.jobassist_clients && data.jobassist_clients.some(c => c.id === 'client_raymond_wong' || c.name === 'Raymond Wong');
+      if (data.jobassist_clients && data.jobassist_clients.length > 0 && !hasLegacy) {
         allClients = data.jobassist_clients;
+      } else {
+        allClients = defaultList;
       }
-      if (data.active_client_id) {
-        const found = allClients.find(c => c.id === data.active_client_id);
+      const activeId = data.active_client_id || (allClients[0] ? allClients[0].id : null);
+      if (activeId) {
+        const found = allClients.find(c => c.id === activeId);
         if (found) activeClient = found;
+        else if (allClients.length > 0) activeClient = allClients[0];
+      } else if (allClients.length > 0) {
+        activeClient = allClients[0];
       }
       updateFloatingWidgetClient();
     });

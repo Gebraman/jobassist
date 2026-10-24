@@ -130,14 +130,18 @@ function setupTabs() {
 // Load Clients
 async function loadClients() {
   const stored = await chrome.storage.local.get(['jobassist_clients', 'active_client_id']);
-  if (stored.jobassist_clients && stored.jobassist_clients.length > 0) {
-    clientsList = stored.jobassist_clients;
+  const defaultList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
+
+  // Automatically synchronize with current primary client (James Royal) and remove legacy placeholder clients
+  const hasLegacy = stored.jobassist_clients && stored.jobassist_clients.some(c => c.id === 'client_raymond_wong' || c.name === 'Raymond Wong');
+  if (!stored.jobassist_clients || stored.jobassist_clients.length === 0 || hasLegacy) {
+    clientsList = defaultList;
+    await chrome.storage.local.set({ jobassist_clients: clientsList, active_client_id: clientsList[0]?.id });
   } else {
-    clientsList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
-    await chrome.storage.local.set({ jobassist_clients: clientsList });
+    clientsList = stored.jobassist_clients;
   }
 
-  const activeId = stored.active_client_id || (clientsList[0] ? clientsList[0].id : null);
+  const activeId = (clientsList.find(c => c.id === stored.active_client_id) ? stored.active_client_id : null) || (clientsList[0] ? clientsList[0].id : null);
   renderClientSelect(activeId);
   renderClientsCRMList();
 }
