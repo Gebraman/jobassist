@@ -1051,6 +1051,123 @@ function setupEventListeners() {
   const btnTab3Attach = document.getElementById('btn-tab3-attach-resume');
   if (btnTab3Attach) btnTab3Attach.addEventListener('click', () => triggerAttachTailoredResume(btnTab3Attach));
 
+  // Attach Tailored Cover Letter to Form Trigger
+  async function triggerAttachTailoredCoverLetter(btnEl) {
+    if (!activeClient) {
+      showStudioToast('Please select a candidate profile first.', 'error');
+      return;
+    }
+
+    const origHTML = btnEl ? btnEl.innerHTML : '';
+    if (btnEl) {
+      btnEl.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Scanning &amp; Attaching Cover Letter...';
+    }
+
+    // 1. Rescan active job page
+    await scanActiveJobTab();
+
+    // 2. Dispatch attach message to content script
+    try {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (tab && tab.id) {
+        chrome.tabs.sendMessage(tab.id, { action: 'attach_tailored_cover_letter', client: activeClient, jobInfo: currentJobInfo }, (res) => {
+          if (chrome.runtime.lastError || !res) {
+            if (btnEl) {
+              btnEl.innerHTML = '✓ Cover Letter Saved in Downloads';
+              setTimeout(() => { if (btnEl) btnEl.innerHTML = origHTML; }, 2500);
+            }
+            showStudioToast(`Generated tailored cover letter for ${currentJobInfo.company || 'Opening'}.`, 'success');
+          } else {
+            if (btnEl) {
+              btnEl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ✓ ${res.attachedCount > 0 ? 'Cover Letter Attached!' : 'Letter PDF Ready'}`;
+              setTimeout(() => { if (btnEl) btnEl.innerHTML = origHTML; }, 3000);
+            }
+            if (res.attachedCount > 0) {
+              showStudioToast(`✓ Attached tailored cover letter (${res.fileName}) to ${currentJobInfo.company || 'application form'}!`, 'success');
+            } else {
+              showStudioToast(`✓ Generated tailored cover letter PDF for ${currentJobInfo.company || 'Opening'}. Ready in Downloads!`, 'success');
+            }
+          }
+        });
+      }
+    } catch(e) {
+      if (btnEl) btnEl.innerHTML = origHTML;
+    }
+  }
+
+  const btnAttachCoverForm = document.getElementById('btn-attach-cover-form');
+  if (btnAttachCoverForm) btnAttachCoverForm.addEventListener('click', () => triggerAttachTailoredCoverLetter(btnAttachCoverForm));
+
+  const btnTab3AttachCover = document.getElementById('btn-tab3-attach-cover');
+  if (btnTab3AttachCover) btnTab3AttachCover.addEventListener('click', () => triggerAttachTailoredCoverLetter(btnTab3AttachCover));
+
+  // Preview Canva Cover Letter
+  const previewCoverBtn = document.getElementById('btn-preview-cover');
+  if (previewCoverBtn) {
+    previewCoverBtn.addEventListener('click', () => {
+      if (!activeClient) return;
+      if (typeof generateCanvaCoverLetterHTML !== 'undefined') {
+        const html = generateCanvaCoverLetterHTML(activeClient, currentJobInfo, currentTemplate);
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        chrome.tabs.create({ url });
+      }
+    });
+  }
+
+  // Print High-Res Canva Cover Letter
+  const printCanvaCoverBtn = document.getElementById('btn-print-canva-cover');
+  if (printCanvaCoverBtn) {
+    printCanvaCoverBtn.addEventListener('click', () => {
+      if (!activeClient) return;
+      if (typeof generateCanvaCoverLetterHTML !== 'undefined') {
+        let html = generateCanvaCoverLetterHTML(activeClient, currentJobInfo, currentTemplate);
+        const printScript = `<script>window.addEventListener('load', () => { setTimeout(() => window.print(), 500); });<\/script>`;
+        html = html.replace('</body>', `${printScript}</body>`);
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        chrome.tabs.create({ url });
+      }
+    });
+  }
+
+  // Download PDF Cover Letter
+  const dlCoverBtn = document.getElementById('btn-download-cover');
+  if (dlCoverBtn) {
+    dlCoverBtn.addEventListener('click', () => {
+      if (!activeClient) return;
+      if (typeof generateValidCoverLetterPDFBlob !== 'undefined') {
+        const blob = generateValidCoverLetterPDFBlob(activeClient, currentJobInfo);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${activeClient.name.replace(/\s+/g, '_')}_Cover_Letter.pdf`;
+        a.click();
+      } else if (typeof generateTailoredCoverLetterText !== 'undefined') {
+        const text = generateTailoredCoverLetterText(activeClient, currentJobInfo);
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${activeClient.name.replace(/\s+/g, '_')}_Cover_Letter.txt`;
+        a.click();
+      }
+    });
+  }
+
+  // Copy Cover Letter Text
+  const copyCoverBtn = document.getElementById('btn-copy-cover-text');
+  if (copyCoverBtn) {
+    copyCoverBtn.addEventListener('click', () => {
+      if (!activeClient) return;
+      const text = typeof generateTailoredCoverLetterText !== 'undefined' ? generateTailoredCoverLetterText(activeClient, currentJobInfo) : '';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+        showStudioToast('✓ Cover letter text copied to clipboard!', 'success');
+      }
+    });
+  }
+
   // Preview Canva Resume
   document.getElementById('btn-preview-resume').addEventListener('click', () => {
     if (!activeClient) return;

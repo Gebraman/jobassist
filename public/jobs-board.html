@@ -175,7 +175,8 @@
       <div class="meta-bar">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-weight: 700; color: #FFF;">ACTIVE CANDIDATE:</span>
-          <select id="select-candidate" class="search-select" style="padding: 4px 10px; font-size: 12px; min-width: 220px;" onchange="renderJobs()">
+          <select id="select-candidate" class="search-select" style="padding: 4px 10px; font-size: 12px; min-width: 240px;" onchange="renderJobs()">
+            <option value="james" selected>James Royal (Senior Data Engineer - Primary Client)</option>
             <option value="raymond">Raymond Wong (Staff / Lead Backend Engineer)</option>
             <option value="sarah">Sarah Chen (Principal Distributed Systems)</option>
             <option value="marcus">Marcus Vance (Senior Full Stack & AI Architect)</option>
@@ -195,6 +196,11 @@
 
   <script>
     const candidates = {
+      james: {
+        name: 'James Royal',
+        headline: 'Senior Data Engineer',
+        skills: ['PYTHON', 'SQL', 'SCALA', 'APACHE SPARK', 'KAFKA', 'SNOWFLAKE', 'AIRFLOW', 'DBT', 'AWS S3', 'POSTGRESQL', 'DISTRIBUTED PROCESSING', 'ETL/ELT']
+      },
       raymond: {
         name: 'Raymond Wong',
         headline: 'Staff / Lead Backend Engineer',
@@ -320,8 +326,13 @@
               <button class="btn-action-secondary" onclick="generateCanvaResume('${job.id}', 'executive')">
                 Canva Executive Resume (PDF)
               </button>
-              <button class="btn-action-secondary" onclick="generateCanvaResume('${job.id}', 'ats')">
-                Silicon Valley ATS Resume
+              <button class="btn-action-secondary" onclick="generateCanvaCoverLetter('${job.id}', 'executive')" style="border-color:#38bdf8; color:#38bdf8; font-weight:700;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Canva Cover Letter (PDF)
+              </button>
+              <button class="btn-action-secondary" onclick="downloadCoverLetterAttachment('${job.id}')" title="Download & Attach Cover Letter PDF directly to your application">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                Attach Cover Letter
               </button>
               <button class="btn-action-secondary" onclick="generateOutreach('${job.company}', '${job.title}')">
                 Recruiter InMail
@@ -332,22 +343,50 @@
       }).join('');
     }
 
-    function generateCanvaResume(jobId, templateType = 'executive') {
+    function getSelectedClientForBoard() {
       const candKey = document.getElementById('select-candidate').value;
-      const job = activeBoardJobs.find(j => j.id === jobId) || activeBoardJobs[0];
       const allList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
       let client = allList.find(c => c.first.toLowerCase() === candKey || c.name.toLowerCase().includes(candKey));
       if (!client) {
+        const candObj = candidates[candKey] || candidates.james;
         client = {
-          name: candidates[candKey].name,
-          headline: candidates[candKey].headline,
-          email: `${candKey}@example.com`,
-          phone: '+251 948 232717',
-          loc: 'United States',
-          summary: `Senior professional with verified record in complex systems and workflows. Tailored specifically for ${job.company}.`,
-          skills: candidates[candKey].skills
+          name: candObj.name,
+          headline: candObj.headline,
+          email: `${candKey}@outlook.com`,
+          phone: '+1 (213) 419-5406',
+          loc: 'Austin, TX',
+          linkedin: 'https://www.linkedin.com/in/james-royal-37a898443',
+          portfolio: 'https://jamesroyal.dev',
+          summary: `Senior technical practitioner with extensive production experience in high-throughput architectures and data systems. Tailored for enterprise scale.`,
+          skills: candObj.skills,
+          experience: [
+            {
+              company: 'Givebutter',
+              role: 'Senior Data Engineer',
+              period: 'May 2024 – Present',
+              bullets: [
+                'Designed reporting datasets for fundraising transactions, campaigns, and donor activity, defining table grain and relationships.',
+                'Built incremental ingestion with Python, SQL, and REST APIs, handling pagination, updated records, and deduplication.'
+              ]
+            },
+            {
+              company: 'Workrise',
+              role: 'Senior Data Engineer',
+              period: 'Aug 2021 – Apr 2024',
+              bullets: [
+                'Engineered distributed data pipelines in Apache Spark and Snowflake processing 12M+ records daily with sub-second query latency.',
+                'Developed automated schema validation and freshness alerts, preventing silent ingestion failures.'
+              ]
+            }
+          ]
         };
       }
+      return client;
+    }
+
+    function generateCanvaResume(jobId, templateType = 'executive') {
+      const job = activeBoardJobs.find(j => j.id === jobId) || activeBoardJobs[0];
+      const client = getSelectedClientForBoard();
 
       if (typeof generateCanvaResumeHTML !== 'undefined') {
         const html = generateCanvaResumeHTML(client, job, templateType);
@@ -363,6 +402,47 @@
         a.download = `${client.name.replace(/\s+/g, '_')}_${job.company}_Resume.txt`;
         a.click();
       }
+    }
+
+    function generateCanvaCoverLetter(jobId, templateType = 'executive') {
+      const job = activeBoardJobs.find(j => j.id === jobId) || activeBoardJobs[0];
+      const client = getSelectedClientForBoard();
+
+      if (typeof generateCanvaCoverLetterHTML !== 'undefined') {
+        const html = generateCanvaCoverLetterHTML(client, job, templateType);
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      } else {
+        const text = generateTailoredCoverLetterText ? generateTailoredCoverLetterText(client, job) : 'Cover Letter';
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      }
+    }
+
+    function downloadCoverLetterAttachment(jobId) {
+      const job = activeBoardJobs.find(j => j.id === jobId) || activeBoardJobs[0];
+      const client = getSelectedClientForBoard();
+      const roleClean = (job.title || client.headline || 'Engineer').replace(/[^a-zA-Z0-9]/g, '_');
+      const nameClean = client.name.replace(/\s+/g, '_');
+      const fileName = `${nameClean}_${roleClean}_Cover_Letter.pdf`;
+
+      let blob;
+      if (typeof generateValidCoverLetterPDFBinary !== 'undefined') {
+        const binary = generateValidCoverLetterPDFBinary(client, job);
+        blob = new Blob([binary], { type: 'application/pdf' });
+      } else {
+        const text = generateTailoredCoverLetterText ? generateTailoredCoverLetterText(client, job) : 'Cover Letter';
+        blob = new Blob([text], { type: 'text/plain' });
+      }
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      showToast(`Downloaded Cover Letter attachment: ${fileName}! Ready to upload directly into ATS.`);
     }
 
     function generateOutreach(company, title) {

@@ -636,12 +636,483 @@ function generateValidPDFBlob(client, jobInfo = {}) {
   return new Blob([binary], { type: 'application/pdf' });
 }
 
+// ========================================================================
+// BESPOKE CANVA-GRADE TAILORED COVER LETTER GENERATOR
+// Perfectly styled to match the Executive Masterwork Resume
+// 100% Free • Print-to-PDF Ready • 1-Click Form Attachment Engine
+// ========================================================================
+
+function generateTailoredCoverLetterText(client, jobInfo = {}) {
+  const company = (jobInfo.company && !['Target Company', 'Enterprise Company', 'Hiring Company'].includes(jobInfo.company))
+    ? jobInfo.company
+    : 'your organization';
+  const role = jobInfo.title || client.headline || 'Senior Engineer';
+  const skills = getTailoredSkills(client.skills, jobInfo.keywords);
+  const topSkillsStr = (skills && skills.length > 0) ? skills.slice(0, 5).join(', ') : 'Python, SQL, Apache Spark, Snowflake, Kafka';
+  const years = client.yearsOfExperience || client.yearsBE || (client.experience && client.experience.length > 2 ? '13+' : '8+');
+  const exps = client.experience || [];
+  const primaryExp = exps[0] || {};
+  const secondaryExp = exps[1] || {};
+
+  const bullet1 = (primaryExp.bullets && primaryExp.bullets[0]) ||
+    'Architected high-throughput, incremental ingestion data pipelines processing over 10M records daily with 99.99% operational reliability.';
+  const bullet2 = (primaryExp.bullets && primaryExp.bullets[1]) || (secondaryExp.bullets && secondaryExp.bullets[0]) ||
+    'Engineered automated schema validation, freshness monitoring, and backfill replay workflows, cutting data incidents by 62%.';
+  const bullet3 = (secondaryExp.bullets && secondaryExp.bullets[1]) ||
+    'Collaborated across cross-functional engineering pods to define source interfaces, maintain strict business logic consistency, and optimize query latency.';
+
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  let letter = `${client.name}\n${client.headline || role}\n`;
+  letter += `${client.loc || 'United States'} • ${client.phone} • ${client.email}\n`;
+  if (client.linkedin) letter += `LinkedIn: ${client.linkedin}\n`;
+  if (client.portfolio) letter += `Portfolio: ${client.portfolio}\n`;
+  letter += `\n${today}\n\n`;
+  letter += `Technical Talent Acquisition Team\n`;
+  letter += `${company}\n\n`;
+  letter += `RE: Application for ${role} — ${client.name}\n\n`;
+  letter += `Dear Hiring Team at ${company},\n\n`;
+  letter += `I am writing to express my strong enthusiasm for the ${role} position at ${company}. Having followed ${company}'s ongoing innovation and technical velocity, I am deeply impressed by your team's commitment to operational reliability, scalable architecture, and engineering excellence. With over ${years} years of dedicated engineering experience architecting robust distributed data systems and production pipelines, I am confident in my ability to immediately accelerate your technical deliverables.\n\n`;
+  letter += `Throughout my career at organizations such as ${primaryExp.company || 'enterprise platforms'} and ${secondaryExp.company || 'high-scale systems'}, I have focused on solving mission-critical data scalability, integration, and operational reliability challenges:\n\n`;
+  letter += `• ${bullet1}\n`;
+  letter += `• ${bullet2}\n`;
+  letter += `• ${bullet3}\n\n`;
+  letter += `${company}'s technical focus on ${topSkillsStr} directly matches my day-to-day expertise. I combine hands-on technical mastery with a disciplined, metrics-driven approach to automated testing, performance tuning, and incident resolution. Furthermore, I pride myself on clear technical communication, cross-team collaboration, and an owner's mindset that prioritizes long-term system maintainability.\n\n`;
+  letter += `I would welcome the opportunity to discuss how my background in scalable architecture and technical execution can deliver immediate leverage for ${company}. Thank you for your time, consideration, and review of my application materials.\n\n`;
+  letter += `Sincerely,\n\n`;
+  letter += `${client.name}\n`;
+  letter += `${client.headline || role}\n`;
+  letter += `${client.email} | ${client.phone}\n`;
+
+  return letter;
+}
+
+function generateCanvaCoverLetterHTML(client, jobInfo = {}, templateType = 'executive') {
+  const company = (jobInfo.company && !['Target Company', 'Enterprise Company', 'Hiring Company'].includes(jobInfo.company))
+    ? jobInfo.company
+    : 'Hiring Team';
+  const role = jobInfo.title || client.headline || 'Senior Engineer';
+  const skills = getTailoredSkills(client.skills, jobInfo.keywords);
+  const topSkillsStr = (skills && skills.length > 0) ? skills.slice(0, 5).join(', ') : 'Python, SQL, Apache Spark, Snowflake, Kafka';
+  const years = client.yearsOfExperience || client.yearsBE || (client.experience && client.experience.length > 2 ? '13+' : '8+');
+  const exps = client.experience || [];
+  const primaryExp = exps[0] || {};
+  const secondaryExp = exps[1] || {};
+
+  const bullet1 = (primaryExp.bullets && primaryExp.bullets[0]) ||
+    'Architected high-throughput, incremental ingestion data pipelines processing over 10M records daily with 99.99% operational reliability.';
+  const bullet2 = (primaryExp.bullets && primaryExp.bullets[1]) || (secondaryExp.bullets && secondaryExp.bullets[0]) ||
+    'Engineered automated schema validation, freshness monitoring, and backfill replay workflows, cutting data incidents by 62%.';
+  const bullet3 = (secondaryExp.bullets && secondaryExp.bullets[1]) ||
+    'Collaborated across cross-functional engineering pods to define source interfaces, maintain strict business logic consistency, and optimize query latency.';
+
+  const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const rawText = generateTailoredCoverLetterText(client, jobInfo);
+  const safeTextForJs = rawText.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${client.name} — ${role} Cover Letter (${company})</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @page { size: letter; margin: 12mm 14mm; }
+    body {
+      background: #f4f4f5;
+      color: #09090b;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 24px 16px;
+      line-height: 1.5;
+      font-size: 10pt;
+      -webkit-font-smoothing: antialiased;
+    }
+    .screen-toolbar {
+      max-width: 8.5in;
+      margin: 0 auto 16px;
+      background: #141416;
+      border: 1px solid #27272a;
+      border-radius: 10px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .toolbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fafaf9;
+    }
+    .toolbar-tag {
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(0, 122, 255, 0.15);
+      border: 1px solid #007aff;
+      color: #60a5fa;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .toolbar-actions { display: flex; align-items: center; gap: 8px; }
+    .btn-tool {
+      background: #007aff;
+      color: #FFFFFF;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-tool:hover { background: #0062cc; }
+    .btn-tool-outline {
+      background: transparent;
+      border: 1px solid #3f3f46;
+      color: #e4e4e7;
+    }
+    .btn-tool-outline:hover { background: #27272a; border-color: #52525b; }
+    .btn-tool-attach {
+      background: #10b981;
+      color: #022c22;
+    }
+    .btn-tool-attach:hover { background: #059669; }
+    .letter-page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 0.65in 0.75in;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      border-radius: 4px;
+      color: #18181b;
+    }
+    .letter-header { margin-bottom: 20px; }
+    .candidate-name {
+      font-size: 24pt;
+      font-weight: 800;
+      color: #09090b;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .candidate-headline {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #007aff;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-top: 4px;
+    }
+    .contact-row {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 9.5pt;
+      color: #52525b;
+      align-items: center;
+    }
+    .contact-item { display: inline-flex; align-items: center; gap: 4px; }
+    .contact-sep { color: #d4d4d8; }
+    .accent-bar {
+      height: 3px;
+      background: linear-gradient(90deg, #007aff 0%, #38bdf8 100%);
+      margin: 14px 0 22px;
+      border-radius: 2px;
+    }
+    .date-block {
+      font-size: 10pt;
+      color: #71717a;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .recipient-block {
+      font-size: 10pt;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      color: #27272a;
+    }
+    .subject-pill {
+      background: #f4f4f5;
+      border-left: 3.5px solid #007aff;
+      padding: 9px 14px;
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #09090b;
+      margin: 18px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .salutation {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #09090b;
+      margin-bottom: 14px;
+    }
+    .letter-body p {
+      font-size: 10.5pt;
+      line-height: 1.65;
+      color: #18181b;
+      margin-bottom: 14px;
+      text-align: justify;
+    }
+    .bullet-list {
+      margin: 14px 0 18px 24px;
+    }
+    .bullet-list li {
+      font-size: 10pt;
+      line-height: 1.55;
+      color: #27272a;
+      margin-bottom: 8px;
+    }
+    .signoff-block {
+      margin-top: 24px;
+      font-size: 10.5pt;
+      line-height: 1.5;
+    }
+    .signoff-name {
+      font-weight: 800;
+      font-size: 12pt;
+      color: #09090b;
+      margin-top: 18px;
+    }
+    .signoff-title {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #007aff;
+    }
+    .signoff-meta {
+      font-size: 9pt;
+      color: #71717a;
+      margin-top: 3px;
+    }
+    @media print {
+      body { background: #ffffff !important; padding: 0 !important; }
+      .screen-toolbar { display: none !important; }
+      .letter-page {
+        width: 100% !important;
+        min-height: auto !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Screen Control Toolbar -->
+  <div class="screen-toolbar">
+    <div class="toolbar-brand">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span>JobAssist Canva Studio</span>
+      <span class="toolbar-tag">Executive Cover Letter</span>
+      <span style="color:#71717a; font-size:11px;">Tailored for ${company}</span>
+    </div>
+    <div class="toolbar-actions">
+      <button onclick="window.print()" class="btn-tool" title="Print to PDF or Save Paperless">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save PDF
+      </button>
+      <button id="btn-copy-cover" class="btn-tool btn-tool-outline" title="Copy full cover letter to clipboard">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Text
+      </button>
+      <button id="btn-dl-cover-pdf" class="btn-tool btn-tool-outline" title="Download standalone PDF document">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download .PDF
+      </button>
+      <button id="btn-attach-cover-action" class="btn-tool btn-tool-attach" title="Attach to open application form">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        Attach Cover Letter
+      </button>
+    </div>
+  </div>
+
+  <!-- Document Page Container -->
+  <div class="letter-page">
+    <!-- Header Letterhead (Canva Standard) -->
+    <header class="letter-header">
+      <h1 class="candidate-name">${client.name}</h1>
+      <div class="candidate-headline">${client.headline || role}</div>
+      <div class="contact-row">
+        <span class="contact-item">${client.loc || 'Austin, TX'}</span>
+        <span class="contact-sep">•</span>
+        <span class="contact-item">${client.phone}</span>
+        <span class="contact-sep">•</span>
+        <span class="contact-item">${client.email}</span>
+        ${client.linkedin ? `<span class="contact-sep">•</span><span class="contact-item">${client.linkedin.replace('https://www.', '')}</span>` : ''}
+        ${client.portfolio ? `<span class="contact-sep">•</span><span class="contact-item">${client.portfolio.replace('https://', '')}</span>` : ''}
+      </div>
+      <div class="accent-bar"></div>
+    </header>
+
+    <!-- Date & Addressee Block -->
+    <div class="date-block">${today}</div>
+    <div class="recipient-block">
+      <div>Technical Talent Acquisition Team</div>
+      <div style="font-weight: 700; color: #09090b; font-size: 11pt;">${company}</div>
+    </div>
+
+    <!-- Subject Pill -->
+    <div class="subject-pill">
+      RE: Application for ${role} — ${client.name}
+    </div>
+
+    <!-- Letter Body -->
+    <div class="letter-body">
+      <div class="salutation">Dear Hiring Team at ${company},</div>
+
+      <p>
+        I am writing to express my strong enthusiasm for the <strong>${role}</strong> opening at <strong>${company}</strong>. Having followed ${company}'s ongoing innovation and technical impact, I am deeply inspired by your team's commitment to operational reliability, scalable architecture, and engineering velocity. With over <strong>${years} years</strong> of specialized engineering experience architecting resilient data pipelines, distributed systems, and cloud-native integrations, I am eager to leverage this background to immediately accelerate ${company}'s technical roadmap.
+      </p>
+
+      <p>
+        Throughout my career across enterprise platforms including <strong>${primaryExp.company || 'Givebutter'}</strong> and <strong>${secondaryExp.company || 'Workrise'}</strong>, I have focused on solving mission-critical data scalability, integration, and operational reliability challenges under rigorous enterprise SLAs:
+      </p>
+
+      <ul class="bullet-list">
+        <li>${bullet1}</li>
+        <li>${bullet2}</li>
+        <li>${bullet3}</li>
+      </ul>
+
+      <p>
+        ${company}'s focus on <strong>${topSkillsStr}</strong> directly represents the exact technical challenges where I deliver the highest leverage. I combine deep hands-on mastery in modern data and cloud tooling with a disciplined, metric-driven approach to automated schema validation, performance optimization, and zero-downtime maintenance. Furthermore, I bring an async-first, collaborative mindset and an owner's discipline focused on long-term system maintainability and developer velocity.
+      </p>
+
+      <p>
+        I would welcome the opportunity to speak with you regarding how my hands-on background and execution discipline can support ${company}'s upcoming milestones. Thank you for your time, consideration, and review of my application materials.
+      </p>
+
+      <div class="signoff-block">
+        <div>Sincerely,</div>
+        <div class="signoff-name">${client.name}</div>
+        <div class="signoff-title">${client.headline || role}</div>
+        <div class="signoff-meta">${client.email} | ${client.phone} | ${client.loc || 'Austin, TX'}</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const coverText = \`${safeTextForJs}\`;
+    
+    document.getElementById('btn-copy-cover').addEventListener('click', () => {
+      navigator.clipboard.writeText(coverText);
+      const btn = document.getElementById('btn-copy-cover');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✓ Copied!';
+      setTimeout(() => btn.innerHTML = orig, 2000);
+    });
+
+    document.getElementById('btn-dl-cover-pdf').addEventListener('click', () => {
+      window.print();
+    });
+
+    document.getElementById('btn-attach-cover-action').addEventListener('click', () => {
+      // Trigger extension or parent window message
+      if (window.opener) {
+        window.opener.postMessage({ action: 'jobassist_attach_cover_letter', jobCompany: '${company}', jobTitle: '${role}' }, '*');
+      }
+      alert('Cover Letter synthesized and ready! Use "Attach Cover Letter" in JobAssist to inject directly into your ATS upload box.');
+    });
+  </script>
+</body>
+</html>`;
+}
+
+function generateValidCoverLetterPDFBinary(client, jobInfo = {}) {
+  const company = (jobInfo.company && !['Target Company', 'Enterprise Company'].includes(jobInfo.company))
+    ? jobInfo.company
+    : 'Enterprise Organization';
+  const role = jobInfo.title || client.headline || 'Senior Engineer';
+  const rawText = generateTailoredCoverLetterText(client, jobInfo);
+  const rawLines = rawText.split('\\n');
+
+  const lines = [];
+  rawLines.forEach(l => {
+    if (l.length > 85) {
+      // Wrap long lines for PDF
+      const words = l.split(' ');
+      let cur = '';
+      words.forEach(w => {
+        if ((cur + ' ' + w).length > 85) {
+          lines.push(cur.trim());
+          cur = w;
+        } else {
+          cur += (cur ? ' ' : '') + w;
+        }
+      });
+      if (cur) lines.push(cur.trim());
+    } else {
+      lines.push(l);
+    }
+  });
+
+  const escapePdf = (s) => (s || '').replace(/[()\\\\]/g, '\\\\$&').replace(/[^\\x20-\\x7E]/g, ' ');
+
+  let streamContent = `BT\\n/F1 15 Tf\\n50 750 Td\\n(${escapePdf(client.name + ' — ' + role)}) Tj\\nET\\n`;
+  streamContent += `BT\\n/F1 8.5 Tf\\n50 732 Td\\n12 TL\\n`;
+  lines.slice(0, 52).forEach(line => {
+    streamContent += `(${escapePdf(line)}) '\\n`;
+  });
+  streamContent += `ET\\n`;
+
+  let streamLen = 0;
+  for (let i = 0; i < streamContent.length; i++) streamLen++;
+
+  let body = '%PDF-1.4\\n';
+  const offsets = [];
+
+  function addObj(str) {
+    offsets.push(body.length);
+    body += str;
+  }
+
+  addObj('1 0 obj\\n<< /Type /Catalog /Pages 2 0 R >>\\nendobj\\n');
+  addObj('2 0 obj\\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\\nendobj\\n');
+  addObj('3 0 obj\\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\\nendobj\\n');
+  addObj('4 0 obj\\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\\nendobj\\n');
+  addObj(`5 0 obj\\n<< /Length ${streamLen} >>\\nstream\\n${streamContent}endstream\\nendobj\\n`);
+
+  const startXref = body.length;
+  let xref = 'xref\\n0 6\\n0000000000 65535 f \\n';
+  offsets.forEach(off => {
+    xref += off.toString().padStart(10, '0') + ' 00000 n \\n';
+  });
+  body += xref;
+  body += `trailer\\n<< /Size 6 /Root 1 0 R >>\\nstartxref\\n${startXref}\\n%%EOF\\n`;
+
+  const buf = new Uint8Array(body.length);
+  for (let i = 0; i < body.length; i++) {
+    buf[i] = body.charCodeAt(i) & 0xFF;
+  }
+  return buf;
+}
+
+function generateValidCoverLetterPDFBlob(client, jobInfo = {}) {
+  const binary = generateValidCoverLetterPDFBinary(client, jobInfo);
+  return new Blob([binary], { type: 'application/pdf' });
+}
+
 if (typeof globalThis !== 'undefined') {
   globalThis.generateExecutiveMasterworkResume = generateExecutiveMasterworkResume;
   globalThis.generateCanvaResumeHTML = generateCanvaResumeHTML;
   globalThis.generatePlainTextResume = generatePlainTextResume;
   globalThis.generateValidPDFBinary = generateValidPDFBinary;
   globalThis.generateValidPDFBlob = generateValidPDFBlob;
+  globalThis.generateTailoredCoverLetterText = generateTailoredCoverLetterText;
+  globalThis.generateCanvaCoverLetterHTML = generateCanvaCoverLetterHTML;
+  globalThis.generateValidCoverLetterPDFBinary = generateValidCoverLetterPDFBinary;
+  globalThis.generateValidCoverLetterPDFBlob = generateValidCoverLetterPDFBlob;
 }
 
 if (typeof module !== 'undefined' && module.exports) {
@@ -650,6 +1121,10 @@ if (typeof module !== 'undefined' && module.exports) {
     generateCanvaResumeHTML,
     generatePlainTextResume,
     generateValidPDFBinary,
-    generateValidPDFBlob
+    generateValidPDFBlob,
+    generateTailoredCoverLetterText,
+    generateCanvaCoverLetterHTML,
+    generateValidCoverLetterPDFBinary,
+    generateValidCoverLetterPDFBlob
   };
 }

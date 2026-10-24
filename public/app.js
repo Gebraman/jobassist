@@ -3415,14 +3415,24 @@ function renderAiApplySubView() {
   } else if (state.aiSubView === 'letter') {
     container.innerHTML = `
       <div style="background-color: #162032; border: 1px solid #27354A; border-radius: 8px; padding: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #27354A; padding-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #27354A; padding-bottom: 12px; flex-wrap: wrap; gap: 10px;">
           <div>
-            <h3 style="font-size: 16px; font-weight: 700; color: #FFF;">Bespoke 3-Part Cover Letter</h3>
-            <span style="font-size: 12px; color: #64748B;">Audited by Reviewer Agent · Zero Clichés · Grounded Facts</span>
+            <h3 style="font-size: 16px; font-weight: 700; color: #FFF;">Bespoke 3-Part Cover Letter (Canva-Grade Tailored)</h3>
+            <span style="font-size: 12px; color: #64748B;">Audited by Reviewer Agent · Grounded STAR Metrics · Form Attachment Ready</span>
           </div>
-          <button class="btn-dark-outline" style="height: 32px; font-size: 12px; padding: 0 12px;" onclick="copyToClipboard('${escapeTextForJs(drafts.coverLetter)}');">
-            Copy Full Letter
-          </button>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-primary" style="height: 32px; font-size: 12px; padding: 0 12px; display: inline-flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #007aff, #38bdf8);" onclick="openCanvaCoverLetterModal('${escapeTextForJs(job.company || '')}', '${escapeTextForJs(job.title || '')}');">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Canva Cover Letter (PDF)
+            </button>
+            <button class="btn-dark-outline" style="height: 32px; font-size: 12px; padding: 0 12px; display: inline-flex; align-items: center; gap: 5px; color: #34d399; border-color: #059669;" onclick="downloadCoverLetterFromDrafts('${escapeTextForJs(job.company || '')}', '${escapeTextForJs(job.title || '')}');">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              Attach Letter (.PDF)
+            </button>
+            <button class="btn-dark-outline" style="height: 32px; font-size: 12px; padding: 0 12px;" onclick="copyToClipboard('${escapeTextForJs(drafts.coverLetter)}');">
+              Copy Text
+            </button>
+          </div>
         </div>
 
         <div style="background: #090E17; border: 1px solid #27354A; border-radius: 6px; padding: 20px; font-family: monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; color: #E2E8F0;">
@@ -3868,7 +3878,7 @@ function testAutoFillOnSimulator() {
     try {
       const resumeContent = "Raymond Wong - Senior AI & Machine Learning Engineer\nEmail: raymond1994.glo@outlook.com | Phone: 510-340-2070\nAddress: 215 Piedmont Ave NE APT 1206, Atlanta, GA 30308\n8+ years experience in distributed ML systems, PyTorch, AWS, Uber Eats, EY, Coca-Cola.";
       const blob = new Blob([resumeContent], { type: 'text/plain' });
-      const file = new File([blob], 'Raymond_Wong_Senior_AIML_Engineer_Resume.txt', { type: 'text/plain' });
+      const file = new File([blob], 'James_Royal_Senior_Data_Engineer_Resume.txt', { type: 'text/plain' });
       const dt = new DataTransfer();
       dt.items.add(file);
       resumeInput.files = dt.files;
@@ -3879,15 +3889,94 @@ function testAutoFillOnSimulator() {
 
   // Textareas
   const whyText = state.currentAiAutofill?.screeningQuestions?.[0]?.answer || 
-    "I am passionate about solving mission-critical business challenges through scalable, high-throughput machine learning architectures and distributed systems. Having engineered real-time AI and predictive services at Uber Eats, EY, and Coca-Cola, your company's technical vision, data scale, and engineering culture directly align with my expertise.";
+    "I am passionate about solving mission-critical business challenges through scalable, high-throughput data architectures and incremental ETL/ELT pipelines. Having engineered real-time analytics and data platforms at Givebutter, Workrise, and Cognizant, your company's technical vision, data scale, and engineering culture directly align with my expertise.";
   setField('sim-why', whyText);
 
   const coverText = state.currentAiApply?.drafts?.coverLetter || 
-    "Dear Hiring Team,\n\nI am writing to express my strong enthusiasm for this engineering position. Over the past 8+ years at Uber Eats, EY, and Coca-Cola, I have specialized in architecting and deploying mission-critical machine learning systems, high-concurrency microservices, and cloud-native AI pipelines at enterprise scale.\n\nAt Uber Eats, I spearheaded the redesign of our dynamic dispatch ranking engine, sustaining sub-18ms p99 latency across 45M+ monthly active users and cutting production incident triage time by 52%. Prior to that at EY and Coca-Cola, I built deep learning extraction systems processing $12B+ in corporate ledgers and automated supply chain demand forecasting pipelines. I thrive in high-ownership, async-first engineering cultures and look forward to contributing immediate architectural leverage to your technical roadmap.\n\nWarm regards,\nRaymond Wong\nSenior AI & Machine Learning Engineer\nEmail: raymond1994.glo@outlook.com | Phone: 510-340-2070\nAtlanta, GA";
+    "Dear Hiring Team,\n\nI am writing to express my strong enthusiasm for this engineering position. Over the past 13+ years at Givebutter, Workrise, and Cognizant, I have specialized in architecting and deploying mission-critical data platforms, incremental ETL/ELT workflows, and distributed data systems at enterprise scale.\n\nAt Givebutter, I designed reporting datasets and incremental ingestion pipelines with Python, SQL, and REST APIs, while managing Apache Airflow orchestration with strict SLAs. Prior to that at Workrise, I engineered distributed processing pipelines in Apache Spark and Snowflake processing 12M+ records daily. I thrive in high-ownership, collaborative engineering cultures and look forward to contributing immediate architectural leverage to your technical roadmap.\n\nWarm regards,\nJames Royal\nSenior Data Engineer\nEmail: jamesroyal.91@outlook.com | Phone: +1 (213) 419-5406\nAustin, TX";
   setField('sim-cover', coverText);
 
-  showToast('JobAssist Auto-Fill: 15 fields, resume & consent auto-filled for Raymond Wong!', 'success');
+  showToast('JobAssist Auto-Fill: 15 fields, resume & cover letter auto-filled for James Royal!', 'success');
 }
+
+function openCanvaCoverLetterModal(company, title) {
+  const client = (typeof state !== 'undefined' && state.candidate) ? {
+    name: state.candidate.fullName || state.candidate.name || 'James Royal',
+    headline: state.candidate.headline || 'Senior Data Engineer',
+    email: state.candidate.email || 'jamesroyal.91@outlook.com',
+    phone: state.candidate.phone || '+1 (213) 419-5406',
+    loc: state.candidate.location || 'Austin, TX 78727',
+    linkedin: state.candidate.linkedin || 'https://www.linkedin.com/in/james-royal-37a898443',
+    portfolio: state.candidate.portfolio || 'https://jamesroyal.dev',
+    skills: state.candidate.skills?.languages ? [...state.candidate.skills.languages, ...(state.candidate.skills.distributedProcessing || [])] : ['Python', 'SQL', 'Spark', 'Kafka', 'Snowflake', 'Airflow'],
+    experience: state.candidate.experience || []
+  } : {
+    name: 'James Royal',
+    headline: 'Senior Data Engineer',
+    email: 'jamesroyal.91@outlook.com',
+    phone: '+1 (213) 419-5406',
+    loc: 'Austin, TX 78727',
+    linkedin: 'https://www.linkedin.com/in/james-royal-37a898443',
+    portfolio: 'https://jamesroyal.dev',
+    skills: ['Python', 'SQL', 'Spark', 'Kafka', 'Snowflake', 'Airflow'],
+    experience: []
+  };
+
+  const job = {
+    company: company || 'Enterprise Company',
+    title: title || client.headline,
+    keywords: ['Python', 'SQL', 'Apache Spark', 'Snowflake', 'Airflow', 'Kafka']
+  };
+
+  if (typeof generateCanvaCoverLetterHTML !== 'undefined') {
+    const html = generateCanvaCoverLetterHTML(client, job);
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  } else {
+    showToast('Canva Cover Letter opened in new window.', 'info');
+  }
+}
+window.openCanvaCoverLetterModal = openCanvaCoverLetterModal;
+
+function downloadCoverLetterFromDrafts(company, title) {
+  const client = (typeof state !== 'undefined' && state.candidate) ? {
+    name: state.candidate.fullName || state.candidate.name || 'James Royal',
+    headline: state.candidate.headline || 'Senior Data Engineer',
+    email: state.candidate.email || 'jamesroyal.91@outlook.com',
+    phone: state.candidate.phone || '+1 (213) 419-5406',
+    loc: state.candidate.location || 'Austin, TX 78727',
+    skills: ['Python', 'SQL', 'Spark', 'Kafka', 'Snowflake', 'Airflow']
+  } : {
+    name: 'James Royal',
+    headline: 'Senior Data Engineer',
+    email: 'jamesroyal.91@outlook.com',
+    phone: '+1 (213) 419-5406',
+    loc: 'Austin, TX 78727'
+  };
+
+  const job = { company, title };
+  const roleClean = (title || 'Engineer').replace(/[^a-zA-Z0-9]/g, '_');
+  const nameClean = client.name.replace(/\s+/g, '_');
+  const fileName = `${nameClean}_${roleClean}_Cover_Letter.pdf`;
+
+  let blob;
+  if (typeof generateValidCoverLetterPDFBinary !== 'undefined') {
+    const binary = generateValidCoverLetterPDFBinary(client, job);
+    blob = new Blob([binary], { type: 'application/pdf' });
+  } else {
+    const text = state.currentAiApply?.drafts?.coverLetter || (generateTailoredCoverLetterText ? generateTailoredCoverLetterText(client, job) : 'Cover Letter');
+    blob = new Blob([text], { type: 'text/plain' });
+  }
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  showToast(`Downloaded Tailored Cover Letter: ${fileName}! Ready to attach directly to ATS.`, 'success');
+}
+window.downloadCoverLetterFromDrafts = downloadCoverLetterFromDrafts;
 
 async function copyBookmarkletCode() {
   try {

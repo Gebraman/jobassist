@@ -399,6 +399,103 @@
     };
   }
 
+  // 3.7 Rescan, Synthesize & Attach Human Tailored Cover Letter to Application Form
+  function attachTailoredCoverLetterToForm(client = activeClient, jobInfo = null, forceDownload = false) {
+    const c = client || activeClient;
+    const job = jobInfo || extractPageJobOverview();
+    const roleClean = (job.title || c.headline || 'Engineer').replace(/[^a-zA-Z0-9]/g, '_');
+    const nameClean = (c.name || 'Candidate').replace(/\s+/g, '_');
+    const fileName = `${nameClean}_${roleClean}_Cover_Letter.pdf`;
+
+    let pdfBytes;
+    if (typeof generateValidCoverLetterPDFBinary !== 'undefined') {
+      pdfBytes = generateValidCoverLetterPDFBinary(c, job);
+    } else {
+      const txt = (typeof generateTailoredCoverLetterText !== 'undefined')
+        ? generateTailoredCoverLetterText(c, job)
+        : (c.letter || 'Cover Letter');
+      pdfBytes = new TextEncoder().encode(txt);
+    }
+
+    const file = new File([pdfBytes], fileName, { type: 'application/pdf', lastModified: Date.now() });
+    const inputs = findUploadInputs();
+    let attachedCount = 0;
+
+    // Prioritize file inputs that mention "cover", "letter", "additional", "document"
+    let targetInputs = inputs.filter(fi => {
+      const q = `${fi.name || ''} ${fi.id || ''} ${fi.getAttribute('aria-label') || ''} ${getFieldQuestion(fi)}`.toLowerCase();
+      return (q.includes('cover') || q.includes('letter') || q.includes('additional') || q.includes('other')) && !q.includes('resume') && !q.includes('cv');
+    });
+
+    // If no specific cover letter input, but there are multiple file upload boxes, target the 2nd one
+    if (targetInputs.length === 0 && inputs.length > 1) {
+      targetInputs = [inputs[1]];
+    }
+
+    targetInputs.forEach(fi => {
+      try {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        fi.files = dt.files;
+        fi.dispatchEvent(new Event('change', { bubbles: true }));
+        fi.dispatchEvent(new Event('input', { bubbles: true }));
+        fi.style.outline = '2.5px solid #007aff';
+        fi.style.boxShadow = '0 0 12px rgba(0, 122, 255, 0.4)';
+
+        const parentBox = fi.closest('.dropzone, .file-upload, [class*="upload"], [class*="file"], .form-group, .field, fieldset, div') || fi.parentElement;
+        if (parentBox && !parentBox.querySelector('.jobassist-attach-letter-banner')) {
+          const banner = document.createElement('div');
+          banner.className = 'jobassist-attach-letter-banner';
+          banner.style.cssText = 'background: rgba(0, 122, 255, 0.15); border: 1.5px solid #007aff; border-radius: 6px; padding: 6px 10px; margin-top: 6px; color: #38bdf8; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 6px; z-index: 999999;';
+          banner.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> <span>Tailored Cover Letter Attached: <b>${fileName}</b></span>`;
+          parentBox.appendChild(banner);
+        }
+        attachedCount++;
+      } catch(e) {}
+    });
+
+    // Also populate cover letter textarea if present
+    let textareaFilled = false;
+    const coverText = (typeof generateTailoredCoverLetterText !== 'undefined')
+      ? generateTailoredCoverLetterText(c, job)
+      : (c.letter || 'Cover Letter');
+
+    document.querySelectorAll('textarea, [contenteditable="true"]').forEach(t => {
+      const q = `${t.id || ''} ${t.name || ''} ${t.placeholder || ''} ${getFieldQuestion(t)}`.toLowerCase();
+      if (q.includes('cover') || q.includes('letter') || q.includes('note to hiring')) {
+        setNativeValue(t, coverText);
+        textareaFilled = true;
+      }
+    });
+
+    if (forceDownload || (attachedCount === 0 && !textareaFilled)) {
+      try {
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 3000);
+      } catch(e) {}
+    }
+
+    return {
+      success: true,
+      attachedCount,
+      textareaFilled,
+      fileName,
+      inputFound: targetInputs.length > 0,
+      targetRole: job.title,
+      targetCompany: job.company
+    };
+  }
+
   // 4. Autonomous 1-Click Form AutoFill Engine
   function executeAutoFill(client = activeClient) {
     if (!isLicenseValid()) {
@@ -727,11 +824,15 @@
     });
 
     // ----------------------------------------------------
-    // D. RESUME FILE ATTACHMENT (JAZZHR, WORKABLE, ASHBY, GREENHOUSE, LEVER, WORKDAY, TALEO, BAMBOOHR)
+    // D. RESUME & COVER LETTER ATTACHMENT (JAZZHR, WORKABLE, ASHBY, GREENHOUSE, LEVER, WORKDAY, TALEO, BAMBOOHR)
     // ----------------------------------------------------
     const attachRes = attachTailoredResumeToForm(c, jobOverview, false);
     if (attachRes && attachRes.attachedCount > 0) {
       filledCount += attachRes.attachedCount;
+    }
+    const attachCoverRes = attachTailoredCoverLetterToForm(c, jobOverview, false);
+    if (attachCoverRes && attachCoverRes.attachedCount > 0) {
+      filledCount += attachCoverRes.attachedCount;
     }
 
     // ----------------------------------------------------
@@ -1197,7 +1298,24 @@
         gap: 4px;
       " title="Rescan job & attach tailored PDF resume to this application form">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-        ATTACH
+        ATTACH CV
+      </button>
+
+      <button id="floating-attach-cover-btn" style="
+        background: #18181b;
+        color: #38bdf8;
+        border: 1px solid #007aff;
+        padding: 5px 9px;
+        border-radius: 9999px;
+        font-weight: 700;
+        font-size: 11px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      " title="Rescan job & attach tailored Cover Letter PDF to application form">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        ATTACH CL
       </button>
 
       <button id="floating-next-btn" style="
@@ -1241,6 +1359,19 @@
         cursor: pointer;
       " title="Preview Executive Masterwork Resume">
         RESUME
+      </button>
+
+      <button id="floating-cover-btn" style="
+        background: #18181b;
+        color: #38bdf8;
+        border: 1px solid #007aff;
+        padding: 5px 9px;
+        border-radius: 9999px;
+        font-weight: 700;
+        font-size: 11px;
+        cursor: pointer;
+      " title="Preview Canva-Grade Tailored Cover Letter (PDF)">
+        LETTER
       </button>
 
       <button id="floating-panel-btn" style="
@@ -1406,6 +1537,38 @@
         toggleOnPageAskAiPanel();
       });
     }
+
+    widget.querySelector('#floating-attach-cover-btn').addEventListener('click', () => {
+      const btn = widget.querySelector('#floating-attach-cover-btn');
+      btn.textContent = 'ATTACHING...';
+      const res = attachTailoredCoverLetterToForm(activeClient, null, true);
+      if (res && (res.attachedCount > 0 || res.textareaFilled)) {
+        btn.textContent = '✓ ATTACHED';
+        btn.style.background = '#065F46';
+        btn.style.color = '#34D399';
+      } else {
+        btn.textContent = '✓ CL READY';
+        btn.style.background = '#065F46';
+        btn.style.color = '#34D399';
+      }
+      setTimeout(() => {
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> ATTACH CL';
+        btn.style.background = '#18181b';
+        btn.style.color = '#38bdf8';
+      }, 2500);
+    });
+
+    widget.querySelector('#floating-cover-btn').addEventListener('click', () => {
+      const jobOverview = extractPageJobOverview();
+      if (typeof generateCanvaCoverLetterHTML !== 'undefined') {
+        const html = generateCanvaCoverLetterHTML(activeClient, jobOverview, 'executive');
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+      } else {
+        alert('Tailored Cover Letter generated for ' + (jobOverview.company || 'Opening') + '!');
+      }
+    });
 
     widget.querySelector('#floating-resume-btn').addEventListener('click', () => {
       if (typeof generateCanvaResumeHTML !== 'undefined') {
@@ -1835,6 +1998,10 @@
       } else if (msg.action === 'attach_tailored_resume') {
         const targetClient = msg.client || activeClient;
         const res = attachTailoredResumeToForm(targetClient, msg.jobInfo, true);
+        sendResponse(res);
+      } else if (msg.action === 'attach_tailored_cover_letter') {
+        const targetClient = msg.client || activeClient;
+        const res = attachTailoredCoverLetterToForm(targetClient, msg.jobInfo, true);
         sendResponse(res);
       } else if (msg.action === 'scan_questions') {
         const qList = scanPageQuestions();
