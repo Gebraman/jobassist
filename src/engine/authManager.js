@@ -14,6 +14,39 @@ const __dirname = path.dirname(__filename);
 const USERS_PATH = path.join(__dirname, '..', 'data', 'users.json');
 const SESSIONS_PATH = path.join(__dirname, '..', 'data', 'sessions.json');
 
+// Safely auto-load .env if present in root or parent
+function loadEnvIfPresent() {
+  const possiblePaths = [
+    path.join(__dirname, '..', '..', '.env'),
+    path.join(process.cwd(), '.env'),
+    path.join(__dirname, '.env')
+  ];
+  for (const envPath of possiblePaths) {
+    if (fs.existsSync(envPath)) {
+      try {
+        const raw = fs.readFileSync(envPath, 'utf-8');
+        for (const line of raw.split(/\r?\n/)) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith('#')) continue;
+          const idx = trimmed.indexOf('=');
+          if (idx > 0) {
+            const k = trimmed.slice(0, idx).trim();
+            let v = trimmed.slice(idx + 1).trim();
+            if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+              v = v.slice(1, -1);
+            }
+            if (!(k in process.env)) {
+              process.env[k] = v;
+            }
+          }
+        }
+      } catch (e) {}
+      break;
+    }
+  }
+}
+loadEnvIfPresent();
+
 function loadJSON(filePath, fallback) {
   try {
     if (fs.existsSync(filePath)) {
@@ -40,11 +73,11 @@ let usersStore = loadJSON(USERS_PATH, []);
 let sessionsStore = loadJSON(SESSIONS_PATH, []);
 
 /**
- * Safely normalize email addresses (lowercase, trim whitespace)
+ * Safely normalize email addresses (lowercase, trim whitespace, strip enclosing quotes)
  */
 export function normalizeEmail(email) {
   if (typeof email !== 'string') return '';
-  return email.trim().toLowerCase();
+  return email.trim().replace(/^["']+|["']+$/g, '').trim().toLowerCase();
 }
 
 /**

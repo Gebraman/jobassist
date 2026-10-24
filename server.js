@@ -40,6 +40,39 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Safely auto-load .env file if present in root or parent
+function loadEnvIfPresent() {
+  const possiblePaths = [
+    path.join(__dirname, '.env'),
+    path.join(process.cwd(), '.env'),
+    path.join(__dirname, '..', '.env')
+  ];
+  for (const envPath of possiblePaths) {
+    if (fs.existsSync(envPath)) {
+      try {
+        const raw = fs.readFileSync(envPath, 'utf-8');
+        for (const line of raw.split(/\r?\n/)) {
+          const trimmed = line.trim();
+          if (!trimmed || trimmed.startsWith('#')) continue;
+          const idx = trimmed.indexOf('=');
+          if (idx > 0) {
+            const k = trimmed.slice(0, idx).trim();
+            let v = trimmed.slice(idx + 1).trim();
+            if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+              v = v.slice(1, -1);
+            }
+            if (!(k in process.env)) {
+              process.env[k] = v;
+            }
+          }
+        }
+      } catch (e) {}
+      break;
+    }
+  }
+}
+loadEnvIfPresent();
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -116,7 +149,8 @@ app.get('/api/config', (req, res) => {
   res.json({
     serverUrl,
     version: '6.0.0',
-    environment: process.env.NODE_ENV || 'production'
+    environment: process.env.NODE_ENV || 'production',
+    adminConfigured: Boolean(process.env.ADMIN_EMAIL && process.env.ADMIN_EMAIL.includes('@'))
   });
 });
 
@@ -1403,5 +1437,10 @@ app.listen(PORT, () => {
   console.log(` Local URL: http://localhost:${PORT}`);
   console.log(` Checkout Funnel: http://localhost:${PORT}/checkout?utm_source=Facebook`);
   console.log(` Autonomous AI Studio: http://localhost:${PORT}/assistant`);
+  if (process.env.ADMIN_EMAIL) {
+    console.log(` Admin Authorization: Active (ADMIN_EMAIL is configured)`);
+  } else {
+    console.log(` Admin Authorization: Notice (ADMIN_EMAIL is not set. Admin routes protected)`);
+  }
   console.log(`====================================================`);
 });

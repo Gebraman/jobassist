@@ -213,6 +213,20 @@
 <script>
   let isRegisterMode = false;
 
+  // Check if ADMIN_EMAIL is configured on the backend
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('/api/config');
+      const cfg = await res.json();
+      if (cfg && cfg.adminConfigured === false) {
+        const feedback = document.getElementById('feedback');
+        feedback.className = 'feedback-box feedback-error';
+        feedback.innerHTML = '<strong>Configuration Required:</strong> The <code>ADMIN_EMAIL</code> environment variable is not configured on this server yet.<br>Add <code>ADMIN_EMAIL=your_email@gmail.com</code> in your Render Dashboard (or .env) and redeploy.';
+        feedback.style.display = 'block';
+      }
+    } catch (e) {}
+  });
+
   function toggleAuthMode() {
     isRegisterMode = !isRegisterMode;
     const title = document.getElementById('view-title');
@@ -266,7 +280,11 @@
 
       if (!res.ok || !data.success) {
         feedback.className = 'feedback-box feedback-error';
-        feedback.textContent = data.error || 'Authentication failed. Please check your credentials.';
+        if (isRegisterMode && data.error && data.error.includes('already exists')) {
+          feedback.innerHTML = 'An account with this email is already registered.<br><a onclick="toggleAuthMode()" style="color: #38BDF8; font-weight:700; cursor:pointer; text-decoration:underline;">Click here to Sign In with your password &rarr;</a>';
+        } else {
+          feedback.textContent = data.error || 'Authentication failed. Please check your credentials.';
+        }
         feedback.style.display = 'block';
         btn.disabled = false;
         btn.textContent = isRegisterMode ? 'Initialize Admin Account' : 'Sign In to Dashboard';
@@ -276,7 +294,10 @@
       // Check if user is actually the administrator
       if (!data.user.isAdmin) {
         feedback.className = 'feedback-box feedback-error';
-        feedback.textContent = 'Authentication succeeded, but this email address does not have administrator privileges.';
+        feedback.innerHTML = `Authentication succeeded for <strong>${data.user.email}</strong>, but this server has not been configured to recognize this email as the administrator.<br><br>` +
+          `<strong>How to resolve:</strong><br>` +
+          `• In your <strong>Render Dashboard</strong> &rarr; <em>Environment</em>, verify <code>ADMIN_EMAIL</code> is set to <code>${data.user.email}</code> (exact match, no quotes or spaces).<br>` +
+          `• Wait 1-2 minutes for Render's automatic deployment to complete, then <strong>Sign In</strong>.`;
         feedback.style.display = 'block';
         btn.disabled = false;
         btn.textContent = isRegisterMode ? 'Initialize Admin Account' : 'Sign In to Dashboard';

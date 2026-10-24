@@ -11,6 +11,37 @@
  */
 
 import assert from 'assert';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function loadEnvIfPresent() {
+  const envPath = path.join(__dirname, '.env');
+  if (fs.existsSync(envPath)) {
+    try {
+      const raw = fs.readFileSync(envPath, 'utf-8');
+      for (const line of raw.split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) continue;
+        const idx = trimmed.indexOf('=');
+        if (idx > 0) {
+          const k = trimmed.slice(0, idx).trim();
+          let v = trimmed.slice(idx + 1).trim();
+          if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+            v = v.slice(1, -1);
+          }
+          if (!(k in process.env)) {
+            process.env[k] = v;
+          }
+        }
+      }
+    } catch (e) {}
+  }
+}
+loadEnvIfPresent();
 
 console.log('================================================================');
 console.log(' JobAssist Administrator Authorization & Security Test Suite');
@@ -143,16 +174,23 @@ async function runTests() {
     adminToken = adminData.token;
   } else {
     // Already registered in a previous run, log in
-    const resAdminLogin = await fetch(`${BASE_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: adminEmail,
-        password: userPassword
-      })
-    });
-    const loginData = await resAdminLogin.json();
-    adminToken = loginData.token;
+    for (const pass of [userPassword, 'AdminPass2026!']) {
+      const resAdminLogin = await fetch(`${BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: adminEmail,
+          password: pass
+        })
+      });
+      if (resAdminLogin.ok) {
+        const loginData = await resAdminLogin.json();
+        if (loginData.token) {
+          adminToken = loginData.token;
+          break;
+        }
+      }
+    }
   }
 
   assert(adminToken, 'Admin session token must be obtained');
