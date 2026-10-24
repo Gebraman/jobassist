@@ -228,7 +228,7 @@ function renderMarketingHeader() {
               Admin
             </a>
           ` : ''}
-          <a href="#plans-section" onclick="scrollToSection('plans-section'); event.preventDefault();" class="jw-btn-outline hide-mobile" style="padding: 8px 16px; font-size: 13px;">
+          <a href="/pricing" class="jw-btn-outline hide-mobile" style="padding: 8px 16px; font-size: 13px;">
             Pricing
           </a>
           <a href="/download-extension" download class="jw-btn-primary" style="padding: 9px 20px; font-size: 13px;">
@@ -831,103 +831,217 @@ function renderCheckoutView() {
                 </div>
               </div>
 
-              <!-- Express Payment Buttons -->
-              <div style="margin-bottom: 20px;">
-                <div style="font-size: 12px; font-weight: 600; color: var(--color-ja-muted); text-transform: uppercase; margin-bottom: 10px; text-align: center;">
-                  Express Checkout
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-                  <!-- PayPal Button -->
-                  <button 
-                    onclick="handlePayPalCheckout();" 
-                    style="height: 44px; border-radius: 9999px; background: #FFC439; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; color: #003087;"
-                  >
-                    <span style="font-style: italic; font-weight: 900;">PayPal</span>
-                  </button>
-
-                  <!-- Google Pay / Apple Pay -->
-                  <button 
-                    onclick="handleGPayCheckout();" 
-                    style="height: 44px; border-radius: 9999px; background: #000000; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; color: #FFFFFF;"
-                  >
-                    <span>G Pay / Apple Pay</span>
-                  </button>
-                </div>
-
-                <div style="display: flex; align-items: center; gap: 10px; margin: 16px 0;">
-                  <div style="flex: 1; height: 1px; background: var(--color-ja-hairline);"></div>
-                  <span style="font-size: 12px; color: #94A3B8; text-transform: uppercase;">Or pay with card</span>
-                  <div style="flex: 1; height: 1px; background: var(--color-ja-hairline);"></div>
-                </div>
+              <!-- Payment Method Selector Tabs -->
+              <div style="display: flex; gap: 6px; margin-bottom: 18px; background: #18181b; padding: 4px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);">
+                <button type="button" id="tab-btn-local" onclick="switchCheckoutTab('local');" style="flex: 1; padding: 10px 4px; font-size: 12px; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; background: ${!isUSD ? '#007aff' : 'transparent'}; color: ${!isUSD ? '#FFF' : '#a1a1a6'};">
+                  Telebirr / CBE
+                </button>
+                <button type="button" id="tab-btn-crypto" onclick="switchCheckoutTab('crypto');" style="flex: 1; padding: 10px 4px; font-size: 12px; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; background: transparent; color: #a1a1a6;">
+                  Binance Pay
+                </button>
+                <button type="button" id="tab-btn-card" onclick="switchCheckoutTab('card');" style="flex: 1; padding: 10px 4px; font-size: 12px; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; background: ${isUSD ? '#007aff' : 'transparent'}; color: ${isUSD ? '#FFF' : '#a1a1a6'};">
+                  Card / Express
+                </button>
               </div>
 
-              <!-- Hosted Card Payment Form -->
-              <form id="card-checkout-form" onsubmit="handleCardSubmit(event);">
-                
-                <div style="margin-bottom: 12px;">
-                  <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Card Number</label>
-                  <div style="position: relative;">
-                    <input 
-                      type="text" 
-                      id="card-number" 
-                      class="ja-input" 
-                      placeholder="4242 •••• •••• 4242" 
-                      maxlength="19"
-                      oninput="formatCardNumber(this);"
-                      required
-                    />
-                    <span id="card-brand-badge" style="position: absolute; right: 12px; top: 14px; font-size: 12px; font-weight: 700; color: var(--color-ja-blue);"></span>
+              <!-- PANE 1: Telebirr & CBE Transfer -->
+              <div id="checkout-pane-local" style="display: ${!isUSD ? 'block' : 'none'};">
+                <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+                  <div style="font-size: 11px; font-weight: 800; color: #34d399; text-transform: uppercase; margin-bottom: 8px;">Transfer to JobAssist Official Accounts:</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px;">
+                    <div>
+                      <div style="font-size: 11px; color: #94A3B8;">Telebirr Transfer:</div>
+                      <div style="font-size: 14px; font-weight: 800; color: #FFF;">0948232717</div>
+                      <div style="font-size: 10px; color: #34d399;">Name: JobAssist Ethiopia</div>
+                    </div>
+                    <button type="button" onclick="navigator.clipboard.writeText('0948232717'); showToast('Telebirr phone copied: 0948232717', 'success');" style="background: #10B981; color: #022C22; font-weight: 700; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;">Copy</button>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px;">
+                    <div>
+                      <div style="font-size: 11px; color: #94A3B8;">Commercial Bank of Ethiopia (CBE):</div>
+                      <div style="font-size: 13.5px; font-weight: 800; color: #FFF;">1000542193275</div>
+                      <div style="font-size: 10px; color: #34d399;">Name: JobAssist Software Tech</div>
+                    </div>
+                    <button type="button" onclick="navigator.clipboard.writeText('1000542193275'); showToast('CBE Account copied: 1000542193275', 'success');" style="background: #10B981; color: #022C22; font-weight: 700; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;">Copy</button>
                   </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-                  <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Expiration</label>
-                    <input 
-                      type="text" 
-                      id="card-expiry" 
-                      class="ja-input" 
-                      placeholder="MM / YY" 
-                      maxlength="5"
-                      oninput="formatCardExpiry(this);"
-                      required
-                    />
+                <form id="local-checkout-form" onsubmit="handleCheckoutProofSubmit(event, 'local');">
+                  <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Full Name</label>
+                    <input type="text" id="local-pay-name" class="ja-input" placeholder="e.g. Dawit Mengistu or James Royal" required />
                   </div>
-                  <div>
-                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Security Code</label>
-                    <input 
-                      type="text" 
-                      id="card-cvc" 
-                      class="ja-input" 
-                      placeholder="CVC" 
-                      maxlength="4"
-                      required
-                    />
+                  <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Email (For License Key Delivery)</label>
+                    <input type="email" id="local-pay-email" class="ja-input" placeholder="name@example.com" value="${state.email || ''}" required />
+                  </div>
+                  <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Payment Gateway Used</label>
+                    <select id="local-pay-gateway" class="ja-input" style="height: 42px;">
+                      <option value="telebirr" selected>Telebirr Transfer (0948232717)</option>
+                      <option value="cbe">Commercial Bank of Ethiopia (1000542193275)</option>
+                    </select>
+                  </div>
+                  <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Transaction ID / Reference Number</label>
+                    <input type="text" id="local-pay-ref" class="ja-input" placeholder="e.g. CI49KQ82 or CBE Ref FT2601920X" required />
+                    <span style="font-size: 11px; color: #71717a; display: block; margin-top: 4px;">Paste the confirmation code from your Telebirr SMS or CBE slip.</span>
+                  </div>
+                  <div id="local-pay-status" style="display: none; margin-bottom: 14px;"></div>
+                  <button type="submit" id="btn-local-pay-submit" class="btn-primary" style="width: 100%; height: 50px; font-size: 15px; font-weight: 700;">
+                    Submit Receipt for Immediate Activation →
+                  </button>
+                </form>
+              </div>
+
+              <!-- PANE 2: Binance Pay (Crypto) -->
+              <div id="checkout-pane-crypto" style="display: none;">
+                <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+                  <div style="font-size: 11px; font-weight: 800; color: #fbbf24; text-transform: uppercase; margin-bottom: 8px;">International Zero-Fee Binance Pay:</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px;">
+                    <div>
+                      <div style="font-size: 11px; color: #94A3B8;">Binance UID (USDT):</div>
+                      <div style="font-size: 15px; font-weight: 800; color: #FFF;">1032674236</div>
+                      <div style="font-size: 10px; color: #fbbf24;">Zero gas fees via Binance App</div>
+                    </div>
+                    <button type="button" onclick="navigator.clipboard.writeText('1032674236'); showToast('Binance UID copied: 1032674236', 'success');" style="background: #F59E0B; color: #000; font-weight: 700; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer;">Copy UID</button>
                   </div>
                 </div>
 
+                <form id="crypto-checkout-form" onsubmit="handleCheckoutProofSubmit(event, 'crypto');">
+                  <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Full Name</label>
+                    <input type="text" id="crypto-pay-name" class="ja-input" placeholder="e.g. Alex Thorne or James Royal" required />
+                  </div>
+                  <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Email (For License Key Delivery)</label>
+                    <input type="email" id="crypto-pay-email" class="ja-input" placeholder="name@example.com" value="${state.email || ''}" required />
+                  </div>
+                  <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Binance Order ID / Tx Hash</label>
+                    <input type="text" id="crypto-pay-ref" class="ja-input" placeholder="e.g. Binance Order ID or TRC-20 TxID" required />
+                  </div>
+                  <div id="crypto-pay-status" style="display: none; margin-bottom: 14px;"></div>
+                  <button type="submit" id="btn-crypto-pay-submit" class="btn-primary" style="width: 100%; height: 50px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #F59E0B, #D97706); color: #000;">
+                    Submit Binance Proof for Activation →
+                  </button>
+                </form>
+              </div>
+
+              <!-- PANE 3: Card & Express -->
+              <div id="checkout-pane-card" style="display: ${isUSD ? 'block' : 'none'};">
+                <!-- Express Payment Buttons -->
                 <div style="margin-bottom: 20px;">
-                  <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Billing Zip / Postal Code</label>
-                  <input 
-                    type="text" 
-                    id="card-zip" 
-                    class="ja-input" 
-                    placeholder="ZIP / Postal Code" 
-                    required
-                  />
+                  <div style="font-size: 12px; font-weight: 600; color: var(--color-ja-muted); text-transform: uppercase; margin-bottom: 10px; text-align: center;">
+                    Express Checkout
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+                    <button 
+                      onclick="handlePayPalCheckout();" 
+                      style="height: 44px; border-radius: 9999px; background: #FFC439; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; color: #003087;"
+                    >
+                      <span style="font-style: italic; font-weight: 900;">PayPal</span>
+                    </button>
+
+                    <button 
+                      onclick="handleGPayCheckout();" 
+                      style="height: 44px; border-radius: 9999px; background: #000000; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; color: #FFFFFF;"
+                    >
+                      <span>G Pay / Apple Pay</span>
+                    </button>
+                  </div>
+
+                  <div style="display: flex; align-items: center; gap: 10px; margin: 16px 0;">
+                    <div style="flex: 1; height: 1px; background: var(--color-ja-hairline);"></div>
+                    <span style="font-size: 12px; color: #94A3B8; text-transform: uppercase;">Or pay with card</span>
+                    <div style="flex: 1; height: 1px; background: var(--color-ja-hairline);"></div>
+                  </div>
                 </div>
 
-                <button 
-                  type="submit" 
-                  id="checkout-cta-btn" 
-                  class="btn-primary" 
-                  style="width: 100%; height: 52px; font-size: 16px;"
-                >
-                  Start Applying Now
-                </button>
+                <!-- Hosted Card Payment Form -->
+                <form id="card-checkout-form" onsubmit="handleCardSubmit(event);">
+                  <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Email (For License Key Delivery)</label>
+                    <input 
+                      type="email" 
+                      id="card-email" 
+                      class="ja-input" 
+                      placeholder="name@example.com" 
+                      value="${state.email || ''}"
+                      required
+                    />
+                  </div>
+                  
+                  <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Card Number</label>
+                    <div style="position: relative;">
+                      <input 
+                        type="text" 
+                        id="card-number" 
+                        class="ja-input" 
+                        placeholder="4242 •••• •••• 4242" 
+                        maxlength="19"
+                        oninput="formatCardNumber(this);"
+                        required
+                      />
+                      <span id="card-brand-badge" style="position: absolute; right: 12px; top: 14px; font-size: 12px; font-weight: 700; color: var(--color-ja-blue);"></span>
+                    </div>
+                  </div>
 
-              </form>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                      <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Expiration</label>
+                      <input 
+                        type="text" 
+                        id="card-expiry" 
+                        class="ja-input" 
+                        placeholder="MM / YY" 
+                        maxlength="5"
+                        oninput="formatCardExpiry(this);"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Security Code</label>
+                      <input 
+                        type="text" 
+                        id="card-cvc" 
+                        class="ja-input" 
+                        placeholder="CVC" 
+                        maxlength="4"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Billing Zip / Postal Code</label>
+                    <input 
+                      type="text" 
+                      id="card-zip" 
+                      class="ja-input" 
+                      placeholder="ZIP / Postal Code" 
+                      required
+                    />
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    id="checkout-cta-btn" 
+                    class="btn-primary" 
+                    style="width: 100%; height: 52px; font-size: 16px;"
+                  >
+                    Start Applying Now
+                  </button>
+                </form>
+              </div>
+
+              <div style="text-align: center; margin-top: 14px;">
+                <a href="/pricing" style="color: #38bdf8; font-size: 12.5px; font-weight: 600; text-decoration: underline;">
+                  View All Flexible Passes &amp; Pricing Details →
+                </a>
+              </div>
 
               <div style="margin-top: 18px; text-align: center; font-size: 12px; color: var(--color-ja-muted); line-height: 1.5;">
                 Safe 256-Bit SSL Checkout · Instant Access · Cancel anytime in under 60 seconds from your profile settings.
@@ -1009,6 +1123,100 @@ function formatCardExpiry(input) {
   }
 }
 
+function switchCheckoutTab(tab) {
+  const localPane = document.getElementById('checkout-pane-local');
+  const cryptoPane = document.getElementById('checkout-pane-crypto');
+  const cardPane = document.getElementById('checkout-pane-card');
+  const localBtn = document.getElementById('tab-btn-local');
+  const cryptoBtn = document.getElementById('tab-btn-crypto');
+  const cardBtn = document.getElementById('tab-btn-card');
+  if (!localPane || !cryptoPane || !cardPane) return;
+
+  localPane.style.display = tab === 'local' ? 'block' : 'none';
+  cryptoPane.style.display = tab === 'crypto' ? 'block' : 'none';
+  cardPane.style.display = tab === 'card' ? 'block' : 'none';
+
+  if (localBtn) {
+    localBtn.style.background = tab === 'local' ? '#007aff' : 'transparent';
+    localBtn.style.color = tab === 'local' ? '#FFF' : '#a1a1a6';
+  }
+  if (cryptoBtn) {
+    cryptoBtn.style.background = tab === 'crypto' ? '#F59E0B' : 'transparent';
+    cryptoBtn.style.color = tab === 'crypto' ? '#000' : '#a1a1a6';
+  }
+  if (cardBtn) {
+    cardBtn.style.background = tab === 'card' ? '#007aff' : 'transparent';
+    cardBtn.style.color = tab === 'card' ? '#FFF' : '#a1a1a6';
+  }
+}
+window.switchCheckoutTab = switchCheckoutTab;
+
+async function handleCheckoutProofSubmit(e, type) {
+  e.preventDefault();
+  const isLocal = type === 'local';
+  const nameInput = document.getElementById(isLocal ? 'local-pay-name' : 'crypto-pay-name');
+  const emailInput = document.getElementById(isLocal ? 'local-pay-email' : 'crypto-pay-email');
+  const refInput = document.getElementById(isLocal ? 'local-pay-ref' : 'crypto-pay-ref');
+  const gatewaySelect = document.getElementById('local-pay-gateway');
+  const btn = document.getElementById(isLocal ? 'btn-local-pay-submit' : 'btn-crypto-pay-submit');
+  const statusBox = document.getElementById(isLocal ? 'local-pay-status' : 'crypto-pay-status');
+
+  const name = nameInput ? nameInput.value.trim() : '';
+  const email = emailInput ? emailInput.value.trim() : '';
+  const ref = refInput ? refInput.value.trim() : '';
+  const gateway = isLocal ? (gatewaySelect ? gatewaySelect.value : 'telebirr') : 'binance';
+  const currency = isLocal ? 'ETB' : 'USD';
+
+  if (!email || !ref) {
+    showToast('Please provide your email and transaction reference.', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting Proof...';
+
+  try {
+    const res = await fetch('/api/premium/submit-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        candidateName: name,
+        email: email,
+        planId: state.selectedPlanId || 'month-1',
+        currency: currency,
+        paymentMethod: gateway,
+        gateway: gateway,
+        reference: ref
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      statusBox.innerHTML = `
+        <div style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; border-radius: 10px; padding: 14px; color: #34D399; font-size: 13px;">
+          <b>✓ Payment Receipt Submitted Successfully!</b><br/>
+          <span style="color: #CBD5E1; font-size: 11.5px; display: block; margin-top: 4px;">
+            Transaction Ref: <code>${ref}</code><br/>
+            Admin Control Center has been notified. Once approved, your <b>PREM-...</b> license key will be sent to <b>${email}</b>!
+          </span>
+        </div>
+      `;
+      statusBox.style.display = 'block';
+      showToast('Payment received! The administrator will review and issue your key shortly.', 'success');
+      if (refInput) refInput.value = '';
+    } else {
+      statusBox.innerHTML = `<div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; border-radius: 8px; padding: 10px; color: #FCA5A5; font-size: 12px;">✕ ${data.error || 'Submission failed.'}</div>`;
+      statusBox.style.display = 'block';
+    }
+  } catch(err) {
+    statusBox.innerHTML = `<div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; border-radius: 8px; padding: 10px; color: #FCA5A5; font-size: 12px;">✕ Network Error: ${err.message}</div>`;
+    statusBox.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = isLocal ? 'Submit Receipt for Immediate Activation →' : 'Submit Binance Proof for Activation →';
+  }
+}
+window.handleCheckoutProofSubmit = handleCheckoutProofSubmit;
+
 async function handleCardSubmit(e) {
   e.preventDefault();
   const btn = document.getElementById('checkout-cta-btn');
@@ -1017,6 +1225,7 @@ async function handleCardSubmit(e) {
     btn.innerText = 'Authorizing payment...';
   }
 
+  const cardEmail = (document.getElementById('card-email')?.value || state.email || sessionStorage.getItem('ja_lead_email') || 'applicant@jobassist.com').trim();
   const cardNum = document.getElementById('card-number').value.replace(/\s+/g, '');
   const last4 = cardNum.slice(-4) || '4242';
 
@@ -1026,7 +1235,7 @@ async function handleCardSubmit(e) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         planId: state.selectedPlanId,
-        email: state.email || sessionStorage.getItem('ja_lead_email') || 'applicant@jobassist.com',
+        email: cardEmail,
         paymentMethod: 'card',
         cardLast4: last4,
         currency: state.selectedCurrency
@@ -1059,13 +1268,14 @@ function handleGPayCheckout() {
 }
 
 async function handlePaymentSuccess(method) {
+  const chosenEmail = (document.getElementById('card-email')?.value || state.email || sessionStorage.getItem('ja_lead_email') || 'applicant@jobassist.com').trim();
   try {
     const res = await fetch('/api/checkout/confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         planId: state.selectedPlanId,
-        email: state.email || 'applicant@jobassist.com',
+        email: chosenEmail,
         paymentMethod: method,
         currency: state.selectedCurrency
       })
@@ -2259,6 +2469,7 @@ function renderMarketingHomeView() {
                   <select id="home-pay-gateway" class="jw-input" style="height: 46px;">
                     <option value="telebirr" selected>Telebirr (0948232717)</option>
                     <option value="cbe">CBE Bank (1000542193275)</option>
+                    <option value="binance">Binance Pay USDT (UID: 1032674236)</option>
                   </select>
                 </div>
               </div>

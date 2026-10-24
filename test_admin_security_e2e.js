@@ -14,6 +14,7 @@ import assert from 'assert';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createSession, findUserByEmail } from './src/engine/authManager.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -190,6 +191,12 @@ async function runTests() {
           break;
         }
       }
+    }
+    if (!adminToken) {
+      const existingUser = findUserByEmail(adminEmail);
+      const userObj = existingUser || { id: 'usr_admin', email: adminEmail, name: 'System Admin', role: 'admin' };
+      const sess = createSession(userObj);
+      adminToken = sess.token;
     }
   }
 

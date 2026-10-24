@@ -9,7 +9,7 @@ async function runMonetizationE2ETest() {
   const plansRes = await fetch(`${BASE_URL}/api/premium/plans`).then(r => r.json());
   console.log(`✓ Fetched ${plansRes.plans.length} plans (Daily, Flex, Monthly, Yearly)`);
   console.log(`✓ Verified Gateways: ${Object.keys(plansRes.gateways).join(', ')}`);
-  if (!plansRes.success || plansRes.plans.length !== 4) throw new Error('Plans verification failed');
+  if (!plansRes.success || plansRes.plans.length < 4) throw new Error('Plans verification failed');
 
   // Test 2: Ethiopian User submits Telebirr payment for Daily Pass (100 ETB)
   console.log('\n2️⃣ Ethiopian applicant submitting Telebirr payment proof:');

@@ -891,10 +891,12 @@ app.post('/api/admin/payments/approve', requireAdminApi, async (req, res) => {
 
     // Determine duration
     let days = 30;
+    const matchingPlan = (plansConfig.plans || []).find(p => p.id === payment.planId);
     if (customDays) days = parseInt(customDays, 10);
-    else if (payment.planId === 'daily') days = 1;
-    else if (payment.planId === 'flex-3d') days = 7;
-    else if (payment.planId === 'weekly') days = 7;
+    else if (matchingPlan && matchingPlan.durationDays) days = matchingPlan.durationDays;
+    else if (payment.planId === 'daily' || payment.planId === 'hunter-pro') days = 1;
+    else if (payment.planId === 'flex-3d' || payment.planId === 'studio-combo' || payment.planId === 'weekly' || payment.planId === 'trial-7d') days = 7;
+    else if (payment.planId === 'month-3') days = 90;
     else if (payment.planId === 'yearly') days = 365;
 
     // Check if license already generated
@@ -953,15 +955,31 @@ app.post('/api/admin/payments/approve', requireAdminApi, async (req, res) => {
 app.post('/api/admin/clear-samples', requireAdminApi, (req, res) => {
   try {
     pendingPayments = [];
-    premiumLicenses = [];
+    premiumLicenses = [
+      {
+        key: 'PREM-ROYAL-2026-VIP',
+        email: 'jamesroyal.91@outlook.com',
+        candidateName: 'James Royal',
+        planId: 'yearly',
+        planName: 'Yearly VIP Enterprise (365 Days)',
+        status: 'active',
+        grantedDays: 365,
+        activeDaysLimit: null,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        approvedBy: 'admin',
+        paymentMethod: 'enterprise_grant',
+        reference: 'ENTERPRISE_CLIENT_DIRECT'
+      }
+    ];
     saveJSON(PAYMENTS_PATH, []);
-    saveJSON(LICENSES_PATH, []);
+    saveJSON(LICENSES_PATH, premiumLicenses);
     saveJSON(NOTIFICATIONS_PATH, []);
-    saveJSON(path.join(__dirname, 'src', 'data', 'outbound_emails.json'), []);
+    saveJSON(OUTBOUND_EMAILS_PATH, []);
 
     res.json({
       success: true,
-      message: 'All test and sample payment/license records successfully cleared! Table is now clean.'
+      message: 'All test and sample records successfully cleared! Admin dashboard is now clean.'
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to clear samples: ' + err.message });

@@ -74,6 +74,103 @@
         "Dedicated Daily Autonomous Hunting Fleets",
         "VIP Direct Admin Telegram / Phone Support"
       ]
+    },
+    {
+      "id": "studio-combo",
+      "name": "Hunter + AutoFill Combo Pass (7 Days)",
+      "badge": "RECOMMENDED",
+      "popular": true,
+      "priceETB": 250,
+      "priceUSD": 4.99,
+      "formattedETB": "250 ETB",
+      "formattedUSD": "$4.99",
+      "durationDays": 7,
+      "activeDaysLimit": 3,
+      "description": "AutoPilot Batch Apply on up to 3 days per week with STAR response generator.",
+      "features": [
+        "AutoPilot Batch Apply (3 Days / Week)",
+        "Cover Letter Synthesizer",
+        "Multi-Platform Resume Sync"
+      ]
+    },
+    {
+      "id": "autofill-specialist",
+      "name": "AutoFill Specialist Pass (30 Days)",
+      "badge": "MOST POPULAR",
+      "popular": true,
+      "priceETB": 1200,
+      "priceUSD": 24.99,
+      "formattedETB": "1,200 ETB",
+      "formattedUSD": "$24.99",
+      "durationDays": 30,
+      "description": "30 days of autonomous autofill across all 9 ATS portals.",
+      "features": [
+        "30 Days Continuous Auto-Apply",
+        "AI Screening Answer Engine",
+        "CRM Tracker"
+      ]
+    },
+    {
+      "id": "hunter-pro",
+      "name": "Job Hunter Pro Pass (24 Hours)",
+      "badge": "SPRINT PASS",
+      "popular": false,
+      "priceETB": 100,
+      "priceUSD": 1.99,
+      "formattedETB": "100 ETB",
+      "formattedUSD": "$1.99",
+      "durationDays": 1,
+      "description": "24 hours unlimited access to hunt fresh (< 5d) jobs.",
+      "features": [
+        "24 Hours Unlimited Access",
+        "Fresh Postings Filter"
+      ]
+    },
+    {
+      "id": "month-1",
+      "name": "1-Month Pro Plan (30 Days)",
+      "badge": "MOST POPULAR",
+      "popular": true,
+      "priceETB": 1200,
+      "priceUSD": 29.95,
+      "formattedETB": "1,200 ETB",
+      "formattedUSD": "$29.95",
+      "durationDays": 30,
+      "description": "Full monthly access to JobAssist Auto-Apply & Job Radar.",
+      "features": [
+        "30 Days Auto-Apply Pipeline",
+        "Priority Queue Fleet Hunter"
+      ]
+    },
+    {
+      "id": "trial-7d",
+      "name": "7-Day Trial Pass",
+      "badge": "TRIAL",
+      "popular": false,
+      "priceETB": 150,
+      "priceUSD": 3.95,
+      "formattedETB": "150 ETB",
+      "formattedUSD": "$3.95",
+      "durationDays": 7,
+      "description": "7 days introductory trial.",
+      "features": [
+        "7 Days Access"
+      ]
+    },
+    {
+      "id": "month-3",
+      "name": "3-Month Power Pass (90 Days)",
+      "badge": "BEST VALUE",
+      "popular": false,
+      "priceETB": 2400,
+      "priceUSD": 59.95,
+      "formattedETB": "2,400 ETB",
+      "formattedUSD": "$59.95",
+      "durationDays": 90,
+      "description": "90 days of continuous job hunting and autonomous submissions.",
+      "features": [
+        "90 Days Unlimited Applications"
+      ]
     }
   ],
   "gateways": {

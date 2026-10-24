@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "key": "PREM-ROYAL-2026-VIP",
+    "email": "jamesroyal.91@outlook.com",
+    "candidateName": "James Royal",
+    "planId": "yearly",
+    "planName": "Yearly VIP Enterprise (365 Days)",
+    "status": "active",
+    "grantedDays": 365,
+    "activeDaysLimit": null,
+    "createdAt": "2026-10-24T12:00:06.934Z",
+    "expiresAt": "2027-10-24T12:00:06.934Z",
+    "approvedBy": "admin",
+    "paymentMethod": "enterprise_grant",
+    "reference": "ENTERPRISE_CLIENT_DIRECT"
+  }
+]

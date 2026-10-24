@@ -112,12 +112,12 @@
     </div>
     <div class="metric-card">
       <div class="metric-title">Total Local Revenue</div>
-      <div class="metric-value" style="color: #34D399;">1,200 ETB</div>
+      <div id="metric-etb" class="metric-value" style="color: #34D399;">0 ETB</div>
       <div class="metric-accent">Telebirr & CBE Birr</div>
     </div>
     <div class="metric-card">
       <div class="metric-title">Total International</div>
-      <div class="metric-value" style="color: #38BDF8;">$149.99</div>
+      <div id="metric-usd" class="metric-value" style="color: #38BDF8;">$0.00</div>
       <div style="color: #38BDF8; font-size: 11.5px; font-weight: 700; margin-top: 2px;">Binance Pay (UID: 1032674236)</div>
     </div>
   </div>
@@ -749,6 +749,23 @@
     const pending = paymentsList.filter(p => p.status === 'pending').length;
     document.getElementById('metric-active').textContent = active;
     document.getElementById('metric-pending').textContent = pending;
+
+    let totalETB = 0;
+    let totalUSD = 0;
+    paymentsList.forEach(p => {
+      const amtStr = String(p.amount || '');
+      const num = parseFloat(amtStr.replace(/[^0-9.]/g, '')) || 0;
+      if (amtStr.includes('ETB') || p.currency === 'ETB' || p.paymentMethod === 'telebirr' || p.paymentMethod === 'cbe') {
+        totalETB += num;
+      } else if (amtStr.includes('$') || p.currency === 'USD' || p.paymentMethod === 'binance' || p.paymentMethod === 'card') {
+        totalUSD += num;
+      }
+    });
+
+    const etbEl = document.getElementById('metric-etb');
+    const usdEl = document.getElementById('metric-usd');
+    if (etbEl) etbEl.textContent = totalETB > 0 ? `${totalETB.toLocaleString()} ETB` : '0 ETB';
+    if (usdEl) usdEl.textContent = totalUSD > 0 ? `$${totalUSD.toFixed(2)}` : '$0.00';
   }
 
   async function loadNotifications() {

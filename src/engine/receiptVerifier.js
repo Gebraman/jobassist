@@ -53,31 +53,13 @@ export function verifyReceipt({ paymentMethod, reference, amount, currency, emai
   // 2. Gateway-Specific Format & Pattern Verification
   const method = (paymentMethod || '').toLowerCase();
 
-  if (method === 'telebirr' || currency === 'ETB') {
-    // Telebirr patterns: Typically alphanumeric like CI49KQ32, TJ981293, 10-12 characters, or SMS strings
-    const isTelebirrPattern = /^[A-Za-z0-9]{6,16}$/.test(ref) || /CI|TJ|CR|TB/i.test(ref);
-    const hasSmsMarkers = /(received|sent|transferred|ETB|birr|telebirr)/i.test(ref);
-
-    if (isTelebirrPattern || hasSmsMarkers) {
-      result.validFormat = true;
-      result.confidence = 94;
-      result.extractedData = {
-        detectedGateway: 'Telebirr Ethiopia',
-        txId: ref.match(/[A-Za-z0-9]{8,14}/) ? ref.match(/[A-Za-z0-9]{8,14}/)[0] : ref,
-        currency: 'ETB'
-      };
-      result.recommendedAction = 'AUTO_APPROVE_ELIGIBLE';
-    } else {
-      result.flags.push('NON_STANDARD_TELEBIRR_REFERENCE');
-      result.confidence = 60;
-    }
-  } else if (method === 'cbe') {
-    // Commercial Bank of Ethiopia: Often FT followed by digits/letters or 10-14 digits
-    const isCbePattern = /^(FT)?[0-9A-Za-z]{8,18}$/i.test(ref);
+  if (method === 'cbe' || method.includes('cbe')) {
+    // Commercial Bank of Ethiopia: Typically FT followed by digits/letters or 10-18 digits/alphanumeric
+    const isCbePattern = /^(FT)?[0-9A-Za-z\-_]{6,24}$/i.test(ref) || /FT|CBE/i.test(ref);
 
     if (isCbePattern) {
       result.validFormat = true;
-      result.confidence = 92;
+      result.confidence = 94;
       result.extractedData = {
         detectedGateway: 'Commercial Bank of Ethiopia (CBE)',
         txId: ref,
@@ -86,7 +68,25 @@ export function verifyReceipt({ paymentMethod, reference, amount, currency, emai
       result.recommendedAction = 'AUTO_APPROVE_ELIGIBLE';
     } else {
       result.flags.push('NON_STANDARD_CBE_REFERENCE');
-      result.confidence = 55;
+      result.confidence = 65;
+    }
+  } else if (method === 'telebirr' || (currency === 'ETB' && method !== 'binance' && method !== 'payoneer')) {
+    // Telebirr patterns: Typically alphanumeric like CI49KQ32, TJ981293, 6-16 characters, or SMS strings
+    const isTelebirrPattern = /^[A-Za-z0-9\-_]{5,20}$/.test(ref) || /CI|TJ|CR|TB|TX/i.test(ref);
+    const hasSmsMarkers = /(received|sent|transferred|ETB|birr|telebirr)/i.test(ref);
+
+    if (isTelebirrPattern || hasSmsMarkers) {
+      result.validFormat = true;
+      result.confidence = 94;
+      result.extractedData = {
+        detectedGateway: 'Telebirr Ethiopia',
+        txId: ref.match(/[A-Za-z0-9]{6,16}/) ? ref.match(/[A-Za-z0-9]{6,16}/)[0] : ref,
+        currency: 'ETB'
+      };
+      result.recommendedAction = 'AUTO_APPROVE_ELIGIBLE';
+    } else {
+      result.flags.push('NON_STANDARD_TELEBIRR_REFERENCE');
+      result.confidence = 60;
     }
   } else if (method === 'binance' || currency === 'USD') {
     // Binance Pay: 64-char hex hash (TRC20 / BEP20) or 8-12 digit Binance Order ID
