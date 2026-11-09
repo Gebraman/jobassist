@@ -10,7 +10,9 @@
       first: 'Gebremedhin',
       last: 'Endeshawe',
       email: 'nexadigitalteamhq@gmail.com',
-      phone: '+251 90 985 8645',
+      phone: '0948232719',
+      phoneFormatted: '+251 94 823 2719',
+      phoneRaw: '0948232719',
       headline: 'Virtual Assistant & Data Entry Lead | Nexa Digital Team',
       loc: 'Addis Ababa, Ethiopia (Remote Worldwide)',
       addr: 'Bole Sub-City',
@@ -19,7 +21,7 @@
       zip: '1000',
       country: 'Ethiopia',
       dob: '05/12/2000',
-      ssn4: '8645',
+      ssn4: '2719',
       title: 'Lead Virtual Assistant & Data Entry Specialist',
       company: 'Nexa Digital Team',
       school: 'Addis Ababa University',
@@ -37,7 +39,7 @@
       workAuth: 'Yes',
       skills: ['Virtual Assistance', 'Data Entry', 'Google Sheets', 'Microsoft Excel', 'Web Research', 'Administrative Support', 'Email Handling', 'Canva Design', 'Customer Support', 'Transcription'],
       summary: 'Reliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel, online research, and administrative tasks. Proven 99.8% accuracy.',
-      letter: 'Dear Hiring Manager,\n\nI am writing to express my enthusiastic interest in the Virtual Assistant / Data Entry position. At Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in accurate data entry, spreadsheet management (Google Sheets / Excel), online research, and daily administrative support.\n\nI bring 65+ WPM typing with 99.8% verified accuracy, prompt communication, and great familiarity with remote workflows.\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nVirtual Assistant & Data Entry Lead | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645'
+      letter: 'Dear Hiring Manager,\n\nI am writing to express my enthusiastic interest in the Virtual Assistant / Data Entry position. At Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in accurate data entry, spreadsheet management (Google Sheets / Excel), online research, and daily administrative support.\n\nI bring 65+ WPM typing with 99.8% verified accuracy, prompt communication, and great familiarity with remote workflows.\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nVirtual Assistant & Data Entry Lead | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: 0948232719 (+251 94 823 2719)'
     }
   ];
 
@@ -231,17 +233,17 @@
       description = bodyText.slice(0, 3000);
     }
 
-    // Extract relevant keywords across technical, engineering, finance, management
-    const candidateTech = [
-      'python', 'node.js', 'typescript', 'javascript', 'react', 'go', 'golang', 'sql', 'postgresql',
-      'mysql', 'mongodb', 'redis', 'kafka', 'aws', 'gcp', 'google cloud', 'azure', 'docker', 'kubernetes',
-      'terraform', 'ci/cd', 'rest', 'graphql', 'api', 'microservices', 'distributed systems', 'hubspot',
-      'zapier', 'workato', 'mulesoft', 'crm', 'accounting', 'bookkeeping', 'quickbooks', 'excel',
-      'gaap', 'reconciliation', 'payroll', 'tax', 'financial', 'audit', 'ledger', 'llm', 'langchain',
-      'rag', 'openai', 'fastapi', 'vector search', 'ebpf', 'linux', 'git', 'agile'
+    // Extract relevant keywords for Virtual Assistant, Data Entry, Spreadsheets & Operations
+    const candidateKeywords = [
+      'data entry', 'virtual assistant', 'administrative', 'customer support', 'live chat',
+      'email support', 'google sheets', 'excel', 'spreadsheet', 'vlookup', 'xlookup', 'pivot tables',
+      'web research', 'lead generation', 'transcription', 'copy paste', 'canva', 'thumbnail',
+      'social media', 'calendar management', 'inbox zero', 'typing', 'crm', 'airtable',
+      'notion', 'trello', 'asana', 'slack', 'ai workflow', 'chatgpt', 'data cleaning',
+      'document formatting', 'b2b research', 'fast typing', 'accuracy', 'remote operations'
     ];
     const lowerBody = (title + ' ' + description).toLowerCase();
-    const matchedKeywords = candidateTech.filter(k => lowerBody.includes(k));
+    const matchedKeywords = candidateKeywords.filter(k => lowerBody.includes(k));
 
     return {
       title,
@@ -392,8 +394,8 @@
       } catch(e) {}
     });
 
-    // Provide instant fallback download so user has the physical PDF ready if needed
-    if (forceDownload || attachedCount === 0) {
+    // Only trigger download if user explicitly clicked Download PDF button
+    if (forceDownload) {
       try {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
@@ -489,7 +491,8 @@
       }
     });
 
-    if (forceDownload || (attachedCount === 0 && !textareaFilled)) {
+    // Only trigger download if user explicitly clicked Download PDF button
+    if (forceDownload) {
       try {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);

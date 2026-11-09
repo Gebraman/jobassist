@@ -3829,12 +3829,12 @@ function testAutoFillOnSimulator() {
   if (!form) return;
 
   const data = state.currentAiAutofill?.personalFields || {
-    firstName: "Raymond",
-    lastName: "Wong",
-    email: "raymond1994.glo@outlook.com",
-    phone: "510-340-2070",
-    linkedin: "https://www.linkedin.com/in/ray-w-3888b33aa",
-    portfolio: "https://app.talentral.org"
+    firstName: "Gebremedhin",
+    lastName: "Endeshawe",
+    email: "nexadigitalteamhq@gmail.com",
+    phone: "0948232719",
+    linkedin: "https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b",
+    portfolio: "https://nexa-portfolio-theta.vercel.app/"
   };
 
   const setField = (id, val) => {
@@ -3848,15 +3848,15 @@ function testAutoFillOnSimulator() {
     el.style.boxShadow = '0 0 0 2px rgba(16, 185, 129, 0.25)';
   };
 
-  setField('sim-first-name', data.firstName || 'Raymond');
-  setField('sim-last-name', data.lastName || 'Wong');
-  setField('sim-email', data.email || 'raymond1994.glo@outlook.com');
-  setField('sim-phone', data.phone || '510-340-2070');
-  setField('sim-linkedin', data.linkedin || 'https://www.linkedin.com/in/ray-w-3888b33aa');
-  setField('sim-portfolio', data.portfolio || 'https://app.talentral.org');
-  setField('sim-salary', '175,000');
-  setField('sim-notice', '2 weeks');
-  setField('sim-work-auth', 'US_CITIZEN');
+  setField('sim-first-name', data.firstName || 'Gebremedhin');
+  setField('sim-last-name', data.lastName || 'Endeshawe');
+  setField('sim-email', data.email || 'nexadigitalteamhq@gmail.com');
+  setField('sim-phone', data.phone || '0948232719');
+  setField('sim-linkedin', data.linkedin || 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b');
+  setField('sim-portfolio', data.portfolio || 'https://nexa-portfolio-theta.vercel.app/');
+  setField('sim-salary', '$15 / hr');
+  setField('sim-notice', 'Immediate');
+  setField('sim-work-auth', 'REMOTE_B2B_W8BEN');
 
   // Radio buttons
   const authYes = document.getElementById('sim-auth-yes');
@@ -3876,7 +3876,7 @@ function testAutoFillOnSimulator() {
   const resumeInput = document.getElementById('sim-resume');
   if (resumeInput) {
     try {
-      const resumeContent = "Gebremedhin Endeshawe - Virtual Assistant & Data Entry Specialist\nNexa Digital Team | Email: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645\nPortfolio: https://nexa-portfolio-theta.vercel.app/ | GitHub: https://github.com/nexadigitalteamhq-design\n\nPROFESSIONAL SUMMARY:\nReliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel (data cleaning, formatting, VLOOKUP), online research, data extraction, CRM updates, and AI-assisted workflows. Verified 99.8% accuracy (65+ WPM) and 100% on-time delivery.\n\nCORE SKILLS:\n• High-Accuracy Data Entry (65+ WPM, 99.8% Accuracy)\n• Google Sheets & Microsoft Excel (Data cleaning, formatting, formulas)\n• Web Research & Lead Generation (Contact discovery, list building)\n• Virtual Assistance & Email Management (Inbox Zero, scheduling)\n• Customer Support (Live chat, email correspondence, ticket handling)\n• Copy-Paste, Transcription & Document Formatting\n• Canva Design (Thumbnails, social graphics, slide decks)\n• AI Productivity (ChatGPT, Claude for fast formatting and summarization)\n\nEXPERIENCE:\n• Nexa Digital Team — Virtual Assistant & Data Operations Specialist (2024 - Present)\n  - Managed remote data entry and online research for international clients with 99.8% accuracy.\n  - Built verified business directories, organized Google Drive systems, and maintained daily client communication.\n• Remote Data & Administrative Assistant (2023 - 2024)\n  - Entered and verified records from PDF invoices, receipts, and forms into spreadsheets.\n  - Maintained zero errors across client databases and resolved customer inquiries promptly.\n\nEDUCATION & CERTIFICATIONS:\n• Accounting & Finance — Addis Ababa University (2026)\n• Certified High-Speed Typing & Data Accuracy (65+ WPM, 99.8% Accuracy)\n• Google Workspace & Excel Advanced Certification";
+      const resumeContent = "Gebremedhin Endeshawe - Virtual Assistant & Data Entry Specialist\nNexa Digital Team | Email: nexadigitalteamhq@gmail.com | Phone: 0948232719 (+251 94 823 2719)\nPortfolio: https://nexa-portfolio-theta.vercel.app/ | GitHub: https://github.com/nexadigitalteamhq-design\n\nPROFESSIONAL SUMMARY:\nReliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel (data cleaning, formatting, VLOOKUP), online research, data extraction, CRM updates, and AI-assisted workflows. Verified 99.8% accuracy (65+ WPM) and 100% on-time delivery.\n\nCORE SKILLS:\n• High-Accuracy Data Entry (65+ WPM, 99.8% Accuracy)\n• Google Sheets & Microsoft Excel (Data cleaning, formatting, formulas)\n• Web Research & Lead Generation (Contact discovery, list building)\n• Virtual Assistance & Email Management (Inbox Zero, scheduling)\n• Customer Support (Live chat, email correspondence, ticket handling)\n• Copy-Paste, Transcription & Document Formatting\n• Canva Design (Thumbnails, social graphics, slide decks)\n• AI Productivity (ChatGPT, Claude for fast formatting and summarization)\n\nEXPERIENCE:\n• Nexa Digital Team — Virtual Assistant & Data Operations Specialist (2024 - Present)\n  - Managed remote data entry and online research for international clients with 99.8% accuracy.\n  - Built verified business directories, organized Google Drive systems, and maintained daily client communication.\n• Remote Data & Administrative Assistant (2023 - 2024)\n  - Entered and verified records from PDF invoices, receipts, and forms into spreadsheets.\n  - Maintained zero errors across client databases and resolved customer inquiries promptly.\n\nEDUCATION & CERTIFICATIONS:\n• Accounting & Finance — Addis Ababa University (2026)\n• Certified High-Speed Typing & Data Accuracy (65+ WPM, 99.8% Accuracy)\n• Google Workspace & Excel Advanced Certification";
       const blob = new Blob([resumeContent], { type: 'text/plain' });
       const file = new File([blob], 'Gebremedhin_Endeshawe_Virtual_Assistant_Resume.txt', { type: 'text/plain' });
       const dt = new DataTransfer();
@@ -3893,7 +3893,7 @@ function testAutoFillOnSimulator() {
   setField('sim-why', whyText);
 
   const coverText = state.currentAiApply?.drafts?.coverLetter || 
-    "Dear Hiring Manager,\n\nI am writing to express my enthusiastic interest in this position. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams keep their day-to-day operations organized, accurate, and completely on schedule.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Excel, and CRMs.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645\nPortfolio: https://nexa-portfolio-theta.vercel.app/";
+    "Dear Hiring Manager,\n\nI am writing to express my enthusiastic interest in this position. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams keep their day-to-day operations organized, accurate, and completely on schedule.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Excel, and CRMs.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: 0948232719 (+251 94 823 2719)\nPortfolio: https://nexa-portfolio-theta.vercel.app/";
   setField('sim-cover', coverText);
 
   showToast('JobAssist Auto-Fill: 15 fields, resume & cover letter auto-filled for Gebremedhin Endeshawe (Nexa Digital Team)!', 'success');
@@ -3904,7 +3904,7 @@ function openCanvaCoverLetterModal(company, title) {
     name: state.candidate.fullName || state.candidate.name || 'Gebremedhin Endeshawe (Gman)',
     headline: state.candidate.headline || 'Virtual Assistant & Data Entry Specialist',
     email: state.candidate.email || 'nexadigitalteamhq@gmail.com',
-    phone: state.candidate.phone || '+251 90 985 8645',
+    phone: state.candidate.phone || '0948232719',
     loc: state.candidate.location || 'Addis Ababa, Ethiopia (Remote Worldwide)',
     linkedin: state.candidate.linkedin || 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b',
     portfolio: state.candidate.portfolio || 'https://nexa-portfolio-theta.vercel.app/',
@@ -3914,7 +3914,7 @@ function openCanvaCoverLetterModal(company, title) {
     name: 'Gebremedhin Endeshawe (Gman)',
     headline: 'Virtual Assistant & Data Entry Specialist',
     email: 'nexadigitalteamhq@gmail.com',
-    phone: '+251 90 985 8645',
+    phone: '0948232719',
     loc: 'Addis Ababa, Ethiopia (Remote Worldwide)',
     linkedin: 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b',
     portfolio: 'https://nexa-portfolio-theta.vercel.app/',
@@ -3944,14 +3944,14 @@ function downloadCoverLetterFromDrafts(company, title) {
     name: state.candidate.fullName || state.candidate.name || 'Gebremedhin Endeshawe (Gman)',
     headline: state.candidate.headline || 'Founder • Full-Stack Developer • Operations Lead',
     email: state.candidate.email || 'nexadigitalteamhq@gmail.com',
-    phone: state.candidate.phone || '+251 90 985 8645',
+    phone: state.candidate.phone || '0948232719',
     loc: state.candidate.location || 'Addis Ababa, Ethiopia (Remote Worldwide)',
     skills: ['React', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS']
   } : {
     name: 'Gebremedhin Endeshawe (Gman)',
     headline: 'Founder • Full-Stack Developer • Operations Lead',
     email: 'nexadigitalteamhq@gmail.com',
-    phone: '+251 90 985 8645',
+    phone: '0948232719',
     loc: 'Addis Ababa, Ethiopia (Remote Worldwide)'
   };
 

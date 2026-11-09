@@ -10,8 +10,9 @@ const DEFAULT_CLIENTS = [
     last: 'Endeshawe',
     preferredName: 'Gman',
     email: 'nexadigitalteamhq@gmail.com',
-    phone: '+251 90 985 8645',
-    phoneRaw: '251909858645',
+    phone: '0948232719',
+    phoneFormatted: '+251 94 823 2719',
+    phoneRaw: '0948232719',
     headline: 'Virtual Assistant & Data Entry Specialist | Nexa Digital Team',
     targetRole: 'Virtual Assistant',
     department: 'Administrative & Digital Operations',
@@ -43,7 +44,7 @@ const DEFAULT_CLIENTS = [
     dobMonth: '05',
     dobDay: '12',
     dobYear: '2000',
-    ssn4: '8645',
+    ssn4: '2719',
     title: 'Virtual Assistant & Data Entry Specialist',
     currentTitle: 'Virtual Assistant & Data Entry Specialist',
     company: 'Nexa Digital Team',
@@ -114,7 +115,7 @@ const DEFAULT_CLIENTS = [
       }
     ],
     summary: 'Reliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel, online research, data extraction, CRM updates, and AI-assisted workflows. Proven 99.8% accuracy and 100% on-time delivery.',
-    letterTemplate: 'Dear Hiring Manager at {COMPANY},\n\nI am writing to express my enthusiastic interest in the {ROLE} opportunity. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams and entrepreneurs keep their day-to-day operations organized, accurate, and completely stress-free.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Microsoft Excel, CRMs, and online databases.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite, professional correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nFeel free to view our startup portfolio and client workflows: https://nexa-portfolio-theta.vercel.app/\n\nI would love the opportunity to assist your team. Thank you for your time and consideration!\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645\nPortfolio: https://nexa-portfolio-theta.vercel.app/'
+    letterTemplate: 'Dear Hiring Manager at {COMPANY},\n\nI am writing to express my enthusiastic interest in the {ROLE} opportunity. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams and entrepreneurs keep their day-to-day operations organized, accurate, and completely stress-free.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Microsoft Excel, CRMs, and online databases.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite, professional correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nFeel free to view our startup portfolio and client workflows: https://nexa-portfolio-theta.vercel.app/\n\nI would love the opportunity to assist your team. Thank you for your time and consideration!\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: 0948232719 (+251 94 823 2719)\nPortfolio: https://nexa-portfolio-theta.vercel.app/'
   },
   {
     id: 'client_nexa_emanuel',
@@ -123,8 +124,9 @@ const DEFAULT_CLIENTS = [
     last: 'Nexa',
     preferredName: 'Emanuel',
     email: 'nexadigitalteamhq@gmail.com',
-    phone: '+251 90 985 8645',
-    phoneRaw: '251909858645',
+    phone: '0948232719',
+    phoneFormatted: '+251 94 823 2719',
+    phoneRaw: '0948232719',
     headline: 'Virtual Assistant & Data Entry Specialist | Nexa Digital Team',
     targetRole: 'Data Entry',
     department: 'Administrative & Digital Operations',
@@ -203,7 +205,7 @@ const DEFAULT_CLIENTS = [
       }
     ],
     summary: 'Reliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel, online research, data extraction, CRM updates, and AI-assisted workflows. Proven 99.8% accuracy and 100% on-time delivery.',
-    letterTemplate: 'Dear Hiring Manager at {COMPANY},\n\nI am writing to express my enthusiastic interest in the {ROLE} opportunity. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams and entrepreneurs keep their day-to-day operations organized, accurate, and completely stress-free.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Microsoft Excel, CRMs, and online databases.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite, professional correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nFeel free to view our startup portfolio and client workflows: https://nexa-portfolio-theta.vercel.app/\n\nI would love the opportunity to assist your team. Thank you for your time and consideration!\n\nWarm regards,\nEmanuel\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645\nPortfolio: https://nexa-portfolio-theta.vercel.app/'
+    letterTemplate: 'Dear Hiring Manager at {COMPANY},\n\nI am writing to express my enthusiastic interest in the {ROLE} opportunity. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams and entrepreneurs keep their day-to-day operations organized, accurate, and completely stress-free.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Microsoft Excel, CRMs, and online databases.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite, professional correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nFeel free to view our startup portfolio and client workflows: https://nexa-portfolio-theta.vercel.app/\n\nI would love the opportunity to assist your team. Thank you for your time and consideration!\n\nWarm regards,\nEmanuel\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: 0948232719 (+251 94 823 2719)\nPortfolio: https://nexa-portfolio-theta.vercel.app/'
   },
   {
     id: 'client_nexa_emanuel2',
@@ -212,8 +214,9 @@ const DEFAULT_CLIENTS = [
     last: 'Two',
     preferredName: 'Emanuel',
     email: 'nexadigitalteamhq@gmail.com',
-    phone: '+251 90 985 8645',
-    phoneRaw: '251909858645',
+    phone: '0948232719',
+    phoneFormatted: '+251 94 823 2719',
+    phoneRaw: '0948232719',
     headline: 'Virtual Assistant & Data Entry Specialist | Nexa Digital Team',
     targetRole: 'Virtual Assistant (Canva & Media)',
     department: 'Administrative & Digital Operations',
@@ -274,7 +277,7 @@ const DEFAULT_CLIENTS = [
       }
     ],
     summary: 'Reliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel, online research, data extraction, CRM updates, and AI-assisted workflows. Proven 99.8% accuracy and 100% on-time delivery.',
-    letterTemplate: 'Dear Hiring Manager at {COMPANY},\n\nI am writing to express my enthusiastic interest in the {ROLE} opportunity. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams and entrepreneurs keep their day-to-day operations organized, accurate, and completely stress-free.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Microsoft Excel, CRMs, and online databases.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite, professional correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nFeel free to view our startup portfolio and client workflows: https://nexa-portfolio-theta.vercel.app/\n\nI would love the opportunity to assist your team. Thank you for your time and consideration!\n\nWarm regards,\nEmanuel 2\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645\nPortfolio: https://nexa-portfolio-theta.vercel.app/'
+    letterTemplate: 'Dear Hiring Manager at {COMPANY},\n\nI am writing to express my enthusiastic interest in the {ROLE} opportunity. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams and entrepreneurs keep their day-to-day operations organized, accurate, and completely stress-free.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Microsoft Excel, CRMs, and online databases.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite, professional correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nFeel free to view our startup portfolio and client workflows: https://nexa-portfolio-theta.vercel.app/\n\nI would love the opportunity to assist your team. Thank you for your time and consideration!\n\nWarm regards,\nEmanuel 2\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: 0948232719 (+251 94 823 2719)\nPortfolio: https://nexa-portfolio-theta.vercel.app/'
   },
   {
     id: 'client_nexa_amare',
@@ -283,8 +286,9 @@ const DEFAULT_CLIENTS = [
     last: 'Nexa',
     preferredName: 'Amare',
     email: 'nexadigitalteamhq@gmail.com',
-    phone: '+251 90 985 8645',
-    phoneRaw: '251909858645',
+    phone: '0948232719',
+    phoneFormatted: '+251 94 823 2719',
+    phoneRaw: '0948232719',
     headline: 'Virtual Assistant & Data Entry Specialist | Nexa Digital Team',
     targetRole: 'Online Research Assistant',
     department: 'Administrative & Digital Operations',
@@ -345,7 +349,7 @@ const DEFAULT_CLIENTS = [
       }
     ],
     summary: 'Reliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel, online research, data extraction, CRM updates, and AI-assisted workflows. Proven 99.8% accuracy and 100% on-time delivery.',
-    letterTemplate: 'Dear Hiring Manager at {COMPANY},\n\nI am writing to express my enthusiastic interest in the {ROLE} opportunity. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams and entrepreneurs keep their day-to-day operations organized, accurate, and completely stress-free.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Microsoft Excel, CRMs, and online databases.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite, professional correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nFeel free to view our startup portfolio and client workflows: https://nexa-portfolio-theta.vercel.app/\n\nI would love the opportunity to assist your team. Thank you for your time and consideration!\n\nWarm regards,\nAmare\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645\nPortfolio: https://nexa-portfolio-theta.vercel.app/'
+    letterTemplate: 'Dear Hiring Manager at {COMPANY},\n\nI am writing to express my enthusiastic interest in the {ROLE} opportunity. As a dedicated Virtual Assistant and Data Entry Specialist with Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in helping busy teams and entrepreneurs keep their day-to-day operations organized, accurate, and completely stress-free.\n\nHere is how I can support your daily workflow:\n• High-Accuracy Data Entry: Fast typing (65+ WPM) with 99.8% accuracy across Google Sheets, Microsoft Excel, CRMs, and online databases.\n• Web Research & Data Collection: Skilled at finding verified business leads, customer contact details, and market information online.\n• Administrative & Email Support: Managing inboxes, scheduling appointments, organizing digital folders, and drafting polite, professional correspondence.\n• Document & Canva Design: Preparing clean reports, formatting spreadsheets, and creating simple, eye-catching graphics and presentation slides in Canva.\n• Tech & AI-Assisted Speed: Leveraging modern digital tools and AI to double-check work, automate formatting, and deliver tasks ahead of schedule.\n\nI am highly reliable, quick to learn any specialized software or guidelines, and available to work across US, UK, and worldwide time zones.\n\nFeel free to view our startup portfolio and client workflows: https://nexa-portfolio-theta.vercel.app/\n\nI would love the opportunity to assist your team. Thank you for your time and consideration!\n\nWarm regards,\nAmare\nVirtual Assistant & Data Entry Specialist | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: 0948232719 (+251 94 823 2719)\nPortfolio: https://nexa-portfolio-theta.vercel.app/'
   }
 ];
 

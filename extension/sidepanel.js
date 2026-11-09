@@ -140,12 +140,16 @@ async function loadClients() {
   const defaultList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
 
   // Automatically synchronize with current unified Nexa Digital Team roster
-  const hasLegacy = stored.jobassist_clients && stored.jobassist_clients.some(c => 
+  const hasLegacy = !stored.jobassist_clients || stored.jobassist_clients.length === 0 || stored.jobassist_clients.some(c => 
     c.id === 'client_raymond_wong' || c.name === 'Raymond Wong' ||
     c.id === 'client_james_royal' || c.name === 'James Royal' ||
-    c.id === 'client_nexa_gman' || c.id === 'client_nexa_emanuel_ops'
+    c.id === 'client_nexa_gman' || c.id === 'client_nexa_emanuel_ops' ||
+    (c.phone && (c.phone.includes('985 8645') || c.phone.includes('510-340-2070'))) ||
+    !c.phone || c.phone !== '0948232719' ||
+    (c.summary && (c.summary.includes('engineering and technical') || c.summary.includes('HubSpot')))
   );
-  if (!stored.jobassist_clients || stored.jobassist_clients.length === 0 || hasLegacy) {
+
+  if (hasLegacy) {
     clientsList = defaultList;
     await chrome.storage.local.set({ jobassist_clients: clientsList, active_client_id: clientsList[0]?.id });
   } else {
@@ -181,7 +185,7 @@ function setActiveClient(client) {
   const metaEmail = document.getElementById('meta-email');
   if (metaEmail) metaEmail.textContent = client.email || 'nexadigitalteamhq@gmail.com';
   const metaPhone = document.getElementById('meta-phone');
-  if (metaPhone) metaPhone.textContent = client.phone || '+251 90 985 8645';
+  if (metaPhone) metaPhone.textContent = client.phone || '0948232719';
   const metaAuth = document.getElementById('meta-auth');
   if (metaAuth) {
     metaAuth.textContent = 'Remote B2B (W-8BEN)';
@@ -493,14 +497,14 @@ function updateJobDisplay(info) {
   const portalEl = document.getElementById('detected-portal');
   if (portalEl) portalEl.textContent = currentJobInfo.portal || 'APPLICATION FORM';
   const titleEl = document.getElementById('job-title');
-  if (titleEl) titleEl.textContent = currentJobInfo.title || 'Software Developer';
+  if (titleEl) titleEl.textContent = currentJobInfo.title || 'Virtual Assistant & Data Entry Specialist';
   const compEl = document.getElementById('job-company');
-  if (compEl) compEl.textContent = `${currentJobInfo.company || 'Hiring Company'} • ${currentJobInfo.location || 'Remote'}`;
+  if (compEl) compEl.textContent = `${currentJobInfo.company || 'Direct Client'} • ${currentJobInfo.location || 'Remote'}`;
 
   const kwWrap = document.getElementById('job-keywords');
   if (kwWrap) {
     kwWrap.innerHTML = '';
-    (currentJobInfo.keywords || ['HUBSPOT', 'NODE.JS', 'PYTHON', 'REACT', 'GOOGLE CLOUD', 'APIS']).forEach(k => {
+    (currentJobInfo.keywords || ['VIRTUAL ASSISTANT', 'DATA ENTRY', 'GOOGLE SHEETS', 'EXCEL', 'WEB RESEARCH', 'CUSTOMER SUPPORT']).forEach(k => {
       const pill = document.createElement('span');
       pill.className = 'skill-tag';
       pill.textContent = k;
@@ -510,10 +514,10 @@ function updateJobDisplay(info) {
 
   // Update Tab 3 Dynamic Resume Header
   const targetRoleEl = document.getElementById('resume-target-role');
-  if (targetRoleEl) targetRoleEl.textContent = currentJobInfo.title || 'Software Developer';
+  if (targetRoleEl) targetRoleEl.textContent = currentJobInfo.title || 'Virtual Assistant & Data Entry Specialist';
 
   const targetCompEl = document.getElementById('resume-target-comp');
-  if (targetCompEl) targetCompEl.textContent = currentJobInfo.company || 'Hiring Company';
+  if (targetCompEl) targetCompEl.textContent = currentJobInfo.company || 'Direct Client';
 
   const kwCountEl = document.getElementById('resume-keywords-count');
   if (kwCountEl) {
@@ -534,12 +538,11 @@ async function scanPageQuestions() {
     chrome.tabs.sendMessage(tab.id, { action: 'scan_questions' }, (res) => {
       if (chrome.runtime.lastError || !res || !res.questions || res.questions.length === 0) {
         discoveredQuestions = [
-          { questionText: "Do you have experience with HubSpot's developer platform and have relevant certifications?", selector: 'select', suggestedAnswer: 'Yes, with certifications' },
-          { questionText: "Do you have familiarity with integration tools such as Zapier, Workato, or Mulesoft, in connecting platforms?", selector: 'select', suggestedAnswer: 'Yes' },
-          { questionText: "How many years experience do you have with API-based software integrations?", selector: 'select', suggestedAnswer: 'More than 5' },
-          { questionText: "Do you have a strong understanding of HubSpot's Marketing, Sales, Content, and Service Hubs?", selector: 'select', suggestedAnswer: 'Yes' },
-          { questionText: "Where are you based?", selector: 'select', suggestedAnswer: 'US' },
-          { questionText: "What is your target salary for this position?", selector: 'input', suggestedAnswer: '$95,000' }
+          { questionText: "What is your verified typing speed and data entry accuracy rate?", selector: 'input', suggestedAnswer: "65+ WPM typing speed with 99.8% verified accuracy across Google Sheets and Microsoft Excel." },
+          { questionText: "Are you comfortable working remotely across US and international business hours?", selector: 'select', suggestedAnswer: "Yes, fully available for US / UK and worldwide remote hours." },
+          { questionText: "Do you have hands-on experience organizing spreadsheets (VLOOKUP, Pivot Tables, Data Cleaning)?", selector: 'select', suggestedAnswer: "Yes, advanced Google Sheets and Microsoft Excel proficiency." },
+          { questionText: "What is your proposed hourly rate for this role?", selector: 'input', suggestedAnswer: "$12 - $18 / hr ($15 / hr)" },
+          { questionText: "Are you authorized to work remotely on an independent contractor basis (W-8BEN)?", selector: 'select', suggestedAnswer: "Yes, authorized for remote global B2B / freelance contract." }
         ];
       } else {
         discoveredQuestions = res.questions;
@@ -1305,19 +1308,19 @@ function setupEventListeners() {
         chrome.tabs.sendMessage(tab.id, { action: 'attach_tailored_resume', client: activeClient, jobInfo: currentJobInfo }, (res) => {
           if (chrome.runtime.lastError || !res) {
             if (btnEl) {
-              btnEl.innerHTML = '✓ PDF Ready in Downloads';
+              btnEl.innerHTML = 'No Form Upload Found';
               setTimeout(() => { if (btnEl) btnEl.innerHTML = origHTML; }, 2500);
             }
-            showStudioToast(`Generated tailored resume for ${currentJobInfo.company || 'Opening'}.`, 'success');
+            showStudioToast(`No upload input found. Use "Download PDF" to save the file.`, 'info');
           } else {
             if (btnEl) {
-              btnEl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ✓ ${res.attachedCount > 0 ? 'Attached to Form!' : 'PDF Saved & Ready'}`;
+              btnEl.innerHTML = res.attachedCount > 0 ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ✓ Attached to Form!` : 'No Upload Field Found';
               setTimeout(() => { if (btnEl) btnEl.innerHTML = origHTML; }, 3000);
             }
             if (res.attachedCount > 0) {
-              showStudioToast(`✓ Attached tailored resume (${res.fileName}) to ${currentJobInfo.company || 'application form'}!`, 'success');
+              showStudioToast(`✓ Attached tailored resume (${res.fileName}) to form!`, 'success');
             } else {
-              showStudioToast(`✓ Generated tailored PDF for ${currentJobInfo.company || 'Opening'}. Ready in Downloads!`, 'success');
+              showStudioToast(`No file upload input detected on this page. Click "Download PDF" to save your resume.`, 'info');
             }
           }
         });
@@ -1355,19 +1358,20 @@ function setupEventListeners() {
         chrome.tabs.sendMessage(tab.id, { action: 'attach_tailored_cover_letter', client: activeClient, jobInfo: currentJobInfo }, (res) => {
           if (chrome.runtime.lastError || !res) {
             if (btnEl) {
-              btnEl.innerHTML = '✓ Cover Letter Saved in Downloads';
+              btnEl.innerHTML = 'No Cover Field Found';
               setTimeout(() => { if (btnEl) btnEl.innerHTML = origHTML; }, 2500);
             }
-            showStudioToast(`Generated tailored cover letter for ${currentJobInfo.company || 'Opening'}.`, 'success');
+            showStudioToast(`No cover letter field found. Use "Download PDF" to save the letter.`, 'info');
           } else {
+            const ok = (res.attachedCount > 0 || res.textareaFilled);
             if (btnEl) {
-              btnEl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ✓ ${res.attachedCount > 0 ? 'Cover Letter Attached!' : 'Letter PDF Ready'}`;
+              btnEl.innerHTML = ok ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ✓ Attached Cover Letter!` : 'No Cover Field Found';
               setTimeout(() => { if (btnEl) btnEl.innerHTML = origHTML; }, 3000);
             }
-            if (res.attachedCount > 0) {
-              showStudioToast(`✓ Attached tailored cover letter (${res.fileName}) to ${currentJobInfo.company || 'application form'}!`, 'success');
+            if (ok) {
+              showStudioToast(`✓ Attached tailored cover letter to application form!`, 'success');
             } else {
-              showStudioToast(`✓ Generated tailored cover letter PDF for ${currentJobInfo.company || 'Opening'}. Ready in Downloads!`, 'success');
+              showStudioToast(`No cover letter upload or textarea field detected on this page. Click "Download PDF" to save your letter.`, 'info');
             }
           }
         });
@@ -1974,7 +1978,7 @@ function setupEventListeners() {
 
     const preferredName = (document.getElementById('new-pref-name')?.value || '').trim() || first;
     const email = (document.getElementById('new-email')?.value || '').trim() || `${first.toLowerCase()}@example.com`;
-    const phone = (document.getElementById('new-phone')?.value || '').trim() || '510-340-2070';
+    const phone = (document.getElementById('new-phone')?.value || '').trim() || '0948232719';
     const loc = (document.getElementById('new-loc')?.value || '').trim() || 'Atlanta, GA, United States';
     const country = document.getElementById('new-country')?.value || 'United States';
     const workArrangement = document.getElementById('new-work-arrangement')?.value || 'Remote';

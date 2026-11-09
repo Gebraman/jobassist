@@ -53,16 +53,21 @@ function getTailoredSummary(client, company = '', role = '', jobOverview = '') {
     domainFocus = 'courteous customer support, live chat resolution, email ticketing, and client inquiry management';
   }
 
-  if (client.summary && client.summary.length > 50 && !cleanComp) {
-    return client.summary;
+  let baseSummary = (client.summary || '').trim();
+  if (!baseSummary || baseSummary.includes('engineering') || baseSummary.includes('technical integration') || baseSummary.includes('software developer') || baseSummary.includes('HubSpot Integrations')) {
+    baseSummary = 'Reliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel, online research, data extraction, CRM updates, and AI-assisted workflows. Proven 99.8% accuracy and 100% on-time delivery.';
+  }
+
+  if (baseSummary.length > 50 && !cleanComp) {
+    return baseSummary;
   }
 
   const topSkillsStr = (client.skills && client.skills.length > 0)
     ? client.skills.slice(0, 6).join(', ')
     : 'Virtual Assistant, Data Entry, Google Sheets, Excel Formulas, Web Research, Canva Design';
 
-  if (client.summary && client.summary.length > 50 && cleanComp) {
-    return `${client.summary} Prepared to deliver immediate, reliable administrative support for ${cleanComp}'s daily operations.`;
+  if (baseSummary.length > 50 && cleanComp) {
+    return `${baseSummary} Prepared to deliver immediate, reliable administrative support and high-accuracy execution for ${cleanComp}'s daily operations.`;
   }
 
   return `Detail-oriented Virtual Assistant and Data Entry Specialist with ${years} years of dedicated experience supporting remote operations through ${domainFocus}. Proven record delivering 65+ WPM typing speed with 99.8% verified accuracy and dependable daily execution. Hands-on background spanning ${topSkillsStr}, backed by proactive communication, strict confidentiality adherence, and collaborative workflow systems at Nexa Digital Team.`;
@@ -384,40 +389,22 @@ function generateExecutiveMasterworkResume(client, jobInfo = {}) {
 </head>
 <body>
 
-  <!-- Screen Action Bar (Hidden on Print) -->
-  <div class="screen-toolbar">
-    <div class="toolbar-brand">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      <span>Executive Masterwork Standard</span>
-      <span class="toolbar-tag">Tailored for ${company}</span>
-    </div>
-    <div class="toolbar-actions">
-      <button type="button" class="btn-tool" onclick="window.print();">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-        Print / Save Vector PDF (Free)
-      </button>
-      <button type="button" class="btn-tool-secondary" onclick="copyPlainTextATS();">
-        Copy Plain Text
-      </button>
-    </div>
-  </div>
-
   <!-- Main Executive Resume Document -->
   <div class="resume-sheet">
     <header class="resume-header">
       <h1 class="candidate-name">${client.name}</h1>
       <div class="candidate-target-title">${role}</div>
       <div class="contact-bar">
-        <span>${client.loc || 'Atlanta, GA, United States'}</span>
+        <span>${client.loc || 'Addis Ababa, Ethiopia (Remote Worldwide)'}</span>
         <span class="contact-sep">•</span>
-        <span>${client.phone || '510-340-2070'}</span>
+        <span>${client.phone || '0948232719'}</span>
         <span class="contact-sep">•</span>
         <span><a href="mailto:${client.email}">${client.email}</a></span>
         ${client.linkedin ? `<span class="contact-sep">•</span><span><a href="${client.linkedin}" target="_blank">LinkedIn</a></span>` : ''}
         ${client.github ? `<span class="contact-sep">•</span><span><a href="${client.github}" target="_blank">GitHub</a></span>` : ''}
         ${client.portfolio ? `<span class="contact-sep">•</span><span><a href="${client.portfolio}" target="_blank">Portfolio</a></span>` : ''}
         <span class="contact-sep">•</span>
-        <span style="font-weight:600; color:#059669;">US Work Authorized</span>
+        <span style="font-weight:600; color:#059669;">Remote B2B (W-8BEN)</span>
       </div>
     </header>
 
@@ -487,12 +474,12 @@ function generateExecutiveMasterworkResume(client, jobInfo = {}) {
       </div>
       <div class="edu-item">
         <div>
-          <span class="edu-title">${client.degree || "Master's Degree in Computer Science"}</span> — <span class="edu-school">${client.school || 'University of Florida'}</span>
+          <span class="edu-title">${client.degree || "Accounting & Finance / Business Information"}</span> — <span class="edu-school">${client.school || 'Addis Ababa University'}</span>
         </div>
-        <div class="edu-date">${client.educationYear || '2016'}</div>
+        <div class="edu-date">${client.educationYear || '2026'}</div>
       </div>
       <div style="font-size: 8.5pt; color: #4b5563; margin-top: 1px;">
-        Academic Standing: GPA ${client.gpa || '3.85'} • Dean's List Scholar • Specialized in Distributed Operating Systems
+        Academic Standing: GPA ${client.gpa || '3.8'} • Dean's Honors List • Focus in Information Systems &amp; Financial Record Management
       </div>
     </section>
   </div>
@@ -529,21 +516,21 @@ function generateCanvaResumeHTML(client, jobInfo = {}, templateType = 'masterwor
 }
 
 function generatePlainTextResume(client, jobInfo = {}) {
-  const company = jobInfo.company || '1406 Consulting';
-  const role = jobInfo.title || client.headline || 'HubSpot Integrations Software Developer';
+  const company = jobInfo.company || 'Direct Client';
+  const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Entry Specialist';
   const skills = getTailoredSkills(client.skills, jobInfo.keywords);
 
   let txt = `========================================================================\n`;
   txt += `${client.name.toUpperCase()} — ${role.toUpperCase()}\n`;
-  txt += `Location: ${client.loc} | Phone: ${client.phone} | Email: ${client.email}\n`;
+  txt += `Location: ${client.loc || 'Addis Ababa, Ethiopia (Remote Worldwide)'} | Phone: ${client.phone || '0948232719'} | Email: ${client.email}\n`;
   txt += `LinkedIn: ${client.linkedin || ''} | GitHub: ${client.github || ''} | Portfolio: ${client.portfolio || ''}\n`;
-  txt += `US Work Authorization: Citizen / Authorized (No Sponsorship Required)\n`;
+  txt += `Work Authorization: Remote Global B2B / Freelance Contractor (W-8BEN)\n`;
   txt += `========================================================================\n\n`;
 
   txt += `PROFESSIONAL SUMMARY\n`;
   txt += `${getTailoredSummary(client, company, role, jobInfo.description || '')}\n\n`;
 
-  txt += `CORE TECHNICAL COMPETENCIES\n`;
+  txt += `CORE OPERATIONAL COMPETENCIES\n`;
   txt += `${skills.join(' • ')}\n\n`;
 
   txt += `PROFESSIONAL EXPERIENCE\n`;
@@ -556,27 +543,27 @@ function generatePlainTextResume(client, jobInfo = {}) {
   });
 
   txt += `EDUCATION & CREDENTIALS\n`;
-  txt += `• ${client.degree} | ${client.school} (${client.educationYear || ''})\n`;
-  txt += `  GPA: ${client.gpa || '3.85'} • Dean's Honors\n`;
+  txt += `• ${client.degree || 'Accounting & Finance / Business Information'} | ${client.school || 'Addis Ababa University'} (${client.educationYear || '2026'})\n`;
+  txt += `  GPA: ${client.gpa || '3.8'} • Dean's Honors List\n`;
 
   return txt;
 }
 
 function generateValidPDFBinary(client, jobInfo = {}) {
-  const company = jobInfo.company || 'Enterprise Company';
+  const company = jobInfo.company || 'Direct Client';
   const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Entry Specialist';
   const skills = getTailoredSkills(client.skills, jobInfo.keywords);
   const tailoredSummary = getTailoredSummary(client, company, role, jobInfo.description || '');
 
   const lines = [
     `${role.toUpperCase()}`,
-    `Location: ${client.loc || 'United States'} | Phone: ${client.phone} | Email: ${client.email}`,
+    `Location: ${client.loc || 'Addis Ababa, Ethiopia (Remote Worldwide)'} | Phone: ${client.phone || '0948232719'} | Email: ${client.email}`,
     `LinkedIn: ${client.linkedin || ''} | GitHub: ${client.github || ''} | Portfolio: ${client.portfolio || ''}`,
     ' ',
     'PROFESSIONAL SUMMARY',
     tailoredSummary.slice(0, 320),
     ' ',
-    'CORE TECHNICAL COMPETENCIES',
+    'CORE OPERATIONAL COMPETENCIES',
     skills.slice(0, 14).join(', '),
     ' ',
     'PROFESSIONAL EXPERIENCE'
@@ -592,7 +579,7 @@ function generateValidPDFBinary(client, jobInfo = {}) {
   });
 
   lines.push('EDUCATION & CREDENTIALS');
-  lines.push(`${client.degree || 'B.S. in Computer Science'} - ${client.school || 'University'} (${client.educationYear || '2016'})`);
+  lines.push(`${client.degree || 'Accounting & Finance / Business Information'} - ${client.school || 'Addis Ababa University'} (${client.educationYear || '2026'})`);
 
   const escapePdf = (s) => (s || '').replace(/[()\\\\]/g, '\\$&').replace(/[^\x20-\x7E]/g, ' ');
 
