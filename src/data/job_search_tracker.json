@@ -2,8 +2,8 @@
   {
     "id": "app-nexa-001",
     "appliedDate": "2026-11-09",
-    "company": "TechStars Partner Network",
-    "role": "Full-Stack Web Developer (React & Node.js)",
+    "company": "Scale Ops Global",
+    "role": "Virtual Assistant & Data Entry Specialist",
     "portal": "Ashby",
     "client": "Gebremedhin Endeshawe (Gman)",
     "date": "11/09/2026",
@@ -13,21 +13,21 @@
   {
     "id": "app-nexa-002",
     "appliedDate": "2026-11-09",
-    "company": "Global Cloud Agency",
-    "role": "Remote Operations & Virtual Assistant",
+    "company": "Founders Launchpad",
+    "role": "Remote Administrative & Data Entry Assistant",
     "portal": "Workable",
-    "client": "Emanuel (Communication & Client Support)",
+    "client": "Emanuel (Data Entry & Admin Support)",
     "date": "11/09/2026",
-    "fitScore": "96%",
+    "fitScore": "98%",
     "status": "Ready for Review"
   },
   {
     "id": "app-nexa-003",
     "appliedDate": "2026-11-09",
     "company": "SaaS Growth Studio",
-    "role": "Creative Brand & Presentation Designer",
+    "role": "Virtual Assistant (Canva & Social Media)",
     "portal": "Greenhouse",
-    "client": "Emanuel (Creative Design & Branding)",
+    "client": "Emanuel (Virtual Assistant - Canva & Media)",
     "date": "11/09/2026",
     "fitScore": "97%",
     "status": "Ready for Review"
@@ -36,11 +36,11 @@
     "id": "app-nexa-004",
     "appliedDate": "2026-11-09",
     "company": "Digital Media Collective",
-    "role": "Media Operations & Video Publishing Support",
+    "role": "Web Research & Content Operations Assistant",
     "portal": "Lever",
-    "client": "Amare (Media & Content Support)",
+    "client": "Amare (Virtual Assistant - Research & Content)",
     "date": "11/09/2026",
-    "fitScore": "95%",
+    "fitScore": "96%",
     "status": "Ready for Review"
   }
 ]

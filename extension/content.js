@@ -11,7 +11,7 @@
       last: 'Endeshawe',
       email: 'nexadigitalteamhq@gmail.com',
       phone: '+251 90 985 8645',
-      headline: 'Founder • Full-Stack Developer • Operations Lead | Nexa Digital Team',
+      headline: 'Virtual Assistant & Data Entry Lead | Nexa Digital Team',
       loc: 'Addis Ababa, Ethiopia (Remote Worldwide)',
       addr: 'Bole Sub-City',
       city: 'Addis Ababa',
@@ -20,24 +20,24 @@
       country: 'Ethiopia',
       dob: '05/12/2000',
       ssn4: '8645',
-      title: 'Founder • Full-Stack Developer • Operations Lead',
+      title: 'Lead Virtual Assistant & Data Entry Specialist',
       company: 'Nexa Digital Team',
       school: 'Addis Ababa University',
-      degree: 'Accounting & Finance / Software Systems',
+      degree: 'Accounting & Finance / Business Information',
       educationYear: '2026',
       gpa: '3.80',
       linkedin: 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b',
       github: 'https://github.com/nexadigitalteamhq-design',
       portfolio: 'https://nexa-portfolio-theta.vercel.app/',
-      salary: '$3,500 - $6,000 / month ($30 - $50 / hr)',
-      salaryNum: '75000',
+      salary: '$12 - $18 / hr ($1,500 - $2,500 / month)',
+      salaryNum: '28000',
       notice: 'Immediate',
-      yearsBE: '4',
+      yearsBE: '3',
       sponsorship: 'No',
       workAuth: 'Yes',
-      skills: ['React', 'Node.js', 'Express.js', 'MERN Stack', 'MySQL', 'MongoDB', 'REST APIs', 'JWT Authentication', 'Tailwind CSS', 'Framer Motion', 'Git & GitHub', 'Render Deployment', 'AI Productivity Systems', 'Workflow Architecture'],
-      summary: 'Founder and Full-Stack Developer at Nexa Digital Team with proven experience delivering production-ready web applications, SaaS platforms, and AI-assisted automated workflow systems. Hands-on expertise across React, Node.js, Express, MySQL, and Tailwind CSS.',
-      letter: 'Dear Hiring Team,\n\nI am writing to express my enthusiastic interest in your development project. As Founder and Full-Stack Developer at Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I lead our remote engineering sprints and specialize in delivering modern web applications, scalable APIs, and automated digital workflows.\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nNexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645'
+      skills: ['Virtual Assistance', 'Data Entry', 'Google Sheets', 'Microsoft Excel', 'Web Research', 'Administrative Support', 'Email Handling', 'Canva Design', 'Customer Support', 'Transcription'],
+      summary: 'Reliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel, online research, and administrative tasks. Proven 99.8% accuracy.',
+      letter: 'Dear Hiring Manager,\n\nI am writing to express my enthusiastic interest in the Virtual Assistant / Data Entry position. At Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I specialize in accurate data entry, spreadsheet management (Google Sheets / Excel), online research, and daily administrative support.\n\nI bring 65+ WPM typing with 99.8% verified accuracy, prompt communication, and great familiarity with remote workflows.\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nVirtual Assistant & Data Entry Lead | Nexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645'
     }
   ];
 
@@ -77,7 +77,8 @@
       const defaultList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
       const hasLegacy = data.jobassist_clients && data.jobassist_clients.some(c => 
         c.id === 'client_raymond_wong' || c.name === 'Raymond Wong' ||
-        c.id === 'client_james_royal' || c.name === 'James Royal'
+        c.id === 'client_james_royal' || c.name === 'James Royal' ||
+        c.id === 'client_nexa_gman' || c.id === 'client_nexa_emanuel_ops'
       );
       if (data.jobassist_clients && data.jobassist_clients.length > 0 && !hasLegacy) {
         allClients = data.jobassist_clients;

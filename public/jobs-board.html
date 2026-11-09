@@ -134,8 +134,15 @@
         9-Portal Autonomous Radar • Fresh Listings Only (&le; 5 Days Old)
       </div>
 
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;">
+        <button type="button" onclick="document.getElementById('board-query').value='Virtual Assistant'; fetchLiveBoardJobs();" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #0284C7; color: #38BDF8; font-size: 11.5px; font-weight: 700; padding: 4px 12px; border-radius: 999px; cursor: pointer;">Virtual Assistant</button>
+        <button type="button" onclick="document.getElementById('board-query').value='Data Entry Specialist'; fetchLiveBoardJobs();" style="background: rgba(52, 211, 153, 0.15); border: 1px solid #059669; color: #34D399; font-size: 11.5px; font-weight: 700; padding: 4px 12px; border-radius: 999px; cursor: pointer;">Data Entry</button>
+        <button type="button" onclick="document.getElementById('board-query').value='Spreadsheet Assistant'; fetchLiveBoardJobs();" style="background: rgba(245, 158, 11, 0.15); border: 1px solid #D97706; color: #FBBF24; font-size: 11.5px; font-weight: 700; padding: 4px 12px; border-radius: 999px; cursor: pointer;">Spreadsheets &amp; Excel</button>
+        <button type="button" onclick="document.getElementById('board-query').value='Administrative Assistant'; fetchLiveBoardJobs();" style="background: rgba(168, 85, 247, 0.15); border: 1px solid #9333EA; color: #C084FC; font-size: 11.5px; font-weight: 700; padding: 4px 12px; border-radius: 999px; cursor: pointer;">Admin Support</button>
+      </div>
+
       <div class="search-row">
-        <input type="text" id="board-query" class="search-input" value="Bookkeeper" placeholder="Target Role (e.g. Bookkeeper, Senior Engineer)">
+        <input type="text" id="board-query" class="search-input" value="Virtual Assistant" placeholder="Target Role (e.g. Virtual Assistant, Data Entry)">
         <input type="text" id="board-location" class="search-input" style="flex: 1;" value="Remote" placeholder="Location">
         <select id="board-portal" class="search-select">
           <option value="all" selected>All 9 Target Portals</option>
@@ -176,10 +183,10 @@
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-weight: 700; color: #FFF;">ACTIVE CANDIDATE:</span>
           <select id="select-candidate" class="search-select" style="padding: 4px 10px; font-size: 12px; min-width: 240px;" onchange="renderJobs()">
-            <option value="gebremedhin" selected>Gebremedhin Endeshawe (Founder • Full-Stack Developer)</option>
-            <option value="emanuel_ops">Emanuel (Communication & Client Support)</option>
-            <option value="emanuel_design">Emanuel (Creative Design & Branding Support)</option>
-            <option value="amare_media">Amare (Media & Content Operations Support)</option>
+            <option value="gebremedhin" selected>Gebremedhin Endeshawe (Virtual Assistant &amp; Data Entry Lead)</option>
+            <option value="emanuel_ops">Emanuel (Data Entry &amp; Admin Support)</option>
+            <option value="emanuel_design">Emanuel (Virtual Assistant - Canva &amp; Media)</option>
+            <option value="amare_media">Amare (Virtual Assistant - Research &amp; Content)</option>
           </select>
         </div>
         <div id="board-stats-count" style="font-weight: 700; color: #34D399;">
@@ -198,23 +205,23 @@
     const candidates = {
       gebremedhin: {
         name: 'Gebremedhin Endeshawe (Gman)',
-        headline: 'Founder • Full-Stack Developer • Operations Lead',
-        skills: ['REACT', 'NODE.JS', 'EXPRESS', 'MERN STACK', 'MYSQL', 'MONGODB', 'TAILWIND CSS', 'REST APIS', 'JWT', 'CLOUD DEPLOYMENT', 'AI PRODUCTIVITY', 'WORKFLOW ARCHITECTURE']
+        headline: 'Virtual Assistant & Data Entry Lead',
+        skills: ['VIRTUAL ASSISTANT', 'DATA ENTRY', 'GOOGLE SHEETS', 'EXCEL', 'WEB RESEARCH', 'EMAIL HANDLING', 'ADMINISTRATIVE SUPPORT', 'DATA CLEANING', 'AI PRODUCTIVITY', 'TRANSCRIPTION']
       },
       emanuel_ops: {
-        name: 'Emanuel (Client Operations)',
-        headline: 'Communication & Client Support Specialist',
-        skills: ['CLIENT SUPPORT', 'RESEARCH ASSISTANCE', 'SPREADSHEET SYSTEMS', 'GOOGLE SHEETS', 'EXCEL', 'ADMIN OPERATIONS', 'WORKFLOW COORDINATION', 'DATA ENTRY']
+        name: 'Emanuel',
+        headline: 'Data Entry & Administrative Support Assistant',
+        skills: ['DATA ENTRY', 'SPREADSHEET ORGANIZATION', 'GOOGLE SHEETS', 'EXCEL', 'WEB RESEARCH', 'DATA VERIFICATION', 'ADMIN OPERATIONS', 'TYPING 65+ WPM']
       },
       emanuel_design: {
-        name: 'Emanuel (Creative Lead)',
-        headline: 'Creative Design & Branding Specialist',
-        skills: ['CANVA DESIGN', 'BRAND IDENTITY', 'SOCIAL MEDIA VISUALS', 'THUMBNAIL DESIGN', 'CREATIVE SYSTEMS', 'PRESENTATION DESIGN', 'FIGMA', 'PHOTOSHOP']
+        name: 'Emanuel (Creative)',
+        headline: 'Virtual Assistant — Canva Design & Social Media',
+        skills: ['CANVA DESIGN', 'VIRTUAL ASSISTANT', 'SOCIAL MEDIA GRAPHICS', 'YOUTUBE THUMBNAILS', 'PRESENTATION DESIGN', 'DOCUMENT STYLING', 'GOOGLE SLIDES']
       },
       amare_media: {
-        name: 'Amare (Media & Content)',
-        headline: 'Media & Content Support Specialist',
-        skills: ['CONTENT ASSISTANCE', 'MEDIA SUPPORT', 'VIDEO EDITING', 'DIGITAL PUBLISHING', 'CREATIVE COLLABORATION', 'SOCIAL MEDIA SUPPORT', 'COPYWRITING']
+        name: 'Amare',
+        headline: 'Virtual Assistant — Web Research & Content Operations',
+        skills: ['WEB RESEARCH', 'VIRTUAL ASSISTANT', 'DATA ENTRY', 'CONTENT ORGANIZATION', 'TRANSCRIPTION', 'SUBTITLES', 'PROOFREADING', 'GOOGLE DOCS']
       }
     };
 
@@ -222,7 +229,7 @@
     let isBoardRadarPaused = false;
 
     async function fetchLiveBoardJobs() {
-      const query = document.getElementById('board-query').value.trim() || 'Bookkeeper';
+      const query = document.getElementById('board-query').value.trim() || 'Virtual Assistant';
       const location = document.getElementById('board-location').value.trim() || 'Remote';
       const portal = document.getElementById('board-portal').value;
       const maxDays = parseInt(document.getElementById('board-freshness').value, 10) || 5;

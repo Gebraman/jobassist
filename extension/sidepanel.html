@@ -566,8 +566,33 @@
         Multi-ATS search across <strong>Greenhouse, Lever, Workday, Taleo, Ashby, BambooHR, LinkedIn Easy Apply, Indeed &amp; RemoteOK</strong>. Rejects stale ghost roles (&gt; 5d) with zero duplicate cards.
       </div>
 
+      <!-- Fast Role Quick-Select Pills -->
+      <div style="margin-bottom: 8px;">
+        <div style="font-size: 9px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 4px;">Top Role Matches (1-Click Search):</div>
+        <div style="display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px;">
+          <button type="button" class="va-role-pill" onclick="document.getElementById('hunter-query').value='Data Entry'; huntLiveJobs();" style="background: rgba(52, 211, 153, 0.15); border: 1px solid #059669; color: #34D399; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; cursor: pointer;">Data Entry</button>
+          <button type="button" class="va-role-pill" onclick="document.getElementById('hunter-query').value='Virtual Assistant'; huntLiveJobs();" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #0284C7; color: #38BDF8; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; cursor: pointer;">Virtual Assistant</button>
+          <button type="button" class="va-role-pill" onclick="document.getElementById('hunter-query').value='Administrative Assistant'; huntLiveJobs();" style="background: rgba(168, 85, 247, 0.15); border: 1px solid #9333EA; color: #C084FC; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; cursor: pointer;">Admin Assistant</button>
+          <button type="button" class="va-role-pill" onclick="document.getElementById('hunter-query').value='Customer Support Representative'; huntLiveJobs();" style="background: rgba(245, 158, 11, 0.15); border: 1px solid #D97706; color: #FBBF24; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; cursor: pointer;">Customer Support</button>
+          <button type="button" class="va-role-pill" onclick="document.getElementById('hunter-query').value='Web Research'; huntLiveJobs();" style="background: rgba(56, 189, 248, 0.12); border: 1px solid #0284C7; color: #38BDF8; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; cursor: pointer;">Web Research</button>
+          <button type="button" class="va-role-pill" onclick="document.getElementById('hunter-query').value='Excel Data Cleaning'; huntLiveJobs();" style="background: rgba(52, 211, 153, 0.12); border: 1px solid #059669; color: #34D399; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; cursor: pointer;">Excel &amp; Sheets</button>
+          <button type="button" class="va-role-pill" onclick="document.getElementById('hunter-query').value='Canva Designer'; huntLiveJobs();" style="background: rgba(236, 72, 153, 0.15); border: 1px solid #DB2777; color: #F472B6; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; cursor: pointer;">Canva Designer</button>
+          <button type="button" class="va-role-pill" onclick="document.getElementById('hunter-query').value='AI Workflow Assistant'; huntLiveJobs();" style="background: rgba(99, 102, 241, 0.15); border: 1px solid #4F46E5; color: #818CF8; font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; cursor: pointer;">AI Workflow Assistant</button>
+        </div>
+
+        <!-- 1-Click Launch Freelance Portals -->
+        <div style="display: flex; gap: 4px; align-items: center; margin-top: 4px; overflow-x: auto; padding-bottom: 2px;">
+          <span style="font-size: 8.5px; color: #64748B; font-weight: 700; white-space: nowrap;">MARKETPLACES:</span>
+          <a href="https://www.upwork.com/nx/search/jobs/?q=virtual+assistant+data+entry&sort=recency" target="_blank" style="font-size: 9px; color: #10B981; text-decoration: none; padding: 1px 5px; border: 1px solid rgba(16,185,129,0.3); border-radius: 4px; white-space: nowrap;">Upwork</a>
+          <a href="https://www.onlinejobs.ph/jobseekers/jobsearch?jobkeyword=virtual+assistant" target="_blank" style="font-size: 9px; color: #38BDF8; text-decoration: none; padding: 1px 5px; border: 1px solid rgba(56,189,248,0.3); border-radius: 4px; white-space: nowrap;">OnlineJobs.ph</a>
+          <a href="https://remoteok.com/remote-virtual-assistant-jobs" target="_blank" style="font-size: 9px; color: #F59E0B; text-decoration: none; padding: 1px 5px; border: 1px solid rgba(245,158,11,0.3); border-radius: 4px; white-space: nowrap;">RemoteOK</a>
+          <a href="https://www.freelancer.com/jobs/virtual-assistant/" target="_blank" style="font-size: 9px; color: #A855F7; text-decoration: none; padding: 1px 5px; border: 1px solid rgba(168,85,247,0.3); border-radius: 4px; white-space: nowrap;">Freelancer</a>
+          <a href="https://www.linkedin.com/jobs/search/?keywords=virtual%20assistant&f_WT=2" target="_blank" style="font-size: 9px; color: #60A5FA; text-decoration: none; padding: 1px 5px; border: 1px solid rgba(96,165,250,0.3); border-radius: 4px; white-space: nowrap;">LinkedIn</a>
+        </div>
+      </div>
+
       <div style="display: flex; gap: 6px; margin: 6px 0;">
-        <input type="text" id="hunter-query" value="Bookkeeper" placeholder="Target Role (e.g. Bookkeeper, Engineer)" style="flex:2; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; padding:6px 8px; font-size:11px;">
+        <input type="text" id="hunter-query" value="Virtual Assistant" placeholder="Target Role (e.g. Virtual Assistant, Data Entry)" style="flex:2; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; padding:6px 8px; font-size:11px;">
         <input type="text" id="hunter-location" value="Remote" placeholder="Location" style="flex:1; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; padding:6px 8px; font-size:11px;">
       </div>
 

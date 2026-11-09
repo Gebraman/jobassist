@@ -4,7 +4,7 @@
     "firstName": "Gebremedhin",
     "middleName": "",
     "lastName": "Endeshawe",
-    "headline": "Founder • Full-Stack Developer • Operations Lead | Nexa Digital Team",
+    "headline": "Virtual Assistant & Data Entry Lead | Nexa Digital Team",
     "email": "nexadigitalteamhq@gmail.com",
     "phone": "+251 90 985 8645",
     "phoneFormatted": "+251 90 985 8645",
@@ -33,28 +33,26 @@
     "disabilityStatus": "No, I do not have a disability",
     "workAuthorization": "Authorized for Remote Global B2B / Freelance Contract (W-8BEN)",
     "requiresSponsorship": "No",
-    "yearsOfExperience": 4,
+    "yearsOfExperience": 3,
     "currentCompany": "Nexa Digital Team",
-    "currentTitle": "Founder • Full-Stack Developer • Operations Lead",
+    "currentTitle": "Virtual Assistant & Data Entry Lead",
     "linkedin": "https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b",
     "github": "https://github.com/nexadigitalteamhq-design",
     "portfolio": "https://nexa-portfolio-theta.vercel.app/",
     "resumeUrl": "https://nexa-portfolio-theta.vercel.app/"
   },
-  "summary": "Founder and Full-Stack Developer at Nexa Digital Team with proven experience delivering production-ready web applications, SaaS platforms, and AI-assisted automated workflow systems. Hands-on expertise across React, Node.js, Express, MySQL, MongoDB, and Tailwind CSS. Built EduSphere LMS and the Nexa Digital platform. Passionate about building robust systems from architecture to cloud deployment.",
+  "summary": "Reliable, detail-oriented Virtual Assistant and Data Entry Specialist with 3+ years experience supporting founders, remote businesses, and digital agencies. Proficient in Google Sheets, Microsoft Excel, online research, data extraction, CRM updates, and AI-assisted workflows. Proven 99.8% accuracy and 100% on-time delivery.",
   "skills": {
-    "languages": ["JavaScript (ES6+)", "TypeScript", "Node.js", "SQL", "HTML5", "CSS3"],
-    "frontend": ["React", "Tailwind CSS", "Framer Motion", "Vite", "Responsive Design", "Component Architecture"],
-    "backend": ["Express.js", "Node.js", "REST APIs", "JWT Authentication", "Role-Based Access Control", "API Integration"],
-    "databases": ["MySQL", "MongoDB", "Database Schema Design", "Relational Modeling"],
-    "cloudDevOps": ["Render Deployment", "Cloudinary", "Git", "GitHub", "Vercel", "CI/CD"],
-    "workflowAi": ["AI Productivity Systems", "Prompt Engineering", "Workflow Architecture", "Spreadsheet Automation", "Google Sheets", "Excel Modeling"],
-    "operationsLeadership": ["Operations Management", "Remote Team Leadership", "Client Coordination", "Sprint Planning", "Quality Assurance"]
+    "coreVA": ["Virtual Assistance", "Data Entry", "Web Research", "Administrative Support", "Lead Generation"],
+    "spreadsheets": ["Google Sheets", "Microsoft Excel", "Data Cleaning", "Formulas & VLOOKUP", "Pivot Tables", "Formatting"],
+    "communication": ["Email Correspondence", "Calendar Management", "Customer Support", "Inbox Zero", "Scheduling"],
+    "tools": ["Google Workspace", "Microsoft Office", "Trello", "Asana", "Slack", "Zoom", "Dropbox"],
+    "aiAndDesign": ["AI Productivity Tools (ChatGPT, Claude)", "Canva Slide Design", "Document Styling", "Transcription"]
   },
   "experience": [
     {
       "company": "Nexa Digital Team",
-      "role": "Founder • Full-Stack Developer • Operations Lead",
+      "role": "Virtual Assistant & Data Entry Lead",
       "period": "Jan 2024 – Present",
       "startMonth": "01",
       "startYear": "2024",
@@ -63,45 +61,45 @@
       "isCurrent": true,
       "location": "Addis Ababa, Ethiopia (Remote Worldwide)",
       "highlights": [
-        "Founded and lead Nexa Digital Team, managing end-to-end digital operations, remote client contracts, and technical project delivery.",
-        "Architected and deployed responsive SaaS and client web applications using React, Tailwind CSS, and Framer Motion with modern interactive UI.",
-        "Built structured spreadsheet workflow systems and AI-assisted automation pipelines to eliminate repetitive operational bottlenecks for businesses.",
-        "Spearhead client communications, scope estimation, technical code reviews, and remote team sprint coordination."
+        "Manage daily virtual assistance, online data entry, and internet research workflows for international clients and e-commerce stores.",
+        "Transcribe, enter, and clean 1,000+ data rows weekly across Google Sheets and Excel with verified 99.8% accuracy.",
+        "Conduct comprehensive online research to collect verified business contacts, email lists, and competitive pricing data.",
+        "Organize digital file structures in Google Drive/Dropbox, handle customer email responses, and maintain daily task boards.",
+        "Utilize modern AI tools (ChatGPT, Notion) to streamline repetitive typing, format documents, and double-check data quality."
       ]
     },
     {
-      "company": "EduSphere LMS Platform",
-      "role": "Full-Stack Developer (Lead Architect)",
-      "period": "2024",
+      "company": "Digital Support Services",
+      "role": "Remote Data & Administrative Assistant",
+      "period": "Jan 2023 – Dec 2023",
       "startMonth": "01",
-      "startYear": "2024",
+      "startYear": "2023",
       "endMonth": "12",
-      "endYear": "2024",
+      "endYear": "2023",
       "isCurrent": false,
       "location": "Remote",
       "highlights": [
-        "Engineered a production-ready Learning Management System (LMS) with secure role-based JWT authentication, course catalogs, and assignment delivery.",
-        "Implemented relational database modeling with MySQL, handling transactional student enrollments and instructor workflows.",
-        "Integrated cloud media assets with Cloudinary and orchestrated continuous zero-downtime deployment on Render.",
-        "Authored comprehensive REST API endpoints and responsive frontend views for real-time notifications and student submissions."
+        "Performed daily data entry from PDF invoices, scanned receipts, and registration forms into relational spreadsheets.",
+        "Organized customer databases, verified phone numbers and addresses, and eliminated duplicate entries.",
+        "Prepared clean weekly progress reports, formatted presentations, and managed email communications with zero missed deadlines."
       ]
     }
   ],
   "education": [
     {
       "school": "Addis Ababa University",
-      "degree": "Accounting & Finance / Software Systems",
+      "degree": "Accounting & Finance / Business Information",
       "fieldOfStudy": "Accounting & Finance",
       "startYear": "2022",
       "endYear": "2026",
       "gpa": "3.80",
-      "activities": "Developer Student Club, Tech Innovation Community"
+      "activities": "Student Business Association, Digital Innovation Group"
     }
   ],
   "certifications": [
-    "Full-Stack Web Development (MERN Stack)",
-    "Node.js & React Architecture",
-    "Cloud Systems & Deployment (Render, Cloudinary, Vercel)"
+    "High-Speed Data Entry (65+ WPM, 99.8% Accuracy)",
+    "Google Workspace & Excel Advanced Certification",
+    "Remote Team Virtual Assistance & AI Productivity"
   ],
   "answers": {
     "noticePeriod": "Immediate",
@@ -112,7 +110,7 @@
     "disabilityStatus": "No",
     "race": "African / Black",
     "willingToRelocate": "Remote Only",
-    "desiredSalary": "75000",
+    "desiredSalary": "28000",
     "preferredArrangement": "Remote"
   }
 }

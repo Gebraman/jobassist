@@ -136,10 +136,11 @@ async function loadClients() {
   const stored = await chrome.storage.local.get(['jobassist_clients', 'active_client_id']);
   const defaultList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
 
-  // Automatically synchronize with current primary client (Gebremedhin / Nexa Digital Team) and remove legacy placeholder clients
+  // Automatically synchronize with current unified Nexa Digital Team roster
   const hasLegacy = stored.jobassist_clients && stored.jobassist_clients.some(c => 
     c.id === 'client_raymond_wong' || c.name === 'Raymond Wong' ||
-    c.id === 'client_james_royal' || c.name === 'James Royal'
+    c.id === 'client_james_royal' || c.name === 'James Royal' ||
+    c.id === 'client_nexa_gman' || c.id === 'client_nexa_emanuel_ops'
   );
   if (!stored.jobassist_clients || stored.jobassist_clients.length === 0 || hasLegacy) {
     clientsList = defaultList;
@@ -187,13 +188,15 @@ function setActiveClient(client) {
 
   document.getElementById('btn-run-autofill').innerHTML = `1-CLICK AUTOFILL APPLICATION NOW (${client.first || client.name})`;
 
-  // Align Hunter query with client's target profession if default
+  // Align Hunter query with client's target profession
   const hunterQueryInput = document.getElementById('hunter-query');
-  if (hunterQueryInput && (!hunterQueryInput.value || hunterQueryInput.value === 'Software Engineer')) {
-    if (client.desiredRole) {
-      hunterQueryInput.value = client.desiredRole;
+  if (hunterQueryInput) {
+    if (client.targetRole) {
+      hunterQueryInput.value = client.targetRole;
     } else if (client.headline) {
-      hunterQueryInput.value = client.headline.split('/')[0].trim();
+      hunterQueryInput.value = client.headline.split(/[•|]/)[0].trim();
+    } else {
+      hunterQueryInput.value = 'Virtual Assistant';
     }
   }
 
@@ -578,7 +581,7 @@ let isHunterPaused = false;
 let isFleetPaused = false;
 
 async function huntLiveJobs() {
-  const query = document.getElementById('hunter-query').value.trim() || 'Bookkeeper';
+  const query = document.getElementById('hunter-query').value.trim() || 'Virtual Assistant';
   const location = document.getElementById('hunter-location').value.trim() || 'Remote';
   const freshnessEl = document.getElementById('hunter-freshness');
   const maxDays = freshnessEl ? parseInt(freshnessEl.value, 10) : 5;
@@ -796,21 +799,21 @@ async function loadTrackedApps() {
   const stored = await chrome.storage.local.get(['jobassist_tracker']);
   trackedApplications = stored.jobassist_tracker || [
     {
-      company: 'TechStars Partner',
-      role: 'Full-Stack Web Developer',
-      portal: 'Ashby',
+      company: 'Scale Ops Global',
+      role: 'Virtual Assistant & Data Entry Specialist',
+      portal: 'Greenhouse ATS',
       client: 'Gebremedhin Endeshawe (Gman)',
       date: new Date().toLocaleDateString(),
-      fitScore: '98%',
+      fitScore: '99%',
       status: 'Ready for Review'
     },
     {
-      company: 'Digital Solutions Co',
-      role: 'Remote Operations & Support Specialist',
-      portal: 'Workable',
-      client: 'Emanuel (Client Operations)',
+      company: 'Founders Launchpad',
+      role: 'Remote Administrative & Operations Assistant',
+      portal: 'Ashby ATS',
+      client: 'Emanuel (Data Entry & Admin Support)',
       date: new Date().toLocaleDateString(),
-      fitScore: '95%',
+      fitScore: '98%',
       status: 'Ready for Review'
     }
   ];

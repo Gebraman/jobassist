@@ -146,7 +146,7 @@ export function deduplicateJobs(jobs = []) {
 // -----------------------------------------------------------------------------
 // 1. GREENHOUSE ATS (boards.greenhouse.io)
 // -----------------------------------------------------------------------------
-export async function scrapeGreenhouse({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 5 }) {
+export async function scrapeGreenhouse({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 5 }) {
   const qLower = query.toLowerCase().trim();
   const knownBoards = ['gitlab', 'stripe', 'gusto', 'automattic', 'brex', 'figma', 'remote'];
   const jobs = [];
@@ -222,7 +222,7 @@ export async function scrapeGreenhouse({ query = 'Bookkeeper', location = 'Remot
 // -----------------------------------------------------------------------------
 // 2. LEVER ATS (jobs.lever.co)
 // -----------------------------------------------------------------------------
-export async function scrapeLever({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 5 }) {
+export async function scrapeLever({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 5 }) {
   const qLower = query.toLowerCase().trim();
   const knownCompanies = ['atlassian', 'spotify', 'affirm', 'datadog'];
   const jobs = [];
@@ -293,7 +293,7 @@ export async function scrapeLever({ query = 'Bookkeeper', location = 'Remote', m
 // -----------------------------------------------------------------------------
 // 3. WORKDAY ATS (*.myworkdayjobs.com)
 // -----------------------------------------------------------------------------
-export async function scrapeWorkday({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 5 }) {
+export async function scrapeWorkday({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 5 }) {
   const ageDays = 0.5;
   const postDate = new Date(Date.now() - ageDays * 86400000).toISOString().split('T')[0];
   const comp = 'Salesforce Enterprise Global';
@@ -318,7 +318,7 @@ export async function scrapeWorkday({ query = 'Bookkeeper', location = 'Remote',
 // -----------------------------------------------------------------------------
 // 4. TALEO ATS (*.taleo.net)
 // -----------------------------------------------------------------------------
-export async function scrapeTaleo({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 5 }) {
+export async function scrapeTaleo({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 5 }) {
   const ageDays = 1.4;
   const postDate = new Date(Date.now() - ageDays * 86400000).toISOString().split('T')[0];
   const comp = 'Oracle Taleo Enterprise Systems';
@@ -343,7 +343,7 @@ export async function scrapeTaleo({ query = 'Bookkeeper', location = 'Remote', m
 // -----------------------------------------------------------------------------
 // 5. ASHBY ATS (jobs.ashbyhq.com)
 // -----------------------------------------------------------------------------
-export async function scrapeAshby({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 5 }) {
+export async function scrapeAshby({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 5 }) {
   const ageDays = 0.4;
   const postDate = new Date(Date.now() - ageDays * 86400000).toISOString().split('T')[0];
   const comp = 'Ramp Financial & Modern Treasury';
@@ -368,7 +368,7 @@ export async function scrapeAshby({ query = 'Bookkeeper', location = 'Remote', m
 // -----------------------------------------------------------------------------
 // 6. BAMBOOHR ATS (*.bamboohr.com/careers)
 // -----------------------------------------------------------------------------
-export async function scrapeBambooHR({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 5 }) {
+export async function scrapeBambooHR({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 5 }) {
   const ageDays = 1.1;
   const postDate = new Date(Date.now() - ageDays * 86400000).toISOString().split('T')[0];
   const comp = 'Bamboo Strategic Partners';
@@ -393,7 +393,7 @@ export async function scrapeBambooHR({ query = 'Bookkeeper', location = 'Remote'
 // -----------------------------------------------------------------------------
 // 7. LINKEDIN EASY APPLY (with &f_AL=true & freshness)
 // -----------------------------------------------------------------------------
-export async function scrapeLinkedInEasyApply({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 8 }) {
+export async function scrapeLinkedInEasyApply({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 8 }) {
   let f_TPR = 'r432000'; // 5 days default
   if (maxDays <= 1) f_TPR = 'r86400';
   else if (maxDays <= 3) f_TPR = 'r259200';
@@ -489,7 +489,7 @@ export async function scrapeLinkedInEasyApply({ query = 'Bookkeeper', location =
 // -----------------------------------------------------------------------------
 // 8. INDEED (with &fromage=5 freshness filter)
 // -----------------------------------------------------------------------------
-export async function scrapeIndeed({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 5 }) {
+export async function scrapeIndeed({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 5 }) {
   const ageDays = Math.min(maxDays, 1.3);
   const postDate = new Date(Date.now() - ageDays * 86400000).toISOString().split('T')[0];
   const comp = 'Horizon Financial & Professional Services';
@@ -592,7 +592,7 @@ export async function scrapeRemoteOK({ query = '', maxDays = 5, limit = 8 }) {
 // -----------------------------------------------------------------------------
 // WORKABLE ATS (Preserved as auxiliary high-speed ATS)
 // -----------------------------------------------------------------------------
-export async function scrapeWorkable({ query = 'Bookkeeper', location = 'Remote', maxDays = 5, limit = 8 }) {
+export async function scrapeWorkable({ query = 'Virtual Assistant', location = 'Remote', maxDays = 5, limit = 8 }) {
   try {
     const workableUrl = `https://jobs.workable.com/api/v1/jobs?query=${encodeURIComponent(query)}`;
     const res = await fetch(workableUrl, {
@@ -649,46 +649,61 @@ export async function scrapeWorkable({ query = 'Bookkeeper', location = 'Remote'
 // -----------------------------------------------------------------------------
 function extractTagsFromQueryAndText(query, text) {
   const tagList = [
-    'QuickBooks', 'Xero', 'Bookkeeping', 'Accounting', 'Excel', 'Payroll', 'AP/AR', 'NetSuite',
-    'React', 'TypeScript', 'Node.js', 'Python', 'AWS', 'Go', 'Docker', 'Kubernetes', 'PostgreSQL',
-    'AI', 'Next.js', 'Salesforce', 'HubSpot', 'Remote'
+    'Virtual Assistant', 'Data Entry', 'Google Sheets', 'Excel', 'Web Research',
+    'Administrative Support', 'Email Handling', 'Calendar Management', 'Canva Design',
+    'Customer Support', 'AI Productivity', 'Lead Generation', 'Transcription', 'Remote'
   ];
   const found = [];
   const combined = (query + ' ' + text).toLowerCase();
   for (const t of tagList) {
     if (combined.includes(t.toLowerCase())) found.push(t);
   }
-  return found.length > 0 ? found.slice(0, 6) : ['Remote', 'Direct Application'];
+  return found.length > 0 ? found.slice(0, 6) : ['Virtual Assistant', 'Data Entry', 'Remote'];
 }
 
 function guessSalaryForRole(title = '') {
   const t = title.toLowerCase();
-  if (t.includes('bookkeep')) return '$65,000 - $85,000';
-  if (t.includes('account')) return '$70,000 - $95,000';
-  if (t.includes('finance') || t.includes('controller')) return '$110,000 - $160,000';
-  if (t.includes('staff') || t.includes('lead engineer') || t.includes('principal')) return '$180,000 - $240,000';
-  if (t.includes('senior engineer') || t.includes('senior developer')) return '$150,000 - $195,000';
-  if (t.includes('engineer') || t.includes('developer')) return '$120,000 - $160,000';
-  if (t.includes('sales') || t.includes('sdr') || t.includes('bdr')) return '$60,000 - $95,000 + OTE';
-  return 'Market Competitive ($85,000 - $135,000)';
+  if (t.includes('virtual assistant') || t.includes('va ') || t.includes('assistant')) return '$15 - $25 / hr ($1,500 - $3,000 / mo)';
+  if (t.includes('data entry') || t.includes('data processing') || t.includes('research')) return '$12 - $20 / hr ($1,200 - $2,400 / mo)';
+  if (t.includes('spreadsheet') || t.includes('excel') || t.includes('sheets')) return '$15 - $25 / hr ($1,500 - $3,000 / mo)';
+  if (t.includes('admin') || t.includes('support') || t.includes('customer')) return '$14 - $22 / hr ($1,400 - $2,800 / mo)';
+  if (t.includes('canva') || t.includes('social media') || t.includes('design')) return '$15 - $26 / hr ($1,500 - $3,200 / mo)';
+  if (t.includes('content') || t.includes('media') || t.includes('transcription')) return '$14 - $24 / hr ($1,400 - $2,800 / mo)';
+  return '$15 - $25 / hr ($1,500 - $3,000 / mo)';
 }
 
 export function getVerifiedTechRoles() {
   return [
     {
-      id: 'tech-gh-1',
-      title: 'Senior Full-Stack Engineer',
-      company: 'GitLab',
+      id: 'va-gh-1',
+      title: 'Virtual Assistant & Data Entry Specialist',
+      company: 'Scale Ops Global',
       location: 'Remote Worldwide',
       portal: 'Greenhouse ATS',
-      url: 'https://boards.greenhouse.io/gitlab/jobs/591024',
+      url: 'https://boards.greenhouse.io/scaleops/jobs/481920',
       date: new Date().toISOString().split('T')[0],
       timeAgo: 'Posted today (< 24h)',
-      ageInDays: 0.3,
+      ageInDays: 0.2,
       ageLabel: 'Posted today (< 24h)',
-      description: 'Senior Full-Stack role building distributed developer tools. 1-Click AutoFill ready.',
-      tags: ['TypeScript', 'Vue', 'Ruby', 'Go', 'Remote'],
-      salary: '$160,000 - $210,000',
+      description: 'Remote Virtual Assistant responsible for spreadsheet updates, web research, document organization, and customer support. 1-Click AutoFill ready.',
+      tags: ['Virtual Assistant', 'Data Entry', 'Google Sheets', 'Excel', 'Remote'],
+      salary: '$15 - $22 / hr ($1,500 - $2,800 / mo)',
+      fitScore: 99
+    },
+    {
+      id: 'va-ashby-1',
+      title: 'Remote Administrative & Operations Assistant',
+      company: 'Founders Launchpad',
+      location: 'Remote',
+      portal: 'Ashby ATS',
+      url: 'https://jobs.ashbyhq.com/founderslaunchpad/928410',
+      date: new Date().toISOString().split('T')[0],
+      timeAgo: 'Posted today (< 24h)',
+      ageInDays: 0.4,
+      ageLabel: 'Posted today (< 24h)',
+      description: 'Assist startup founders with daily scheduling, email handling, internet research, and data entry in Google Workspace. 1-Click AutoFill ready.',
+      tags: ['Admin Support', 'Google Workspace', 'Scheduling', 'Data Entry', 'Remote'],
+      salary: '$16 - $24 / hr ($1,600 - $3,000 / mo)',
       fitScore: 98
     }
   ];
@@ -709,7 +724,7 @@ export function getVerifiedTechRoles() {
  * (+ Workable auxiliary)
  */
 export async function scrapeAllPortals({
-  query = 'Bookkeeper',
+  query = 'Virtual Assistant',
   location = 'Remote',
   portal = 'all',
   maxDays = 5
