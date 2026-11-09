@@ -1,1 +1,33 @@
-[]
+[
+  {
+    "id": "notif_1792845539121",
+    "type": "LICENSE_ISSUED",
+    "title": "License Issued: PREM-8Q7A-D75P",
+    "message": "Granted 365 days of Yearly VIP Enterprise (365 Days) to gman (gebremedhin819@gmail.com).",
+    "timestamp": "2026-10-24T12:38:59.122Z",
+    "status": "unread",
+    "data": {
+      "key": "PREM-8Q7A-D75P",
+      "email": "gebremedhin819@gmail.com",
+      "plan": "Yearly VIP Enterprise (365 Days)",
+      "expiresAt": "2027-10-24T12:38:59.119Z"
+    }
+  },
+  {
+    "id": "notif_1792845508038",
+    "type": "NEW_PAYMENT",
+    "title": "Payment Received: 9,500 ETB (TELEBIRR)",
+    "message": "gman (gebremedhin819@gmail.com) submitted proof for Yearly VIP Enterprise (365 Days). Ref: WL54",
+    "timestamp": "2026-10-24T12:38:28.038Z",
+    "status": "unread",
+    "data": {
+      "paymentId": "pay_1792845508037_b8did",
+      "email": "gebremedhin819@gmail.com",
+      "amount": "9,500 ETB",
+      "plan": "Yearly VIP Enterprise (365 Days)",
+      "reference": "WL54",
+      "confidence": 60,
+      "fraudRisk": "MEDIUM"
+    }
+  }
+]

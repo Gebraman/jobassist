@@ -51,6 +51,7 @@ export async function notifyNewPayment(payment, verificationResult) {
 
   if (botToken && chatId) {
     try {
+      const baseUrl = process.env.SERVER_PUBLIC_URL || 'https://jobassist-mu47.onrender.com';
       const text = `*JobAssist Alert: New Payment Submitted*\n\n` +
         `*Candidate:* ${payment.candidateName}\n` +
         `*Email:* \`${payment.email}\`\n` +
@@ -59,7 +60,7 @@ export async function notifyNewPayment(payment, verificationResult) {
         `*Gateway:* ${payment.paymentMethod.toUpperCase()}\n` +
         `*Reference:* \`${payment.reference}\`\n` +
         `*Fraud Risk:* ${verificationResult.fraudRisk} (${verificationResult.confidence}% confidence)\n\n` +
-        `[Review in Admin Portal](http://localhost:3001/admin)`;
+        `[Review in Admin Portal](${baseUrl}/admin)`;
 
       await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',

@@ -3577,7 +3577,7 @@ function renderAiAutofillTab() {
           </p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <a href="javascript:(function(){const s=document.createElement('script');s.src='${(typeof window!=='undefined'&&window.location&&window.location.origin&&!window.location.origin.startsWith('file:'))?window.location.origin:'http://localhost:3001'}/jobassist-autofill.js';document.body.appendChild(s);})();" class="btn-primary" style="height: 42px; padding: 0 18px; font-weight: 700; cursor: grab; background: #2563EB; border: 1px solid #60A5FA; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); text-decoration: none; color: #FFFFFF; display: inline-flex; align-items: center; gap: 8px;" title="Drag to Bookmarks Bar">
+          <a href="javascript:(function(){const s=document.createElement('script');s.src='${(typeof window!=='undefined'&&window.location&&window.location.origin&&!window.location.origin.startsWith('file:'))?window.location.origin:'https://jobassist-mu47.onrender.com'}/jobassist-autofill.js';document.body.appendChild(s);})();" class="btn-primary" style="height: 42px; padding: 0 18px; font-weight: 700; cursor: grab; background: #2563EB; border: 1px solid #60A5FA; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4); text-decoration: none; color: #FFFFFF; display: inline-flex; align-items: center; gap: 8px;" title="Drag to Bookmarks Bar">
             Drag to Bookmarks Bar
           </a>
           <button class="btn-dark-outline" style="height: 42px; padding: 0 16px; font-size: 13px;" onclick="copyBookmarkletCode();">
@@ -3612,7 +3612,7 @@ function renderAiAutofillTab() {
       <!-- 1-Click Console Snippet -->
       <div style="margin-top: 16px; background: #050811; border: 1px solid #1E293B; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
         <div style="font-family: monospace; font-size: 12px; color: #94A3B8;">
-          <span style="color: #60A5FA;">Console Snippet:</span> fetch('${(typeof window!=='undefined'&&window.location&&window.location.origin&&!window.location.origin.startsWith('file:'))?window.location.origin:'http://localhost:3001'}/jobassist-autofill.js').then(r=>r.text()).then(eval);
+          <span style="color: #60A5FA;">Console Snippet:</span> fetch('${(typeof window!=='undefined'&&window.location&&window.location.origin&&!window.location.origin.startsWith('file:'))?window.location.origin:'https://jobassist-mu47.onrender.com'}/jobassist-autofill.js').then(r=>r.text()).then(eval);
         </div>
         <button class="btn-dark-outline" style="font-size: 12px; height: 32px; padding: 0 12px;" onclick="copyAiConsoleSnippet();">
           Copy Console Script
@@ -3985,7 +3985,7 @@ async function copyBookmarkletCode() {
     copyToClipboard(code.trim());
     showToast('Self-contained bookmarklet copied! Works on Ashby, Workday, and all sites.', 'success');
   } catch (e) {
-    const origin = (typeof window !== 'undefined' && window.location && window.location.origin && !window.location.origin.startsWith('file:')) ? window.location.origin : 'http://localhost:3001';
+    const origin = (typeof window !== 'undefined' && window.location && window.location.origin && !window.location.origin.startsWith('file:')) ? window.location.origin : 'https://jobassist-mu47.onrender.com';
     const fallback = `javascript:(function(){const s=document.createElement('script');s.src='${origin}/jobassist-autofill.js';document.body.appendChild(s);})();`;
     copyToClipboard(fallback);
   }
@@ -4001,7 +4001,7 @@ async function copyAiConsoleSnippet() {
     copyToClipboard(code.trim());
     showToast('Direct Console snippet copied! Paste in F12 Console on Ashby or Workday.', 'success');
   } catch (e) {
-    const origin = (typeof window !== 'undefined' && window.location && window.location.origin && !window.location.origin.startsWith('file:')) ? window.location.origin : 'http://localhost:3001';
+    const origin = (typeof window !== 'undefined' && window.location && window.location.origin && !window.location.origin.startsWith('file:')) ? window.location.origin : 'https://jobassist-mu47.onrender.com';
     copyToClipboard(`fetch('${origin}/jobassist-autofill.js').then(r=>r.text()).then(eval);`);
   }
 }

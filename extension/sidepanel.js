@@ -15,13 +15,17 @@ let huntedJobs = [];
 let currentLicense = null;
 let selectedPlan = 'daily';
 let selectedCurrency = 'ETB';
-let API_BASE_URL = 'http://localhost:3001';
+const PRODUCTION_API_URL = 'https://jobassist-mu47.onrender.com';
+let API_BASE_URL = PRODUCTION_API_URL;
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     const config = await chrome.storage.local.get(['jobassist_api_base_url']);
-    if (config.jobassist_api_base_url) {
+    if (config.jobassist_api_base_url && config.jobassist_api_base_url !== 'http://localhost:3001') {
       API_BASE_URL = config.jobassist_api_base_url;
+    } else {
+      API_BASE_URL = PRODUCTION_API_URL;
+      await chrome.storage.local.set({ jobassist_api_base_url: PRODUCTION_API_URL });
     }
   } catch(e) {}
 
@@ -76,7 +80,7 @@ function switchTab(targetId) {
         const banner = document.createElement('div');
         banner.id = 'hunter-locked-banner';
         banner.style.cssText = 'background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; border-radius: 8px; padding: 12px; margin-bottom: 12px; color: #FCA5A5; font-size: 11px; text-align: center;';
-        banner.innerHTML = '<b style="color: #FFF; font-size: 12px; display: block; margin-bottom: 4px;">Job Hunter Radar Locked</b>Your active license is configured for <b>AutoFill Specialist</b> only.<br><a href="http://localhost:3001/#plans-section" target="_blank" style="color: #38BDF8; font-weight: 700; text-decoration: underline; display: inline-block; margin-top: 6px;">Upgrade to Job Hunter Pro or Combo Pass &rarr;</a>';
+        banner.innerHTML = `<b style="color: #FFF; font-size: 12px; display: block; margin-bottom: 4px;">Job Hunter Radar Locked</b>Your active license is configured for <b>AutoFill Specialist</b> only.<br><a href="${API_BASE_URL}/#plans-section" target="_blank" style="color: #38BDF8; font-weight: 700; text-decoration: underline; display: inline-block; margin-top: 6px;">Upgrade to Job Hunter Pro or Combo Pass &rarr;</a>`;
         hunterPane.insertBefore(banner, hunterPane.firstChild);
       }
     }
@@ -89,7 +93,7 @@ function switchTab(targetId) {
         const banner = document.createElement('div');
         banner.id = 'autofill-locked-banner';
         banner.style.cssText = 'background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; border-radius: 8px; padding: 12px; margin-bottom: 12px; color: #FCA5A5; font-size: 11px; text-align: center;';
-        banner.innerHTML = '<b style="color: #FFF; font-size: 12px; display: block; margin-bottom: 4px;">1-Click AutoFill Engine Locked</b>Your active license is configured for <b>Job Hunter Pro</b> only.<br><a href="http://localhost:3001/#plans-section" target="_blank" style="color: #38BDF8; font-weight: 700; text-decoration: underline; display: inline-block; margin-top: 6px;">Upgrade to AutoFill Specialist or Combo Pass &rarr;</a>';
+        banner.innerHTML = `<b style="color: #FFF; font-size: 12px; display: block; margin-bottom: 4px;">1-Click AutoFill Engine Locked</b>Your active license is configured for <b>Job Hunter Pro</b> only.<br><a href="${API_BASE_URL}/#plans-section" target="_blank" style="color: #38BDF8; font-weight: 700; text-decoration: underline; display: inline-block; margin-top: 6px;">Upgrade to AutoFill Specialist or Combo Pass &rarr;</a>`;
         autofillPane.insertBefore(banner, autofillPane.firstChild);
       }
     }
@@ -594,7 +598,7 @@ async function huntLiveJobs() {
     listEl.innerHTML = `<div style="text-align:center;color:#FCA5A5;font-size:11px;padding:16px;background:rgba(239,68,68,0.1);border:1px solid #EF4444;border-radius:8px;">
       <b style="color:#FFF;">Job Hunter Radar Locked</b><br>
       Your current license is for 1-Click AutoFill only. Upgrade to Job Hunter Pro or Combo Pass to scout 9 ATS portals.<br>
-      <a href="http://localhost:3001/#plans-section" target="_blank" style="color:#38BDF8;font-weight:700;display:inline-block;margin-top:6px;">View Access Passes &rarr;</a>
+      <a href="${API_BASE_URL}/#plans-section" target="_blank" style="color:#38BDF8;font-weight:700;display:inline-block;margin-top:6px;">View Access Passes &rarr;</a>
     </div>`;
     return;
   }
@@ -1968,7 +1972,7 @@ function setupLicenseModalEvents() {
   if (btnSaveServerUrl && inputServerUrl) {
     btnSaveServerUrl.addEventListener('click', async () => {
       let val = inputServerUrl.value.trim().replace(/\/+$/, '');
-      if (!val) val = 'http://localhost:3001';
+      if (!val) val = PRODUCTION_API_URL;
       API_BASE_URL = val;
       await chrome.storage.local.set({ jobassist_api_base_url: val });
       if (linkWebPricing) linkWebPricing.href = `${API_BASE_URL}/pricing`;
@@ -2012,7 +2016,7 @@ function setupLicenseModalEvents() {
   if (btnGatekeeperSaveUrl && gatekeeperServerUrl) {
     btnGatekeeperSaveUrl.addEventListener('click', async () => {
       let val = gatekeeperServerUrl.value.trim().replace(/\/+$/, '');
-      if (!val) val = 'http://localhost:3001';
+      if (!val) val = PRODUCTION_API_URL;
       API_BASE_URL = val;
       await chrome.storage.local.set({ jobassist_api_base_url: val });
       if (btnGatekeeperBuy) btnGatekeeperBuy.href = `${API_BASE_URL}/pricing`;

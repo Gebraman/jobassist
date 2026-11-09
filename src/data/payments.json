@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "id": "pay_1792845508037_b8did",
+    "email": "gebremedhin819@gmail.com",
+    "candidateName": "gman",
+    "planId": "yearly",
+    "planName": "Yearly VIP Enterprise (365 Days)",
+    "currency": "ETB",
+    "amount": "9,500 ETB",
+    "paymentMethod": "telebirr",
+    "reference": "WL54",
+    "status": "approved",
+    "verification": {
+      "validFormat": false,
+      "confidence": 60,
+      "fraudRisk": "MEDIUM",
+      "flags": [
+        "NON_STANDARD_TELEBIRR_REFERENCE"
+      ],
+      "recommendedAction": "MANUAL_REVIEW",
+      "extractedData": {}
+    },
+    "submittedAt": "2026-10-24T12:38:28.037Z",
+    "notes": "",
+    "approvedAt": "2026-10-24T12:38:59.120Z",
+    "licenseKeyIssued": "PREM-8Q7A-D75P"
+  }
+]

@@ -1939,7 +1939,7 @@
           <button id="btn-gate-open-sidepanel" style="background: linear-gradient(135deg, #10B981, #059669); color: #022C22; border: none; border-radius: 8px; padding: 10px; font-weight: 800; font-size: 12px; cursor: pointer;">
             Enter License Key in Sidepanel
           </button>
-          <a href="http://localhost:3001/pricing" target="_blank" style="background: #1E293B; color: #38BDF8; border: 1px solid #0284C7; border-radius: 8px; padding: 9px; font-weight: 700; font-size: 11.5px; text-decoration: none;">
+          <a href="https://jobassist-mu47.onrender.com/pricing" target="_blank" style="background: #1E293B; color: #38BDF8; border: 1px solid #0284C7; border-radius: 8px; padding: 9px; font-weight: 700; font-size: 11.5px; text-decoration: none;">
             Subscribe / Buy Pass (from 100 ETB / $4.99)
           </a>
           <button id="btn-gate-dismiss" style="background: none; border: none; color: #64748B; font-size: 11px; cursor: pointer; margin-top: 4px;">
