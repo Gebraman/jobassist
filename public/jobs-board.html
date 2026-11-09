@@ -176,10 +176,10 @@
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-weight: 700; color: #FFF;">ACTIVE CANDIDATE:</span>
           <select id="select-candidate" class="search-select" style="padding: 4px 10px; font-size: 12px; min-width: 240px;" onchange="renderJobs()">
-            <option value="james" selected>James Royal (Senior Data Engineer - Primary Client)</option>
-            <option value="raymond">Raymond Wong (Staff / Lead Backend Engineer)</option>
-            <option value="sarah">Sarah Chen (Principal Distributed Systems)</option>
-            <option value="marcus">Marcus Vance (Senior Full Stack & AI Architect)</option>
+            <option value="gebremedhin" selected>Gebremedhin Endeshawe (Founder • Full-Stack Developer)</option>
+            <option value="emanuel_ops">Emanuel (Communication & Client Support)</option>
+            <option value="emanuel_design">Emanuel (Creative Design & Branding Support)</option>
+            <option value="amare_media">Amare (Media & Content Operations Support)</option>
           </select>
         </div>
         <div id="board-stats-count" style="font-weight: 700; color: #34D399;">
@@ -196,25 +196,25 @@
 
   <script>
     const candidates = {
-      james: {
-        name: 'James Royal',
-        headline: 'Senior Data Engineer',
-        skills: ['PYTHON', 'SQL', 'SCALA', 'APACHE SPARK', 'KAFKA', 'SNOWFLAKE', 'AIRFLOW', 'DBT', 'AWS S3', 'POSTGRESQL', 'DISTRIBUTED PROCESSING', 'ETL/ELT']
+      gebremedhin: {
+        name: 'Gebremedhin Endeshawe (Gman)',
+        headline: 'Founder • Full-Stack Developer • Operations Lead',
+        skills: ['REACT', 'NODE.JS', 'EXPRESS', 'MERN STACK', 'MYSQL', 'MONGODB', 'TAILWIND CSS', 'REST APIS', 'JWT', 'CLOUD DEPLOYMENT', 'AI PRODUCTIVITY', 'WORKFLOW ARCHITECTURE']
       },
-      raymond: {
-        name: 'Raymond Wong',
-        headline: 'Staff / Lead Backend Engineer',
-        skills: ['NODE.JS', 'PYTHON', 'REACT', 'GOOGLE CLOUD', 'APIS', 'HUBSPOT', 'ZAPIER', 'WORKATO', 'DISTRIBUTED SYSTEMS', 'ACCOUNTING', 'BOOKKEEPING']
+      emanuel_ops: {
+        name: 'Emanuel (Client Operations)',
+        headline: 'Communication & Client Support Specialist',
+        skills: ['CLIENT SUPPORT', 'RESEARCH ASSISTANCE', 'SPREADSHEET SYSTEMS', 'GOOGLE SHEETS', 'EXCEL', 'ADMIN OPERATIONS', 'WORKFLOW COORDINATION', 'DATA ENTRY']
       },
-      sarah: {
-        name: 'Sarah Chen',
-        headline: 'Principal Distributed Systems Engineer',
-        skills: ['GO', 'KUBERNETES', 'KAFKA', 'POSTGRESQL', 'AWS', 'HIGH THROUGHPUT', 'MICROSERVICES']
+      emanuel_design: {
+        name: 'Emanuel (Creative Lead)',
+        headline: 'Creative Design & Branding Specialist',
+        skills: ['CANVA DESIGN', 'BRAND IDENTITY', 'SOCIAL MEDIA VISUALS', 'THUMBNAIL DESIGN', 'CREATIVE SYSTEMS', 'PRESENTATION DESIGN', 'FIGMA', 'PHOTOSHOP']
       },
-      marcus: {
-        name: 'Marcus Vance',
-        headline: 'Senior Full Stack & AI Architect',
-        skills: ['LLM', 'LANGCHAIN', 'FASTAPI', 'REACT', 'VECTOR DB', 'PYTHON', 'DOCKER']
+      amare_media: {
+        name: 'Amare (Media & Content)',
+        headline: 'Media & Content Support Specialist',
+        skills: ['CONTENT ASSISTANCE', 'MEDIA SUPPORT', 'VIDEO EDITING', 'DIGITAL PUBLISHING', 'CREATIVE COLLABORATION', 'SOCIAL MEDIA SUPPORT', 'COPYWRITING']
       }
     };
 
@@ -346,36 +346,27 @@
     function getSelectedClientForBoard() {
       const candKey = document.getElementById('select-candidate').value;
       const allList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
-      let client = allList.find(c => c.first.toLowerCase() === candKey || c.name.toLowerCase().includes(candKey));
+      let client = allList.find(c => (c.first && c.first.toLowerCase().includes(candKey)) || (c.name && c.name.toLowerCase().includes(candKey)) || c.id.includes(candKey));
       if (!client) {
-        const candObj = candidates[candKey] || candidates.james;
+        const candObj = candidates[candKey] || candidates.gebremedhin;
         client = {
           name: candObj.name,
           headline: candObj.headline,
-          email: `${candKey}@outlook.com`,
-          phone: '+1 (213) 419-5406',
-          loc: 'Austin, TX',
-          linkedin: 'https://www.linkedin.com/in/james-royal-37a898443',
-          portfolio: 'https://jamesroyal.dev',
-          summary: `Senior technical practitioner with extensive production experience in high-throughput architectures and data systems. Tailored for enterprise scale.`,
+          email: 'nexadigitalteamhq@gmail.com',
+          phone: '+251 90 985 8645',
+          loc: 'Addis Ababa, Ethiopia (Remote Worldwide)',
+          linkedin: 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b',
+          portfolio: 'https://nexa-portfolio-theta.vercel.app/',
+          summary: `Professional member of Nexa Digital Team specializing in modern digital solutions, software engineering, and AI-assisted workflows.`,
           skills: candObj.skills,
           experience: [
             {
-              company: 'Givebutter',
-              role: 'Senior Data Engineer',
-              period: 'May 2024 – Present',
+              company: 'Nexa Digital Team',
+              role: candObj.headline,
+              period: 'Jan 2024 – Present',
               bullets: [
-                'Designed reporting datasets for fundraising transactions, campaigns, and donor activity, defining table grain and relationships.',
-                'Built incremental ingestion with Python, SQL, and REST APIs, handling pagination, updated records, and deduplication.'
-              ]
-            },
-            {
-              company: 'Workrise',
-              role: 'Senior Data Engineer',
-              period: 'Aug 2021 – Apr 2024',
-              bullets: [
-                'Engineered distributed data pipelines in Apache Spark and Snowflake processing 12M+ records daily with sub-second query latency.',
-                'Developed automated schema validation and freshness alerts, preventing silent ingestion failures.'
+                'Deliver high-quality remote engineering, client operations, and digital workflow execution for international businesses.',
+                'Collaborate across cross-functional sprints using modern tools, clear communication, and high-quality deliverables.'
               ]
             }
           ]

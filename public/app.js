@@ -869,7 +869,7 @@ function renderCheckoutView() {
                 <form id="local-checkout-form" onsubmit="handleCheckoutProofSubmit(event, 'local');">
                   <div style="margin-bottom: 12px;">
                     <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Full Name</label>
-                    <input type="text" id="local-pay-name" class="ja-input" placeholder="e.g. Dawit Mengistu or James Royal" required />
+                    <input type="text" id="local-pay-name" class="ja-input" placeholder="e.g. Gebremedhin Endeshawe or Dawit Mengistu" required />
                   </div>
                   <div style="margin-bottom: 12px;">
                     <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Email (For License Key Delivery)</label>
@@ -911,7 +911,7 @@ function renderCheckoutView() {
                 <form id="crypto-checkout-form" onsubmit="handleCheckoutProofSubmit(event, 'crypto');">
                   <div style="margin-bottom: 12px;">
                     <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Full Name</label>
-                    <input type="text" id="crypto-pay-name" class="ja-input" placeholder="e.g. Alex Thorne or James Royal" required />
+                    <input type="text" id="crypto-pay-name" class="ja-input" placeholder="e.g. Gebremedhin Endeshawe or Alex Thorne" required />
                   </div>
                   <div style="margin-bottom: 12px;">
                     <label style="display: block; font-size: 12px; font-weight: 600; color: var(--color-ja-slate); margin-bottom: 4px;">Candidate Email (For License Key Delivery)</label>
@@ -3876,9 +3876,9 @@ function testAutoFillOnSimulator() {
   const resumeInput = document.getElementById('sim-resume');
   if (resumeInput) {
     try {
-      const resumeContent = "Raymond Wong - Senior AI & Machine Learning Engineer\nEmail: raymond1994.glo@outlook.com | Phone: 510-340-2070\nAddress: 215 Piedmont Ave NE APT 1206, Atlanta, GA 30308\n8+ years experience in distributed ML systems, PyTorch, AWS, Uber Eats, EY, Coca-Cola.";
+      const resumeContent = "Gebremedhin Endeshawe - Founder & Full-Stack Developer\nNexa Digital Team | Email: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645\nPortfolio: https://nexa-portfolio-theta.vercel.app/ | GitHub: https://github.com/nexadigitalteamhq-design\nFull-stack engineer with 4+ years experience in React, Node.js, Express, MySQL, Tailwind CSS, EduSphere LMS, and AI-assisted workflow automation.";
       const blob = new Blob([resumeContent], { type: 'text/plain' });
-      const file = new File([blob], 'James_Royal_Senior_Data_Engineer_Resume.txt', { type: 'text/plain' });
+      const file = new File([blob], 'Gebremedhin_Endeshawe_Nexa_Digital_Team_Resume.txt', { type: 'text/plain' });
       const dt = new DataTransfer();
       dt.items.add(file);
       resumeInput.files = dt.files;
@@ -3889,43 +3889,43 @@ function testAutoFillOnSimulator() {
 
   // Textareas
   const whyText = state.currentAiAutofill?.screeningQuestions?.[0]?.answer || 
-    "I am passionate about solving mission-critical business challenges through scalable, high-throughput data architectures and incremental ETL/ELT pipelines. Having engineered real-time analytics and data platforms at Givebutter, Workrise, and Cognizant, your company's technical vision, data scale, and engineering culture directly align with my expertise.";
+    "I am passionate about solving mission-critical business challenges through scalable web applications and AI-assisted automated workflow systems. Having built production systems like EduSphere LMS and modern SaaS platforms at Nexa Digital Team, your company's technical vision, engineering standards, and innovation culture directly align with my expertise.";
   setField('sim-why', whyText);
 
   const coverText = state.currentAiApply?.drafts?.coverLetter || 
-    "Dear Hiring Team,\n\nI am writing to express my strong enthusiasm for this engineering position. Over the past 13+ years at Givebutter, Workrise, and Cognizant, I have specialized in architecting and deploying mission-critical data platforms, incremental ETL/ELT workflows, and distributed data systems at enterprise scale.\n\nAt Givebutter, I designed reporting datasets and incremental ingestion pipelines with Python, SQL, and REST APIs, while managing Apache Airflow orchestration with strict SLAs. Prior to that at Workrise, I engineered distributed processing pipelines in Apache Spark and Snowflake processing 12M+ records daily. I thrive in high-ownership, collaborative engineering cultures and look forward to contributing immediate architectural leverage to your technical roadmap.\n\nWarm regards,\nJames Royal\nSenior Data Engineer\nEmail: jamesroyal.91@outlook.com | Phone: +1 (213) 419-5406\nAustin, TX";
+    "Dear Hiring Team,\n\nI am writing to express my strong enthusiasm for this engineering position. As the Founder and Full-Stack Developer at Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I have specialized in building and deploying modern web applications, relational backends, and AI-driven automation workflows.\n\nRecently, our team architected and launched EduSphere LMS (https://edusphere-zouk.onrender.com)—a full-scale platform with JWT authentication, relational MySQL architecture, course and assignment management, and automated notification engines. Our tech stack centers on React, Node.js, Express, MySQL, Tailwind CSS, and cloud deployments on Render.\n\nI bring high ownership and look forward to contributing immediate leverage to your technical roadmap.\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nNexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645\nAddis Ababa, Ethiopia (Remote Worldwide)";
   setField('sim-cover', coverText);
 
-  showToast('JobAssist Auto-Fill: 15 fields, resume & cover letter auto-filled for James Royal!', 'success');
+  showToast('JobAssist Auto-Fill: 15 fields, resume & cover letter auto-filled for Gebremedhin Endeshawe (Nexa Digital Team)!', 'success');
 }
 
 function openCanvaCoverLetterModal(company, title) {
   const client = (typeof state !== 'undefined' && state.candidate) ? {
-    name: state.candidate.fullName || state.candidate.name || 'James Royal',
-    headline: state.candidate.headline || 'Senior Data Engineer',
-    email: state.candidate.email || 'jamesroyal.91@outlook.com',
-    phone: state.candidate.phone || '+1 (213) 419-5406',
-    loc: state.candidate.location || 'Austin, TX 78727',
-    linkedin: state.candidate.linkedin || 'https://www.linkedin.com/in/james-royal-37a898443',
-    portfolio: state.candidate.portfolio || 'https://jamesroyal.dev',
-    skills: state.candidate.skills?.languages ? [...state.candidate.skills.languages, ...(state.candidate.skills.distributedProcessing || [])] : ['Python', 'SQL', 'Spark', 'Kafka', 'Snowflake', 'Airflow'],
+    name: state.candidate.fullName || state.candidate.name || 'Gebremedhin Endeshawe (Gman)',
+    headline: state.candidate.headline || 'Founder • Full-Stack Developer • Operations Lead',
+    email: state.candidate.email || 'nexadigitalteamhq@gmail.com',
+    phone: state.candidate.phone || '+251 90 985 8645',
+    loc: state.candidate.location || 'Addis Ababa, Ethiopia (Remote Worldwide)',
+    linkedin: state.candidate.linkedin || 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b',
+    portfolio: state.candidate.portfolio || 'https://nexa-portfolio-theta.vercel.app/',
+    skills: state.candidate.skills?.languages ? [...state.candidate.skills.languages, ...(state.candidate.skills.frontend || [])] : ['React', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS'],
     experience: state.candidate.experience || []
   } : {
-    name: 'James Royal',
-    headline: 'Senior Data Engineer',
-    email: 'jamesroyal.91@outlook.com',
-    phone: '+1 (213) 419-5406',
-    loc: 'Austin, TX 78727',
-    linkedin: 'https://www.linkedin.com/in/james-royal-37a898443',
-    portfolio: 'https://jamesroyal.dev',
-    skills: ['Python', 'SQL', 'Spark', 'Kafka', 'Snowflake', 'Airflow'],
+    name: 'Gebremedhin Endeshawe (Gman)',
+    headline: 'Founder • Full-Stack Developer • Operations Lead',
+    email: 'nexadigitalteamhq@gmail.com',
+    phone: '+251 90 985 8645',
+    loc: 'Addis Ababa, Ethiopia (Remote Worldwide)',
+    linkedin: 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b',
+    portfolio: 'https://nexa-portfolio-theta.vercel.app/',
+    skills: ['React', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS'],
     experience: []
   };
 
   const job = {
     company: company || 'Enterprise Company',
     title: title || client.headline,
-    keywords: ['Python', 'SQL', 'Apache Spark', 'Snowflake', 'Airflow', 'Kafka']
+    keywords: ['React', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS', 'REST APIs']
   };
 
   if (typeof generateCanvaCoverLetterHTML !== 'undefined') {
@@ -3941,18 +3941,18 @@ window.openCanvaCoverLetterModal = openCanvaCoverLetterModal;
 
 function downloadCoverLetterFromDrafts(company, title) {
   const client = (typeof state !== 'undefined' && state.candidate) ? {
-    name: state.candidate.fullName || state.candidate.name || 'James Royal',
-    headline: state.candidate.headline || 'Senior Data Engineer',
-    email: state.candidate.email || 'jamesroyal.91@outlook.com',
-    phone: state.candidate.phone || '+1 (213) 419-5406',
-    loc: state.candidate.location || 'Austin, TX 78727',
-    skills: ['Python', 'SQL', 'Spark', 'Kafka', 'Snowflake', 'Airflow']
+    name: state.candidate.fullName || state.candidate.name || 'Gebremedhin Endeshawe (Gman)',
+    headline: state.candidate.headline || 'Founder • Full-Stack Developer • Operations Lead',
+    email: state.candidate.email || 'nexadigitalteamhq@gmail.com',
+    phone: state.candidate.phone || '+251 90 985 8645',
+    loc: state.candidate.location || 'Addis Ababa, Ethiopia (Remote Worldwide)',
+    skills: ['React', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS']
   } : {
-    name: 'James Royal',
-    headline: 'Senior Data Engineer',
-    email: 'jamesroyal.91@outlook.com',
-    phone: '+1 (213) 419-5406',
-    loc: 'Austin, TX 78727'
+    name: 'Gebremedhin Endeshawe (Gman)',
+    headline: 'Founder • Full-Stack Developer • Operations Lead',
+    email: 'nexadigitalteamhq@gmail.com',
+    phone: '+251 90 985 8645',
+    loc: 'Addis Ababa, Ethiopia (Remote Worldwide)'
   };
 
   const job = { company, title };

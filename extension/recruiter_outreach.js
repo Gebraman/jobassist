@@ -4,10 +4,10 @@
 function generateRecruiterOutreach(client, jobInfo = {}, channel = 'inmail') {
   const company = jobInfo.company || 'your team';
   const role = jobInfo.title || client.headline || 'Senior Software Engineer';
-  const cName = client.name || 'Raymond Wong';
-  const cCompany = client.company || 'Uber Eats';
-  const cYears = client.yearsBE || '8+';
-  const skillsSnippet = (client.skills || ['Go', 'Python', 'PostgreSQL', 'Kafka', 'Kubernetes', 'AWS']).slice(0, 5).join(', ');
+  const cName = client.name || 'Gebremedhin Endeshawe (Gman)';
+  const cCompany = client.company || 'Nexa Digital Team';
+  const cYears = client.yearsBE || client.yearsOfExperience || '4+';
+  const skillsSnippet = (client.skills || ['React', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS']).slice(0, 5).join(', ');
 
   if (channel === 'connection_note') {
     // 300-char LinkedIn Connection Note limit

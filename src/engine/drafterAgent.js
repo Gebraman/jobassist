@@ -11,7 +11,7 @@ export function draftApplication({ job = {}, candidate = {}, fitData = {} }) {
     ? job.company
     : 'your organization';
   const title = job.title || candidate.headline || 'Senior Software Engineer';
-  const candName = candidate.fullName || candidate.name || 'James Royal';
+  const candName = candidate.fullName || candidate.name || 'Gebremedhin Endeshawe (Nexa Digital Team)';
   const headline = candidate.headline || title;
   const years = candidate.yearsOfExperience || (candidate.experience && candidate.experience.length >= 2 ? '13+' : '8+');
   const matched = fitData?.matchedSkills && fitData.matchedSkills.length > 0

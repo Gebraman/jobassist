@@ -136,8 +136,11 @@ async function loadClients() {
   const stored = await chrome.storage.local.get(['jobassist_clients', 'active_client_id']);
   const defaultList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
 
-  // Automatically synchronize with current primary client (James Royal) and remove legacy placeholder clients
-  const hasLegacy = stored.jobassist_clients && stored.jobassist_clients.some(c => c.id === 'client_raymond_wong' || c.name === 'Raymond Wong');
+  // Automatically synchronize with current primary client (Gebremedhin / Nexa Digital Team) and remove legacy placeholder clients
+  const hasLegacy = stored.jobassist_clients && stored.jobassist_clients.some(c => 
+    c.id === 'client_raymond_wong' || c.name === 'Raymond Wong' ||
+    c.id === 'client_james_royal' || c.name === 'James Royal'
+  );
   if (!stored.jobassist_clients || stored.jobassist_clients.length === 0 || hasLegacy) {
     clientsList = defaultList;
     await chrome.storage.local.set({ jobassist_clients: clientsList, active_client_id: clientsList[0]?.id });
@@ -793,22 +796,22 @@ async function loadTrackedApps() {
   const stored = await chrome.storage.local.get(['jobassist_tracker']);
   trackedApplications = stored.jobassist_tracker || [
     {
-      company: '1406 Consulting',
-      role: 'HubSpot Integrations Software Developer',
-      portal: 'JazzHR',
-      client: 'Raymond Wong',
+      company: 'TechStars Partner',
+      role: 'Full-Stack Web Developer',
+      portal: 'Ashby',
+      client: 'Gebremedhin Endeshawe (Gman)',
       date: new Date().toLocaleDateString(),
       fitScore: '98%',
-      status: 'Applied'
+      status: 'Ready for Review'
     },
     {
-      company: 'Bask Health',
-      role: 'Senior Back-End Software Engineer',
+      company: 'Digital Solutions Co',
+      role: 'Remote Operations & Support Specialist',
       portal: 'Workable',
-      client: 'Raymond Wong',
+      client: 'Emanuel (Client Operations)',
       date: new Date().toLocaleDateString(),
-      fitScore: '96%',
-      status: 'Applied'
+      fitScore: '95%',
+      status: 'Ready for Review'
     }
   ];
   renderTrackerList();
@@ -1910,8 +1913,8 @@ function setupLicenseModalEvents() {
       }
       btnSubmitProof.textContent = 'Submitting Receipt...';
       try {
-        const candidateName = activeClient ? activeClient.name : 'Raymond Wong';
-        const candidateEmail = activeClient ? activeClient.email : 'raymond1994.glo@outlook.com';
+        const candidateName = activeClient ? activeClient.name : 'Gebremedhin Endeshawe (Nexa Digital Team)';
+        const candidateEmail = activeClient ? activeClient.email : 'nexadigitalteamhq@gmail.com';
         const gateway = selectedCurrency === 'ETB' ? 'telebirr' : 'binance';
 
         const res = await fetch(`${API_BASE_URL}/api/premium/submit-payment`, {

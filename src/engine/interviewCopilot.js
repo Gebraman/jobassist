@@ -5,9 +5,9 @@ export function generateInterviewPrep({ jobTitle, company, keywords = [], salary
   const role = jobTitle || 'Senior Software Engineer';
   const org = company || 'Target Company';
   const skills = (keywords && keywords.length > 0) ? keywords : ['NODE.JS', 'PYTHON', 'DISTRIBUTED SYSTEMS', 'APIS', 'POSTGRESQL', 'CLOUD'];
-  const name = candidate?.name || 'Raymond Wong';
-  const years = candidate?.yearsBE || '8+';
-  const headline = candidate?.headline || 'Staff Backend Engineer';
+  const name = candidate?.name || 'Gebremedhin Endeshawe (Nexa Digital Team)';
+  const years = candidate?.yearsBE || candidate?.yearsOfExperience || '4+';
+  const headline = candidate?.headline || 'Full-Stack Developer & Operations Lead';
 
   // 1. 30-Second Elevator Pitch
   const elevatorPitch = `I am a ${headline} with ${years} years of enterprise experience building high-throughput distributed systems, scalable APIs, and resilient cloud architectures. Throughout my career, I've specialized in ${skills.slice(0, 4).join(', ')}, optimizing backend latency by up to 45% and leading cross-functional teams. I'm excited about ${org}'s work in ${role}, and I'm looking forward to applying my architectural experience to help your team scale reliably.`;

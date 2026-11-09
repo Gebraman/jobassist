@@ -2,9 +2,9 @@
 // Generates high-converting recruiter pitches and 1-click mail compose deep links
 
 export function generateRecruiterOutreach({ recipientName, recipientRole, company, jobTitle, candidate, tone = 'value_add' }) {
-  const cName = candidate?.name || 'Raymond Wong';
-  const cHeadline = candidate?.headline || 'Staff Backend Engineer';
-  const cYears = candidate?.yearsBE || '8+';
+  const cName = candidate?.name || 'Gebremedhin Endeshawe (Nexa Digital Team)';
+  const cHeadline = candidate?.headline || 'Founder & Full-Stack Developer';
+  const cYears = candidate?.yearsBE || candidate?.yearsOfExperience || '4+';
   const targetCompany = company || 'Target Company';
   const targetRole = jobTitle || 'Senior Software Engineer';
   const rName = recipientName || 'Hiring Manager';

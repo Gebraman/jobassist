@@ -5,39 +5,39 @@
 
   const PROFILES = (typeof DEFAULT_CLIENTS !== 'undefined') ? DEFAULT_CLIENTS : [
     {
-      id: 'client_raymond_wong',
-      name: 'Raymond Wong',
-      first: 'Raymond',
-      last: 'Wong',
-      email: 'raymond1994.glo@outlook.com',
-      phone: '510-340-2070',
-      headline: 'Senior Integrations & Back-End Software Engineer',
-      loc: 'Atlanta, GA, United States',
-      addr: '215 Piedmont Ave NE APT 1206',
-      city: 'Atlanta',
-      state: 'GA',
-      zip: '30308',
-      country: 'United States',
-      dob: '12/09/1994',
-      ssn4: '0928',
-      title: 'Senior Software Engineer (Integrations & Back-End)',
-      company: 'Uber Eats',
-      school: 'University of Florida',
-      degree: "Master's Degree in Computer Science",
-      educationYear: '2016',
-      gpa: '3.85',
-      linkedin: 'https://www.linkedin.com/in/ray-w-3888b33aa',
-      github: 'https://github.com/raymondwong-ai',
-      portfolio: 'https://app.talentral.org',
-      salary: '$175,000 - $190,000',
-      salaryNum: '175000',
-      notice: '2 weeks',
-      yearsBE: '8',
+      id: 'client_nexa_gman',
+      name: 'Gebremedhin Endeshawe (Gman)',
+      first: 'Gebremedhin',
+      last: 'Endeshawe',
+      email: 'nexadigitalteamhq@gmail.com',
+      phone: '+251 90 985 8645',
+      headline: 'Founder • Full-Stack Developer • Operations Lead | Nexa Digital Team',
+      loc: 'Addis Ababa, Ethiopia (Remote Worldwide)',
+      addr: 'Bole Sub-City',
+      city: 'Addis Ababa',
+      state: 'Addis Ababa',
+      zip: '1000',
+      country: 'Ethiopia',
+      dob: '05/12/2000',
+      ssn4: '8645',
+      title: 'Founder • Full-Stack Developer • Operations Lead',
+      company: 'Nexa Digital Team',
+      school: 'Addis Ababa University',
+      degree: 'Accounting & Finance / Software Systems',
+      educationYear: '2026',
+      gpa: '3.80',
+      linkedin: 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b',
+      github: 'https://github.com/nexadigitalteamhq-design',
+      portfolio: 'https://nexa-portfolio-theta.vercel.app/',
+      salary: '$3,500 - $6,000 / month ($30 - $50 / hr)',
+      salaryNum: '75000',
+      notice: 'Immediate',
+      yearsBE: '4',
       sponsorship: 'No',
       workAuth: 'Yes',
-      skills: ['HubSpot APIs', 'Zapier', 'Workato', 'Mulesoft', 'Python', 'Node.js', 'Go', 'React', 'PostgreSQL', 'Redis', 'Docker', 'Kubernetes', 'AWS', 'Google Cloud', 'REST/GraphQL APIs', 'CRM Integrations'],
-      summary: 'Senior Integrations & Back-End Software Engineer with 8+ years of enterprise experience building custom CRM integrations, automated API middleware, and cloud workflows connecting third-party platforms with HubSpot, Salesforce, and microservices on AWS and Google Cloud.',
-      letter: 'Dear Hiring Team at 1406 Consulting,\n\nI am writing to express my enthusiastic interest in the HubSpot Integrations Software Developer position. Over the past 8+ years at Uber Eats, EY, and Coca-Cola, I have specialized in building robust API-based integrations, automated data pipelines, and custom CRM components using Node.js, Python, React, and cloud platforms.\n\nWarm regards,\nRaymond Wong\nEmail: raymond1994.glo@outlook.com | Phone: 510-340-2070'
+      skills: ['React', 'Node.js', 'Express.js', 'MERN Stack', 'MySQL', 'MongoDB', 'REST APIs', 'JWT Authentication', 'Tailwind CSS', 'Framer Motion', 'Git & GitHub', 'Render Deployment', 'AI Productivity Systems', 'Workflow Architecture'],
+      summary: 'Founder and Full-Stack Developer at Nexa Digital Team with proven experience delivering production-ready web applications, SaaS platforms, and AI-assisted automated workflow systems. Hands-on expertise across React, Node.js, Express, MySQL, and Tailwind CSS.',
+      letter: 'Dear Hiring Team,\n\nI am writing to express my enthusiastic interest in your development project. As Founder and Full-Stack Developer at Nexa Digital Team (https://nexa-portfolio-theta.vercel.app/), I lead our remote engineering sprints and specialize in delivering modern web applications, scalable APIs, and automated digital workflows.\n\nWarm regards,\nGebremedhin Endeshawe (Gman)\nNexa Digital Team\nEmail: nexadigitalteamhq@gmail.com | Phone: +251 90 985 8645'
     }
   ];
 
@@ -75,7 +75,10 @@
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(['jobassist_clients', 'active_client_id'], (data) => {
       const defaultList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
-      const hasLegacy = data.jobassist_clients && data.jobassist_clients.some(c => c.id === 'client_raymond_wong' || c.name === 'Raymond Wong');
+      const hasLegacy = data.jobassist_clients && data.jobassist_clients.some(c => 
+        c.id === 'client_raymond_wong' || c.name === 'Raymond Wong' ||
+        c.id === 'client_james_royal' || c.name === 'James Royal'
+      );
       if (data.jobassist_clients && data.jobassist_clients.length > 0 && !hasLegacy) {
         allClients = data.jobassist_clients;
       } else {
