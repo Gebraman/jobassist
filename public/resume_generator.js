@@ -32,23 +32,25 @@ function getTailoredSkills(clientSkills = [], jobKeywords = []) {
 }
 
 function getTailoredSummary(client, company = '', role = '', jobOverview = '') {
-  const headline = role || client.headline || 'Senior Software Engineer';
-  const years = client.yearsBE || '8+';
+  const headline = role || client.headline || 'Virtual Assistant & Data Entry Specialist';
+  const years = client.yearsBE || client.yearsOfExperience || '3+';
   const desc = (jobOverview || '').toLowerCase();
   const cleanComp = (!company || ['Target Company', 'Enterprise Company', 'Hiring Company'].includes(company)) ? '' : company;
 
   // Detect domain context organically from the job overview or client title
-  let domainFocus = 'high-throughput distributed backends, scalable microservices, and resilient cloud architectures';
-  if (desc.includes('data') || desc.includes('etl') || desc.includes('elt') || desc.includes('pipeline') || desc.includes('spark') || desc.includes('snowflake') || desc.includes('kafka') || desc.includes('airflow') || desc.includes('warehouse') || desc.includes('lakehouse') || desc.includes('dbt') || desc.includes('redshift') || desc.includes('bigquery') || (client.headline && client.headline.toLowerCase().includes('data'))) {
-    domainFocus = 'petabyte-scale data pipelines, incremental ETL/ELT ingestion, distributed streaming, and cloud data warehousing';
-  } else if (desc.includes('integrat') || desc.includes('hubspot') || desc.includes('zapier') || desc.includes('workato') || desc.includes('mulesoft')) {
-    domainFocus = 'enterprise API integrations, bidirectional data synchronization pipelines, and automated cloud workflows';
-  } else if (desc.includes('kubernetes') || desc.includes('devops') || desc.includes('sre') || desc.includes('cloud') || desc.includes('terraform')) {
-    domainFocus = 'cloud-native infrastructure, Kubernetes container orchestration, and automated CI/CD deployment pipelines';
-  } else if (desc.includes('machine learning') || desc.includes('ai') || desc.includes('llm') || desc.includes('deep learning')) {
-    domainFocus = 'production AI/ML inference pipelines, distributed data systems, and low-latency API architectures';
-  } else if (desc.includes('front') || desc.includes('react') || desc.includes('full-stack') || desc.includes('full stack')) {
-    domainFocus = 'full-stack web platforms, responsive modern interfaces, and high-performance serverless backends';
+  let domainFocus = 'virtual assistance, high-accuracy data entry, spreadsheet organization, and remote administrative support';
+  if (desc.includes('data entry') || desc.includes('typing') || desc.includes('transcription') || desc.includes('record')) {
+    domainFocus = 'high-accuracy data entry, document transcription (65+ WPM), record deduplication, and database verification';
+  } else if (desc.includes('excel') || desc.includes('sheet') || desc.includes('spreadsheet') || desc.includes('vlookup') || desc.includes('pivot')) {
+    domainFocus = 'advanced Google Sheets and MS Excel organization, formula auditing (XLOOKUP / Pivot Tables), and clean financial and reporting workflows';
+  } else if (desc.includes('assist') || desc.includes('admin') || desc.includes('executive') || desc.includes('calendar') || desc.includes('inbox')) {
+    domainFocus = 'proactive executive virtual assistance, inbox zero management, calendar scheduling, and cross-timezone business operations';
+  } else if (desc.includes('research') || desc.includes('lead') || desc.includes('prospect')) {
+    domainFocus = 'structured web research, lead generation, B2B contact verification, and prospect directory creation';
+  } else if (desc.includes('canva') || desc.includes('design') || desc.includes('thumbnail') || desc.includes('social media')) {
+    domainFocus = 'Canva visual asset design, high-CTR YouTube thumbnails, presentation formatting, and social media media organization';
+  } else if (desc.includes('customer') || desc.includes('support') || desc.includes('chat') || desc.includes('ticket')) {
+    domainFocus = 'courteous customer support, live chat resolution, email ticketing, and client inquiry management';
   }
 
   if (client.summary && client.summary.length > 50 && !cleanComp) {
@@ -57,13 +59,13 @@ function getTailoredSummary(client, company = '', role = '', jobOverview = '') {
 
   const topSkillsStr = (client.skills && client.skills.length > 0)
     ? client.skills.slice(0, 6).join(', ')
-    : 'Python, SQL, Spark, Kafka, Snowflake, Airflow';
+    : 'Virtual Assistant, Data Entry, Google Sheets, Excel Formulas, Web Research, Canva Design';
 
   if (client.summary && client.summary.length > 50 && cleanComp) {
-    return `${client.summary} Prepared to drive immediate value for ${cleanComp}'s engineering and technical integration initiatives.`;
+    return `${client.summary} Prepared to deliver immediate, reliable administrative support for ${cleanComp}'s daily operations.`;
   }
 
-  return `Senior technical engineering practitioner with ${years} years of production experience architecting and operating ${domainFocus}. Track record leading core data and distributed systems sustaining 99.99% operational reliability and high throughput. Hands-on background spanning ${topSkillsStr}, with a consistent focus on resilient system design, automated data validation, and engineering velocity.`;
+  return `Detail-oriented Virtual Assistant and Data Entry Specialist with ${years} years of dedicated experience supporting remote operations through ${domainFocus}. Proven record delivering 65+ WPM typing speed with 99.8% verified accuracy and dependable daily execution. Hands-on background spanning ${topSkillsStr}, backed by proactive communication, strict confidentiality adherence, and collaborative workflow systems at Nexa Digital Team.`;
 }
 
 // ------------------------------------------------------------------------
@@ -72,38 +74,40 @@ function getTailoredSummary(client, company = '', role = '', jobOverview = '') {
 // ------------------------------------------------------------------------
 function generateExecutiveMasterworkResume(client, jobInfo = {}) {
   const company = jobInfo.company || 'Enterprise Company';
-  const role = jobInfo.title || client.headline || 'Senior Software Engineer';
+  const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Entry Specialist';
   const allSkills = getTailoredSkills(client.skills, jobInfo.keywords);
   const tailoredSummary = getTailoredSummary(client, company, role, jobInfo.description || '');
   const exps = client.experience || [
     {
-      role: client.headline || 'Senior Software Engineer',
-      company: client.company || 'Enterprise Technology Corp',
-      period: '2021 - Present',
-      location: 'Atlanta, GA (Remote)',
+      role: client.headline || 'Virtual Assistant & Data Operations Specialist',
+      company: client.company || 'Nexa Digital Team',
+      period: '2024 - Present',
+      location: 'Remote Worldwide',
       bullets: [
-        'Architected and deployed distributed event-driven microservices handling 1.2M transactions daily, reducing p99 latency by 74%.',
-        'Spearheaded cloud migration to Kubernetes and automated CI/CD pipelines, decreasing deployment release cycles from 2 weeks to 2 hours.',
-        'Engineered custom API middleware and webhook telemetry, ensuring 99.99% uptime SLA across mission-critical services.'
+        'Transcribe, format, and enter 1,000+ data records weekly across Google Sheets and Excel with verified 99.8% accuracy.',
+        'Manage executive inbox, organize cloud drives, and coordinate calendar appointments across US, UK, and European time zones.',
+        'Conduct deep web research to generate clean, verified B2B prospect directories and lead lists for e-commerce and agency clients.',
+        'Design high-converting visual assets and YouTube thumbnails in Canva Pro following brand kit guidelines.'
       ]
     },
     {
-      role: 'Software Engineer',
-      company: 'Global Systems Inc',
-      period: '2018 - 2021',
-      location: 'San Francisco, CA',
+      role: 'Data Entry & Administrative Assistant',
+      company: 'Nexa Workflow Solutions',
+      period: '2022 - 2024',
+      location: 'Remote',
       bullets: [
-        'Developed scalable REST and GraphQL endpoints backed by PostgreSQL and Redis caches, increasing query throughput by 300%.',
-        'Implemented enterprise-grade authentication (OAuth2, JWT) and role-based access control complying with SOC2 and GDPR requirements.'
+        'Cleaned, structured, and deduplicated multi-tab spreadsheets utilizing VLOOKUP, XLOOKUP, Pivot Tables, and automated conditional formatting.',
+        'Maintained rapid 65+ WPM typing speed across high-volume data collection, product listing, and database migration tasks.',
+        'Provided friendly, courteous customer email and live chat support, sustaining a 98% first-response resolution rate.'
       ]
     }
   ];
 
-  // Group skills into executive categories
+  // Group skills into modern VA & Operations categories
   const targetMatches = (jobInfo.keywords && jobInfo.keywords.length > 0) ? jobInfo.keywords.slice(0, 8) : allSkills.slice(0, 6);
-  const coreLanguages = allSkills.filter(s => ['python', 'sql', 'scala', 'java', 'bash', 'node.js', 'typescript', 'javascript', 'go', 'golang', 'c++', 'c#', 'react'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
-  const cloudSystems = allSkills.filter(s => ['snowflake', 'redshift', 's3', 'parquet', 'spark', 'pyspark', 'kafka', 'aws', 'cloud', 'gcp', 'google cloud', 'docker', 'kubernetes', 'k8s', 'terraform', 'ci/cd', 'redis', 'postgresql', 'mysql', 'oracle'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
-  const architectures = allSkills.filter(s => ['dbt', 'etl', 'elt', 'airflow', 'pipeline', 'dimensional', 'governance', 'schema', 'api', 'rest', 'graphql', 'distributed', 'microservices', 'integrations', 'zapier', 'workato', 'hubspot', 'crm', 'accounting', 'bookkeeping'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
+  const coreTools = allSkills.filter(s => ['sheet', 'excel', 'workspace', 'word', 'office', 'drive', 'notion', 'slack', 'trello', 'asana', 'airtable', 'csv'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
+  const coreCompetencies = allSkills.filter(s => ['data entry', 'virtual assistant', 'research', 'lead', 'support', 'customer', 'transcription', 'admin', 'organization', 'typing', 'cleaning', 'operations'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
+  const creativeAI = allSkills.filter(s => ['canva', 'design', 'thumbnail', 'ai', 'chatgpt', 'prompt', 'workflow', 'automation', 'media', 'social'].some(k => s.toLowerCase().includes(k))).slice(0, 8);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -427,29 +431,29 @@ function generateExecutiveMasterworkResume(client, jobInfo = {}) {
       </p>
     </section>
 
-    <!-- 2. Core Technical Competencies -->
+    <!-- 2. Core Operational Competencies -->
     <section>
       <div class="section-header">
-        <span>Core Technical Competencies</span>
+        <span>Core Operational Competencies</span>
       </div>
       <div class="competencies-box">
         ${targetMatches.length > 0 ? `
           <div class="comp-line">
-            <span class="comp-label">Primary Technologies:</span>
+            <span class="comp-label">Target Role Match:</span>
             <span class="comp-values comp-highlight">${targetMatches.join(' • ')}</span>
           </div>
         ` : ''}
         <div class="comp-line">
-          <span class="comp-label">Languages &amp; Runtimes:</span>
-          <span class="comp-values">${coreLanguages.length > 0 ? coreLanguages.join(', ') : 'Node.js, Python, TypeScript, Go, SQL, Bash'}</span>
+          <span class="comp-label">Software &amp; Tools:</span>
+          <span class="comp-values">${coreTools.length > 0 ? coreTools.join(', ') : 'Google Sheets, Microsoft Excel (VLOOKUP, Pivot Tables), Google Workspace, Notion, Slack, Trello, Asana'}</span>
         </div>
         <div class="comp-line">
-          <span class="comp-label">Cloud Systems &amp; DevOps:</span>
-          <span class="comp-values">${cloudSystems.length > 0 ? cloudSystems.join(', ') : 'AWS (ECS, Lambda, RDS), Google Cloud, Docker, Kubernetes, CI/CD Pipelines'}</span>
+          <span class="comp-label">Operational Competencies:</span>
+          <span class="comp-values">${coreCompetencies.length > 0 ? coreCompetencies.join(', ') : 'High-Speed Data Entry (65+ WPM, 99.8% Accuracy), Web Research, Lead Generation, Inbox Zero, Customer Support'}</span>
         </div>
         <div class="comp-line">
-          <span class="comp-label">Architecture &amp; Data:</span>
-          <span class="comp-values">${architectures.length > 0 ? architectures.join(', ') : 'Distributed Systems, Microservices, REST & GraphQL APIs, PostgreSQL, Redis, Kafka'}</span>
+          <span class="comp-label">Creative &amp; AI Systems:</span>
+          <span class="comp-values">${creativeAI.length > 0 ? creativeAI.join(', ') : 'Canva Pro Design, High-CTR YouTube Thumbnails, ChatGPT &amp; AI Workflow Systems, Social Media Support'}</span>
         </div>
       </div>
     </section>
@@ -560,7 +564,7 @@ function generatePlainTextResume(client, jobInfo = {}) {
 
 function generateValidPDFBinary(client, jobInfo = {}) {
   const company = jobInfo.company || 'Enterprise Company';
-  const role = jobInfo.title || client.headline || 'Senior Software Engineer';
+  const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Entry Specialist';
   const skills = getTailoredSkills(client.skills, jobInfo.keywords);
   const tailoredSummary = getTailoredSummary(client, company, role, jobInfo.description || '');
 
@@ -646,40 +650,40 @@ function generateTailoredCoverLetterText(client, jobInfo = {}) {
   const company = (jobInfo.company && !['Target Company', 'Enterprise Company', 'Hiring Company'].includes(jobInfo.company))
     ? jobInfo.company
     : 'your organization';
-  const role = jobInfo.title || client.headline || 'Senior Engineer';
+  const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Entry Specialist';
   const skills = getTailoredSkills(client.skills, jobInfo.keywords);
-  const topSkillsStr = (skills && skills.length > 0) ? skills.slice(0, 5).join(', ') : 'Python, SQL, Apache Spark, Snowflake, Kafka';
-  const years = client.yearsOfExperience || client.yearsBE || (client.experience && client.experience.length > 2 ? '13+' : '8+');
+  const topSkillsStr = (skills && skills.length > 0) ? skills.slice(0, 5).join(', ') : 'Virtual Assistant, Data Entry, Google Sheets, Excel Formulas, Web Research';
+  const years = client.yearsOfExperience || client.yearsBE || (client.experience && client.experience.length > 2 ? '3+' : '3+');
   const exps = client.experience || [];
   const primaryExp = exps[0] || {};
   const secondaryExp = exps[1] || {};
 
   const bullet1 = (primaryExp.bullets && primaryExp.bullets[0]) ||
-    'Architected high-throughput, incremental ingestion data pipelines processing over 10M records daily with 99.99% operational reliability.';
+    'Entered, organized, and cleaned 1,000+ data records weekly across Google Sheets and Excel with 99.8% verified accuracy.';
   const bullet2 = (primaryExp.bullets && primaryExp.bullets[1]) || (secondaryExp.bullets && secondaryExp.bullets[0]) ||
-    'Engineered automated schema validation, freshness monitoring, and backfill replay workflows, cutting data incidents by 62%.';
+    'Managed executive inbox communications, calendar scheduling, and cloud files across US/EU time zones with zero missed appointments.';
   const bullet3 = (secondaryExp.bullets && secondaryExp.bullets[1]) ||
-    'Collaborated across cross-functional engineering pods to define source interfaces, maintain strict business logic consistency, and optimize query latency.';
+    'Conducted targeted online research to build verified lead directories and customer contact lists for fast business outreach.';
 
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   let letter = `${client.name}\n${client.headline || role}\n`;
-  letter += `${client.loc || 'United States'} • ${client.phone} • ${client.email}\n`;
+  letter += `${client.loc || 'Addis Ababa, Ethiopia (Remote Worldwide)'} • ${client.phone} • ${client.email}\n`;
   if (client.linkedin) letter += `LinkedIn: ${client.linkedin}\n`;
   if (client.portfolio) letter += `Portfolio: ${client.portfolio}\n`;
   letter += `\n${today}\n\n`;
-  letter += `Technical Talent Acquisition Team\n`;
+  letter += `Hiring & Operations Team\n`;
   letter += `${company}\n\n`;
   letter += `RE: Application for ${role} — ${client.name}\n\n`;
   letter += `Dear Hiring Team at ${company},\n\n`;
-  letter += `I am writing to express my strong enthusiasm for the ${role} position at ${company}. Having followed ${company}'s ongoing innovation and technical velocity, I am deeply impressed by your team's commitment to operational reliability, scalable architecture, and engineering excellence. With over ${years} years of dedicated engineering experience architecting robust distributed data systems and production pipelines, I am confident in my ability to immediately accelerate your technical deliverables.\n\n`;
-  letter += `Throughout my career at organizations such as ${primaryExp.company || 'enterprise platforms'} and ${secondaryExp.company || 'high-scale systems'}, I have focused on solving mission-critical data scalability, integration, and operational reliability challenges:\n\n`;
+  letter += `I am writing to express my strong enthusiasm for the ${role} position at ${company}. Having followed your business and operational focus, I am deeply impressed by your commitment to efficiency, high quality, and team excellence. With over ${years} years of dedicated experience supporting remote teams with high-speed data entry (65+ WPM), spreadsheet organization, and proactive virtual assistance, I am confident in my ability to immediately accelerate your team's daily productivity.\n\n`;
+  letter += `Throughout my work at ${primaryExp.company || 'Nexa Digital Team'} and ${secondaryExp.company || 'remote digital clients'}, I have specialized in solving administrative bottlenecks and ensuring flawless data accuracy:\n\n`;
   letter += `• ${bullet1}\n`;
   letter += `• ${bullet2}\n`;
   letter += `• ${bullet3}\n\n`;
-  letter += `${company}'s technical focus on ${topSkillsStr} directly matches my day-to-day expertise. I combine hands-on technical mastery with a disciplined, metrics-driven approach to automated testing, performance tuning, and incident resolution. Furthermore, I pride myself on clear technical communication, cross-team collaboration, and an owner's mindset that prioritizes long-term system maintainability.\n\n`;
-  letter += `I would welcome the opportunity to discuss how my background in scalable architecture and technical execution can deliver immediate leverage for ${company}. Thank you for your time, consideration, and review of my application materials.\n\n`;
-  letter += `Sincerely,\n\n`;
+  letter += `Your focus on ${topSkillsStr} directly matches my day-to-day expertise. I combine 65+ WPM typing speed with a verified 99.8% accuracy rate, strong Google Sheets/Excel formula skills, and dependable timezone overlap. Backed by Nexa Digital Team (${client.portfolio || 'https://nexa-portfolio-theta.vercel.app/'}), I bring reliable collaboration and an owner's mindset to every assignment.\n\n`;
+  letter += `I would welcome the opportunity to discuss how my virtual assistance and data operations background can deliver immediate leverage for ${company}. Thank you for your time, consideration, and review of my application.\n\n`;
+  letter += `Warm regards,\n\n`;
   letter += `${client.name}\n`;
   letter += `${client.headline || role}\n`;
   letter += `${client.email} | ${client.phone}\n`;
@@ -691,20 +695,20 @@ function generateCanvaCoverLetterHTML(client, jobInfo = {}, templateType = 'exec
   const company = (jobInfo.company && !['Target Company', 'Enterprise Company', 'Hiring Company'].includes(jobInfo.company))
     ? jobInfo.company
     : 'Hiring Team';
-  const role = jobInfo.title || client.headline || 'Senior Engineer';
+  const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Entry Specialist';
   const skills = getTailoredSkills(client.skills, jobInfo.keywords);
-  const topSkillsStr = (skills && skills.length > 0) ? skills.slice(0, 5).join(', ') : 'Python, SQL, Apache Spark, Snowflake, Kafka';
-  const years = client.yearsOfExperience || client.yearsBE || (client.experience && client.experience.length > 2 ? '13+' : '8+');
+  const topSkillsStr = (skills && skills.length > 0) ? skills.slice(0, 5).join(', ') : 'Virtual Assistant, Data Entry, Google Sheets, Excel Formulas, Web Research';
+  const years = client.yearsOfExperience || client.yearsBE || (client.experience && client.experience.length > 2 ? '3+' : '3+');
   const exps = client.experience || [];
   const primaryExp = exps[0] || {};
   const secondaryExp = exps[1] || {};
 
   const bullet1 = (primaryExp.bullets && primaryExp.bullets[0]) ||
-    'Architected high-throughput, incremental ingestion data pipelines processing over 10M records daily with 99.99% operational reliability.';
+    'Entered, organized, and cleaned 1,000+ data records weekly across Google Sheets and Excel with 99.8% verified accuracy.';
   const bullet2 = (primaryExp.bullets && primaryExp.bullets[1]) || (secondaryExp.bullets && secondaryExp.bullets[0]) ||
-    'Engineered automated schema validation, freshness monitoring, and backfill replay workflows, cutting data incidents by 62%.';
+    'Managed executive inbox communications, calendar scheduling, and cloud files across US/EU time zones with zero missed appointments.';
   const bullet3 = (secondaryExp.bullets && secondaryExp.bullets[1]) ||
-    'Collaborated across cross-functional engineering pods to define source interfaces, maintain strict business logic consistency, and optimize query latency.';
+    'Conducted targeted online research to build verified lead directories and customer contact lists for fast business outreach.';
 
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const rawText = generateTailoredCoverLetterText(client, jobInfo);

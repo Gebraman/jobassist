@@ -1,87 +1,131 @@
-// Autonomous Recruiter Outreach Message Synthesizer
-// Generates tailored LinkedIn InMail, Cold Email, or Connection Notes for Hiring Managers
+// Autonomous Recruiter & Client Outreach Message Synthesizer — Nexa Digital Team
+// Generates tailored Upwork Proposals, Cold Email Pitches, LinkedIn Connection Notes,
+// and Follow-ups specifically designed for Virtual Assistant, Data Entry, and Remote Agency clients.
 
-function generateRecruiterOutreach(client, jobInfo = {}, channel = 'inmail') {
-  const company = jobInfo.company || 'your team';
-  const role = jobInfo.title || client.headline || 'Senior Software Engineer';
+function generateRecruiterOutreach(client, jobInfo = {}, channel = 'upwork_bid') {
+  const company = jobInfo.company || 'your business';
+  const role = jobInfo.title || client.headline || client.targetRole || 'Virtual Assistant / Data Entry Specialist';
   const cName = client.name || 'Gebremedhin Endeshawe (Gman)';
   const cCompany = client.company || 'Nexa Digital Team';
-  const cYears = client.yearsBE || client.yearsOfExperience || '4+';
-  const skillsSnippet = (client.skills || ['React', 'Node.js', 'Express', 'MySQL', 'Tailwind CSS']).slice(0, 5).join(', ');
+  const cYears = client.yearsBE || client.yearsOfExperience || '3+';
+  const skillsSnippet = (client.skills || ['Virtual Assistant', 'Data Entry', 'Google Sheets', 'Excel Data Cleaning', 'Web Research']).slice(0, 5).join(', ');
+  const portfolioUrl = client.portfolio || 'https://nexa-portfolio-theta.vercel.app/';
 
-  if (channel === 'connection_note') {
-    // 300-char LinkedIn Connection Note limit
-    return `Hi! I just applied for the ${role} opening at ${company}. With ${cYears} years architecting distributed systems at ${cCompany} (${skillsSnippet}), I’d love to connect and follow your team's engineering work!`;
+  // 1. UPWORK / FREELANCER WINNING PROPOSAL
+  if (channel === 'upwork_bid' || channel === 'proposal') {
+    return `Hi ${company} team,
+
+I can take this ${role} project off your plate immediately and deliver clean, organized, 99.8% accurate results.
+
+Why I am a strong fit for your project:
+• High-Speed & Precision: 65+ WPM typing speed with verified 99.8% data accuracy.
+• Spreadsheets & Data Organization: Expert in Google Sheets and MS Excel (VLOOKUP, XLOOKUP, Pivot Tables, conditional formatting, deduplication, and data cleaning).
+• Reliable Daily Support: Experienced in web research, lead generation, customer inbox management, and administrative workflows.
+• Nexa Digital Backup: Backed by Nexa Digital Team (${portfolioUrl}), ensuring 100% uninterrupted continuity and fast turnaround.
+
+My 3-Step Action Plan:
+1. Review your exact requirements and clarify any formatting guidelines within the first hour.
+2. Process an initial test sample (50-100 rows / records) for your immediate approval.
+3. Complete the full batch with double-check quality verification before the deadline.
+
+I am available to start immediately and work flexible hours across US/UK/European timezones.
+
+Best regards,
+
+${cName}
+Virtual Assistant & Data Operations Lead | ${cCompany}
+Portfolio: ${portfolioUrl}
+Email: ${client.email} | WhatsApp/Telegram: ${client.phone}`;
   }
 
+  // 2. LINKEDIN CONNECTION NOTE (< 300 CHARACTERS)
+  if (channel === 'connection_note') {
+    return `Hi! I saw your ${role} opening. With ${cYears} yrs experience in high-accuracy data entry (65+ WPM, 99.8% accuracy), Excel/Sheets, and remote admin support at Nexa Digital (${portfolioUrl}), I’d love to connect and help your team!`;
+  }
+
+  // 3. POLITE APPLICATION FOLLOW-UP
   if (channel === 'followup') {
     return `Subject: Following up on application: ${role} — ${cName}
 
 Hi Hiring Team at ${company},
 
-I hope your week is going well.
+I hope you are having a productive week!
 
-I wanted to quickly follow up on my application submitted last week for the ${role} opening at ${company}. 
+I wanted to quickly follow up on my recent application for the ${role} position. 
 
-Given my background scaling distributed systems at ${cCompany} (${skillsSnippet}) with sub-18ms p99 latency across 45M+ users, I remain very enthusiastic about contributing to your engineering goals this quarter.
+With my background in virtual assistance, spreadsheet data cleaning, and fast data entry (65+ WPM, 99.8% accuracy) at ${cCompany}, I am very excited about the opportunity to support your daily operations and free up your team's time.
 
-Please let me know if any additional work samples, architectural case studies, or portfolio references would be helpful.
+Our portfolio and client work samples are available here: ${portfolioUrl}
 
-Best regards,
+Please let me know if you would like me to complete a brief test sample or if any additional information is needed.
+
+Warm regards,
 
 ${cName}
+${client.headline || 'Virtual Assistant & Data Entry Specialist'} | ${cCompany}
 Email: ${client.email} | Phone: ${client.phone}
 LinkedIn: ${client.linkedin}`;
   }
 
-  if (channel === 'email') {
-    return `Subject: ${role} Application — ${cName} | ${client.headline || 'Senior Software Engineer'}
+  // 4. COLD EMAIL / DIRECT CLIENT PITCH
+  if (channel === 'email' || channel === 'cold_pitch') {
+    return `Subject: Quick question regarding your data & administrative operations — ${cName}
 
-Dear Hiring Team and Engineering Leadership at ${company},
+Dear ${company} Team,
 
-I am writing to express my direct interest in the ${role} position. I have formally submitted my application through your careers portal and wanted to reach out to share key architectural parallels between my recent production achievements and your team's scope.
+I came across your business and wanted to reach out directly with a simple way to help streamline your daily operations.
 
-Key Production Highlights:
-• Scaled core real-time dispatch and distributed microservices at ${cCompany} handling 120,000+ RPS with 99.995% uptime across 45M+ active users.
-• Deep production expertise in ${skillsSnippet}, Kubernetes (EKS), automated CI/CD pipelines, and zero-downtime database migrations.
-• Engineered telemetry and event streaming architectures utilizing Kafka and Redis that reduced annual cloud compute costs by 14%.
+At Nexa Digital Team (${portfolioUrl}), we help founders, e-commerce stores, and busy teams eliminate administrative bottlenecks through fast, reliable, and error-free support.
 
-My tailored resume and portfolio links are available below for your convenience:
-• LinkedIn: ${client.linkedin}
-• GitHub: ${client.github}
-• Portfolio: ${client.portfolio}
+How we can help your team right away:
+• High-Accuracy Data Entry (65+ WPM typing, verified 99.8% accuracy).
+• Spreadsheet Optimization (Google Sheets & Excel data cleaning, VLOOKUP, Pivot Tables, formatting).
+• Web Research & Lead Generation (Building clean, verified prospect contact lists).
+• Inbox & Calendar Management (Inbox Zero, appointment scheduling across US/EU timezones).
+• Canva Graphics & YouTube Thumbnails (High-converting visual assets).
 
-I welcome the opportunity to discuss how my distributed systems and engineering background can deliver immediate value for ${company}.
+We offer flexible hourly or monthly retainer arrangements with immediate start availability.
 
-Sincerely,
+Would you be open to a quick 5-minute chat or letting me complete a small free test sample to show our quality?
+
+Best regards,
 
 ${cName}
-Senior Software Engineer
-Email: ${client.email} | Phone: ${client.phone}`;
+Virtual Assistant & Operations Specialist
+${cCompany}
+Portfolio: ${portfolioUrl}
+Email: ${client.email} | Phone: ${client.phone}
+LinkedIn: ${client.linkedin}`;
   }
 
-  // Default: Full LinkedIn InMail format
-  return `Subject: Application: ${role} — ${cName} (Senior Software Engineer)
+  // 5. DEFAULT: LINKEDIN INMAIL / DIRECT MESSAGE
+  return `Subject: Application: ${role} — ${cName} (Virtual Assistant & Data Specialist)
 
 Hi Hiring Team at ${company},
 
 I recently submitted my application for the ${role} position and wanted to introduce myself directly.
 
-Over the past ${cYears} years at ${cCompany}, EY, and Coca-Cola, I have specialized in building mission-critical distributed backends, high-throughput microservices, and reliable cloud infrastructure. 
+Over the past ${cYears} years at ${cCompany}, I have specialized in virtual assistance, spreadsheet organization, high-speed data entry, and remote operations support.
 
-A few highlights from my recent work that directly align with ${company}'s technical roadmap:
-• Architected core real-time dispatch and ranking microservices at ${cCompany} processing 120k+ events/sec with sub-18ms p99 latency across 45M+ active users.
-• Extensive production expertise with ${skillsSnippet}, managing Kubernetes clusters and automated CI/CD pipelines.
-• Track record of balancing developer velocity with rigorous zero-downtime reliability and enterprise security standards.
+A few highlights from my work that directly align with your needs:
+• Delivered 65+ WPM typing with 99.8% verified accuracy across high-volume data cleaning and transcription projects.
+• Daily expertise with Google Sheets, Excel (VLOOKUP, formulas, Pivot Tables), Notion, Trello, and Canva.
+• Self-driven, reliable communicator with full availability across US/UK/European time zones.
+• View our portfolio and digital workflows: ${portfolioUrl}
 
-I have attached my tailored resume to the application portal and would welcome a brief conversation to learn more about your technical priorities this quarter.
+I would welcome a brief conversation to discuss how I can take administrative and data tasks off your plate this week.
 
-Best regards,
+Warm regards,
 
 ${cName}
-Senior Software Engineer
+Virtual Assistant & Data Entry Specialist
+${cCompany}
 Email: ${client.email} | Phone: ${client.phone}
-LinkedIn: ${client.linkedin} | GitHub: ${client.github}`;
+LinkedIn: ${client.linkedin}`;
+}
+
+if (typeof globalThis !== 'undefined') {
+  globalThis.generateRecruiterOutreach = generateRecruiterOutreach;
 }
 
 if (typeof module !== 'undefined' && module.exports) {

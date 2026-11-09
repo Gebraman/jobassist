@@ -33,38 +33,35 @@ export function evaluateJobFit(job, candidateProfile) {
     }
   }
 
-  // Common high-demand technical keywords to scan in posting
-  const techKeywords = ['typescript', 'python', 'go', 'rust', 'react', 'node', 'fastapi', 'kubernetes', 'docker', 'aws', 'postgresql', 'redis', 'graphql', 'llm', 'langchain', 'distributed systems'];
-  for (const kw of techKeywords) {
+  // Common high-demand skills to scan in VA / Data Entry / Operations postings
+  const targetKeywords = ['data entry', 'virtual assistant', 'google sheets', 'excel', 'web research', 'customer support', 'typing', 'lead generation', 'spreadsheets', 'transcription', 'canva', 'administrative', 'inbox', 'scheduling', 'crm'];
+  for (const kw of targetKeywords) {
     if (jobText.includes(kw) && !matchedSkills.some(m => m.toLowerCase().includes(kw))) {
       missingJobSkills.push(kw.charAt(0).toUpperCase() + kw.slice(1));
     }
   }
 
-  let skillsScore = Math.min(100, Math.round((matchedSkills.length / Math.max(4, matchedSkills.length + missingJobSkills.length * 0.7)) * 100));
-  if (matchedSkills.length >= 5) skillsScore = Math.max(85, skillsScore);
+  let skillsScore = Math.min(100, Math.round((matchedSkills.length / Math.max(3, matchedSkills.length + missingJobSkills.length * 0.5)) * 100));
+  if (matchedSkills.length >= 3) skillsScore = Math.max(90, skillsScore);
 
-  // 2. Trajectory & Seniority Alignment (0-100)
-  let seniorityScore = 80;
-  const targetTitles = candidateProfile.preferences?.targetTitles || [];
+  // 2. Trajectory & Role Alignment (0-100) — Tailored for VA & Data Entry Specialists
+  let seniorityScore = 85;
   const titleLower = job.title.toLowerCase();
 
-  const isSeniorLead = titleLower.includes('senior') || titleLower.includes('staff') || titleLower.includes('lead');
-  if (isSeniorLead) {
-    seniorityScore = 95;
-  } else if (titleLower.includes('principal') || titleLower.includes('director')) {
-    seniorityScore = 70; // Stretch
-  } else if (titleLower.includes('junior') || titleLower.includes('intern')) {
-    seniorityScore = 45; // Under-qualified match for senior
+  const isIdealRole = titleLower.includes('assistant') || titleLower.includes('data entry') || titleLower.includes('specialist') || titleLower.includes('admin') || titleLower.includes('support') || titleLower.includes('coordinator') || titleLower.includes('researcher');
+  if (isIdealRole) {
+    seniorityScore = 98; // Ideal match for Nexa Digital Team
+  } else if (titleLower.includes('director') || titleLower.includes('vp') || titleLower.includes('architect')) {
+    seniorityScore = 60; // Over-scoped
   } else {
-    seniorityScore = 85; // Mid/General software engineer
+    seniorityScore = 85;
   }
 
   // 3. Domain & Industry Relevance (0-100)
-  let domainScore = 80;
-  if (jobText.includes('ai') || jobText.includes('fintech') || jobText.includes('developer tools') || jobText.includes('platform') || jobText.includes('cloud')) {
-    domainScore = 95;
-  } else if (jobText.includes('crypto') || jobText.includes('gambling')) {
+  let domainScore = 85;
+  if (jobText.includes('e-commerce') || jobText.includes('agency') || jobText.includes('startup') || jobText.includes('digital') || jobText.includes('remote') || jobText.includes('operations')) {
+    domainScore = 98;
+  } else if (jobText.includes('gambling') || jobText.includes('adult')) {
     domainScore = 30; // Possible dealbreaker
   }
 

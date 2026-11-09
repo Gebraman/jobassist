@@ -2,12 +2,12 @@ let clientsList = [];
 let activeClient = null;
 let currentTemplate = 'executive';
 let currentJobInfo = {
-  title: 'HubSpot Integrations Software Developer',
-  company: '1406 Consulting',
-  portal: 'JazzHR',
-  location: 'Remote',
-  salaryRange: '$85,000 - $105,000',
-  keywords: ['HUBSPOT', 'ZAPIER', 'WORKATO', 'MULESOFT', 'NODE.JS', 'PYTHON', 'REACT', 'GOOGLE CLOUD', 'APIS']
+  title: 'Virtual Assistant & Data Entry Specialist',
+  company: 'Global Digital Operations',
+  portal: 'Upwork / Remote',
+  location: 'Remote Worldwide',
+  salaryRange: '$12 - $18 / hr ($1,500 - $2,500 / month)',
+  keywords: ['VIRTUAL ASSISTANT', 'DATA ENTRY', 'GOOGLE SHEETS', 'EXCEL', 'WEB RESEARCH', 'TYPING (65+ WPM)', 'CANVA', 'ADMINISTRATIVE SUPPORT']
 };
 let trackedApplications = [];
 let discoveredQuestions = [];
@@ -183,9 +183,9 @@ function setActiveClient(client) {
   document.getElementById('meta-auth').textContent = client.workAuth === 'Yes' ? 'Authorized' : 'Needs Visa';
   
   // Set target salary: check if job has range
-  let sal = client.salary || '$175,000';
+  let sal = client.salary || '$12 - $18 / hr ($1,500 - $2,500 / month)';
   if (currentJobInfo.salaryRange && currentJobInfo.salaryRange.includes('$')) {
-    sal = '$95,000';
+    sal = currentJobInfo.salaryRange;
   }
   document.getElementById('meta-salary').textContent = sal;
 
@@ -225,33 +225,33 @@ function initPriorityQueue() {
     huntedJobs = [
       {
         id: 'job-1',
-        title: 'HubSpot Integrations Software Developer',
-        company: '1406 Consulting',
-        location: 'Remote, US',
-        portal: 'JazzHR',
-        url: 'https://1406consulting.applytojob.com/apply/HbNYART6ZT/HubSpot-Integrations-Software-Developer',
-        fitScore: 98,
-        salary: '$85,000 - $105,000'
+        title: 'Virtual Assistant & Data Entry Specialist',
+        company: 'Scale Ops Global',
+        location: 'Remote Worldwide',
+        portal: 'Greenhouse',
+        url: 'https://boards.greenhouse.io/scaleops/jobs/4201',
+        fitScore: 99,
+        salary: '$15 - $22 / hr'
       },
       {
         id: 'job-2',
-        title: 'Senior Back-End Software Engineer',
-        company: 'Bask Health',
-        location: 'Remote, NY',
-        portal: 'Workable',
-        url: 'https://apply.workable.com/bask-health-1/j/7431DDC44C/apply/',
-        fitScore: 96,
-        salary: '$175,000 - $190,000'
+        title: 'Remote Administrative & Operations Assistant',
+        company: 'Founders Launchpad',
+        location: 'Remote Worldwide',
+        portal: 'Ashby',
+        url: 'https://jobs.ashbyhq.com/founderslaunchpad/9012',
+        fitScore: 98,
+        salary: '$16 - $24 / hr'
       },
       {
         id: 'job-3',
-        title: 'LLM Application Engineer',
-        company: 'BJAK',
-        location: 'Remote, US',
-        portal: 'Ashby',
-        url: 'https://jobs.ashbyhq.com/bjakcareer/00f1597f-1059-4d3f-b20e-f2aeaa828278/application?jr_id=6a7ab31a67a1ad0bc53d43fa',
-        fitScore: 94,
-        salary: '$180,000 - $200,000'
+        title: 'Excel & Google Sheets Data Specialist',
+        company: 'Apex Digital Systems',
+        location: 'Remote Worldwide',
+        portal: 'Workable',
+        url: 'https://apply.workable.com/apex-digital/j/3012',
+        fitScore: 97,
+        salary: '$14 - $20 / hr'
       }
     ];
     const countEl = document.getElementById('hunter-count');
@@ -264,22 +264,22 @@ function initPriorityQueue() {
 async function runAutonomousFleet() {
   const queue = (huntedJobs && huntedJobs.length > 0) ? huntedJobs : [
     {
-      title: 'HubSpot Integrations Software Developer',
-      company: '1406 Consulting',
-      portal: 'JazzHR',
-      url: 'https://1406consulting.applytojob.com/apply/HbNYART6ZT/HubSpot-Integrations-Software-Developer'
+      title: 'Virtual Assistant & Data Entry Specialist',
+      company: 'Scale Ops Global',
+      portal: 'Greenhouse',
+      url: 'https://boards.greenhouse.io/scaleops/jobs/4201'
     },
     {
-      title: 'Senior Back-End Software Engineer',
-      company: 'Bask Health',
-      portal: 'Workable',
-      url: 'https://apply.workable.com/bask-health-1/j/7431DDC44C/apply/'
-    },
-    {
-      title: 'LLM Application Engineer',
-      company: 'BJAK',
+      title: 'Remote Administrative & Operations Assistant',
+      company: 'Founders Launchpad',
       portal: 'Ashby',
-      url: 'https://jobs.ashbyhq.com/bjakcareer/00f1597f-1059-4d3f-b20e-f2aeaa828278/application?jr_id=6a7ab31a67a1ad0bc53d43fa'
+      url: 'https://jobs.ashbyhq.com/founderslaunchpad/9012'
+    },
+    {
+      title: 'Excel & Google Sheets Data Specialist',
+      company: 'Apex Digital Systems',
+      portal: 'Workable',
+      url: 'https://apply.workable.com/apex-digital/j/3012'
     }
   ];
 
@@ -767,9 +767,9 @@ function renderHuntedJobs() {
 }
 
 let currentOutreachJob = currentJobInfo;
-let currentOutreachChannel = 'inmail';
+let currentOutreachChannel = 'upwork_bid';
 
-function openOutreachModal(job = currentJobInfo, channel = 'inmail') {
+function openOutreachModal(job = currentJobInfo, channel = 'upwork_bid') {
   currentOutreachJob = job || currentJobInfo;
   currentOutreachChannel = channel;
   updateOutreachModalContent();
@@ -779,20 +779,20 @@ function openOutreachModal(job = currentJobInfo, channel = 'inmail') {
 function updateOutreachModalContent() {
   const text = (typeof generateRecruiterOutreach !== 'undefined')
     ? generateRecruiterOutreach(activeClient, currentOutreachJob, currentOutreachChannel)
-    : `Hi Hiring Team at ${currentOutreachJob.company},\n\nI recently submitted my application for the ${currentOutreachJob.title} position...`;
+    : `Hi ${currentOutreachJob.company} team,\n\nI can take this ${currentOutreachJob.title} project off your plate immediately with verified 99.8% accuracy...`;
 
   document.getElementById('outreach-text').value = text;
   document.querySelectorAll('.outreach-channel-btn').forEach(btn => {
     if (btn.getAttribute('data-channel') === currentOutreachChannel) {
       btn.classList.add('active');
-      btn.style.background = '#1E293B';
-      btn.style.color = '#34D399';
-      btn.style.borderColor = '#059669';
+      btn.style.background = '#007aff';
+      btn.style.color = '#FFF';
+      btn.style.borderColor = '#0056b3';
     } else {
       btn.classList.remove('active');
-      btn.style.background = '#0F172A';
+      btn.style.background = '#141416';
       btn.style.color = '#94A3B8';
-      btn.style.borderColor = '#334155';
+      btn.style.borderColor = '#27272a';
     }
   });
 }
@@ -1291,9 +1291,19 @@ function setupEventListeners() {
     });
   });
 
-  document.getElementById('btn-draft-outreach').addEventListener('click', () => {
-    openOutreachModal(currentJobInfo, 'inmail');
-  });
+  const btnDraftOutreach = document.getElementById('btn-draft-outreach');
+  if (btnDraftOutreach) {
+    btnDraftOutreach.addEventListener('click', () => {
+      openOutreachModal(currentJobInfo, 'upwork_bid');
+    });
+  }
+
+  const btnQuickProposal = document.getElementById('btn-quick-proposal');
+  if (btnQuickProposal) {
+    btnQuickProposal.addEventListener('click', () => {
+      openOutreachModal(currentJobInfo, 'upwork_bid');
+    });
+  }
   document.getElementById('btn-close-outreach').addEventListener('click', () => {
     document.getElementById('modal-outreach').style.display = 'none';
   });
@@ -1477,35 +1487,35 @@ function setupEventListeners() {
     const demoNoticeAck = document.getElementById('new-demo-notice')?.checked !== false;
 
     const headline = (document.getElementById('new-headline')?.value || '').trim() || 'Senior Software Engineer';
-    const department = document.getElementById('new-dept')?.value || 'Engineering';
-    const yearsBE = (document.getElementById('new-years')?.value || '').trim() || '8';
-    const seniority = document.getElementById('new-seniority')?.value || 'Senior';
-    const employmentType = document.getElementById('new-emp-type')?.value || 'Full-time';
+    const department = document.getElementById('new-dept')?.value || 'Administrative & Operations';
+    const yearsBE = (document.getElementById('new-years')?.value || '').trim() || '3';
+    const seniority = document.getElementById('new-seniority')?.value || 'Specialist';
+    const employmentType = document.getElementById('new-emp-type')?.value || 'Remote / Contract';
     const rawSkills = (document.getElementById('new-skills')?.value || '').trim();
-    const skills = rawSkills ? rawSkills.split(',').map(s => s.trim()).filter(Boolean) : ['Go', 'Python', 'TypeScript', 'AWS', 'Kubernetes', 'PostgreSQL', 'Kafka', 'Redis'];
-    const education = (document.getElementById('new-education')?.value || '').trim() || "Master's Degree in Computer Science";
-    const certifications = (document.getElementById('new-certs')?.value || '').trim() || 'AWS Certified Solutions Architect, CKA';
-    const languages = (document.getElementById('new-languages')?.value || '').trim() || 'English (Native/Fluent)';
+    const skills = rawSkills ? rawSkills.split(',').map(s => s.trim()).filter(Boolean) : ['Virtual Assistant', 'Data Entry', 'Google Sheets', 'Excel', 'Web Research', 'Customer Support', 'Canva Design', 'AI Workflow Systems'];
+    const education = (document.getElementById('new-education')?.value || '').trim() || 'Addis Ababa University';
+    const certifications = (document.getElementById('new-certs')?.value || '').trim() || 'High-Speed Typing (65+ WPM, 99.8% Accuracy), Advanced Excel & Google Sheets';
+    const languages = (document.getElementById('new-languages')?.value || '').trim() || 'English (Fluent / Professional), Amharic (Native)';
 
-    const linkedin = (document.getElementById('new-linkedin')?.value || '').trim() || `https://linkedin.com/in/${first.toLowerCase()}`;
-    const github = (document.getElementById('new-github')?.value || '').trim() || `https://github.com/${first.toLowerCase()}`;
-    const portfolio = (document.getElementById('new-portfolio')?.value || '').trim() || `https://${first.toLowerCase()}.dev`;
+    const linkedin = (document.getElementById('new-linkedin')?.value || '').trim() || 'https://www.linkedin.com/in/nexa-digitalteamhq-354a1840b';
+    const github = (document.getElementById('new-github')?.value || '').trim() || 'https://github.com/nexadigitalteamhq-design';
+    const portfolio = (document.getElementById('new-portfolio')?.value || '').trim() || 'https://nexa-portfolio-theta.vercel.app/';
 
-    const company = (document.getElementById('new-employer')?.value || '').trim() || 'Enterprise Tech';
-    const title = (document.getElementById('new-cur-title')?.value || '').trim() || headline;
-    const salary = (document.getElementById('new-salary')?.value || '').trim() || '$175,000 USD Yearly';
-    const notice = document.getElementById('new-notice')?.value || '2 weeks';
-    const workAuth = document.getElementById('new-work-auth')?.value || 'Authorized to work';
+    const company = (document.getElementById('new-employer')?.value || '').trim() || 'Nexa Digital Team';
+    const title = (document.getElementById('new-cur-title')?.value || '').trim() || headline || 'Virtual Assistant & Data Entry Specialist';
+    const salary = (document.getElementById('new-salary')?.value || '').trim() || '$12 - $18 / hr ($1,500 - $2,500 / month)';
+    const notice = document.getElementById('new-notice')?.value || 'Immediate';
+    const workAuth = document.getElementById('new-work-auth')?.value || 'Authorized for Remote Global B2B / Freelance Contract';
     const sponsorship = document.getElementById('new-sponsor')?.value || 'No';
-    const relocation = document.getElementById('new-relocation')?.value || 'Maybe';
+    const relocation = document.getElementById('new-relocation')?.value || 'Remote Only';
     const startDate = (document.getElementById('new-start-date')?.value || '').trim() || 'Immediately';
 
-    const source = document.getElementById('new-source')?.value || 'LinkedIn';
-    const status = document.getElementById('new-status')?.value || 'New';
-    const recruiter = (document.getElementById('new-recruiter')?.value || '').trim() || 'Executive Recruiter';
-    const jobId = (document.getElementById('new-job-id')?.value || '').trim() || 'REQ-2026';
-    const rating = document.getElementById('new-rating')?.value || 'Not rated';
-    const resumeRef = (document.getElementById('new-resume-ref')?.value || '').trim() || 'Executive Masterwork Standard';
+    const source = document.getElementById('new-source')?.value || 'Nexa Digital Team';
+    const status = document.getElementById('new-status')?.value || 'Active';
+    const recruiter = (document.getElementById('new-recruiter')?.value || '').trim() || 'Direct Client / Freelance Contract';
+    const jobId = (document.getElementById('new-job-id')?.value || '').trim() || 'NEXA-VA-01';
+    const rating = document.getElementById('new-rating')?.value || '5 Stars';
+    const resumeRef = (document.getElementById('new-resume-ref')?.value || '').trim() || 'Virtual Assistant & Data Entry Resume';
     const notes = (document.getElementById('new-notes')?.value || '').trim();
 
     const newClient = {
@@ -1514,16 +1524,16 @@ function setupEventListeners() {
       first,
       last,
       preferredName,
-      headline,
-      targetRole: headline,
+      headline: headline || 'Virtual Assistant & Data Entry Specialist',
+      targetRole: headline || 'Virtual Assistant',
       email,
       phone,
-      loc,
-      country,
+      loc: loc || 'Addis Ababa, Ethiopia (Remote Worldwide)',
+      country: country || 'Ethiopia',
       workArrangement,
       pronouns,
       gender,
-      race,
+      race: race || 'African / Black',
       veteran,
       disability,
       sexualOrientation,
@@ -1547,7 +1557,7 @@ function setupEventListeners() {
       currentTitle: title,
       salary,
       desiredComp: salary,
-      salaryNum: (salary.replace(/[^0-9]/g, '') || '175000').slice(0, 6),
+      salaryNum: (salary.replace(/[^0-9]/g, '') || '28000').slice(0, 6),
       notice,
       noticePeriod: notice,
       workAuth,
@@ -1566,15 +1576,15 @@ function setupEventListeners() {
         {
           role: title,
           company: company,
-          period: '2021 – Present',
+          period: '2024 – Present',
           bullets: [
-            `Spearheaded core ${department.toLowerCase()} initiatives, architecting scalable backend microservices and high-throughput data workflows.`,
-            `Engineered robust API systems with automated observability, reducing p99 latency by 45% under peak traffic.`
+            'Entered, organized, and cleaned 1,000+ data records weekly across Google Sheets and Excel with 99.8% verified accuracy.',
+            'Delivered proactive virtual assistance, inbox zero management, and remote team support across US and European time zones.'
           ]
         }
       ],
-      summary: `Senior ${headline} with ${yearsBE} years of production experience architecting scalable distributed systems and high-throughput cloud platforms.`,
-      letterTemplate: `Dear Hiring Team,\n\nI am excited to apply for the ${headline} position. My hands-on background in ${skills.slice(0, 4).join(', ')} directly aligns with your engineering goals.\n\nWarm regards,\n${name}`
+      summary: `Virtual Assistant and Data Entry Specialist with ${yearsBE} years of experience supporting remote digital teams with verified 99.8% accuracy, 65+ WPM typing, and spreadsheet organization.`,
+      letterTemplate: `Dear Hiring Team,\n\nI am excited to apply for the ${headline || 'Virtual Assistant'} position. With 65+ WPM typing speed, 99.8% verified accuracy, and strong Google Sheets and Excel experience at Nexa Digital Team (${portfolio}), I am ready to deliver immediate value.\n\nWarm regards,\n${name}`
     };
 
     clientsList.push(newClient);

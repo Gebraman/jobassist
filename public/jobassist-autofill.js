@@ -812,7 +812,7 @@
     if (typeof generatePlainTextResume !== 'undefined') {
       tailoredResumeText = generatePlainTextResume(c, jobOverview);
     } else {
-      tailoredResumeText = `${c.name.toUpperCase()}\n${c.headline || 'Senior Software Engineer'}\nLocation: ${c.loc} | Phone: ${c.phone} | Email: ${c.email}\nLinkedIn: ${c.linkedin}\n\nSUMMARY\n${c.summary}\n\nCORE SKILLS\n${(c.skills || []).join(' • ')}`;
+      tailoredResumeText = `${c.name.toUpperCase()}\n${c.headline || 'Virtual Assistant & Data Entry Specialist'}\nLocation: ${c.loc} | Phone: ${c.phone} | Email: ${c.email}\nLinkedIn: ${c.linkedin}\n\nSUMMARY\n${c.summary}\n\nCORE SKILLS\n${(c.skills || []).join(' • ')}`;
     }
 
     document.querySelectorAll('textarea').forEach(t => {

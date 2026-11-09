@@ -404,20 +404,20 @@
       </div>
 
       <span id="detected-portal" class="job-badge">DETECTING...</span>
-      <div id="job-title" class="job-title-text">HubSpot Integrations Software Developer</div>
-      <div id="job-company" class="job-company-text">1406 Consulting • Remote</div>
+      <div id="job-title" class="job-title-text">Virtual Assistant &amp; Data Entry Specialist</div>
+      <div id="job-company" class="job-company-text">Global Remote Client • Flexible Hours</div>
 
       <div class="match-container">
         <div>
-          <div class="match-score">96%</div>
-          <div style="font-size: 9.5px; color: #94A3B8;">ATS Fit Score</div>
+          <div class="match-score">98%</div>
+          <div style="font-size: 9.5px; color: #94A3B8;">Job Fit Score</div>
         </div>
         <div style="text-align: right; font-size: 10px; color: #34D399; font-weight: 600;">
           ✓ Skills Aligned<br>✓ Requirements Met
         </div>
       </div>
 
-      <div class="card-title" style="margin-top: 8px; margin-bottom: 2px;">Tech Stack Keywords:</div>
+      <div class="card-title" style="margin-top: 8px; margin-bottom: 2px;">Key Skills &amp; Competencies:</div>
       <div id="job-keywords" class="skills-wrap"></div>
     </div>
 
@@ -482,6 +482,11 @@
     <button id="btn-attach-cover-form" class="btn-advance" style="background: #18181b; border-color: #8b5cf6; color: #c4b5fd; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; font-weight: 700;">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
       Attach Tailored Cover Letter to Form
+    </button>
+
+    <button id="btn-quick-proposal" class="btn-advance" style="background: rgba(0, 122, 255, 0.12); border-color: #007aff; color: #38bdf8; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 6px; font-weight: 800;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Generate Upwork / Client Proposal (1-Click)
     </button>
 
     <button id="btn-advance-step" class="btn-advance">
@@ -1150,24 +1155,26 @@
     </div>
   </div>
 
-  <!-- Modal: Recruiter Outreach -->
+  <!-- Modal: Proposals & Client Outreach -->
   <div id="modal-outreach" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header" style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <div style="font-size: 13.5px; font-weight: 800; color: #FFF;">Tailored Recruiter Outreach</div>
+        <div style="font-size: 13.5px; font-weight: 800; color: #FFF; display:flex; align-items:center; gap:5px;">
+          <span>⚡ AI Proposal &amp; Outreach Synthesizer</span>
+        </div>
         <button id="btn-close-outreach" style="background:none; border:none; color:#94A3B8; font-size:16px; cursor:pointer;">✕</button>
       </div>
 
-      <div style="display:flex; gap:4px; margin-bottom:8px;">
-        <button class="outreach-channel-btn active" data-channel="inmail" style="flex:1; background:#18181b; color:#34D399; border:1px solid #059669; border-radius:5px; font-size:10px; font-weight:700; padding:4px; cursor:pointer;">InMail</button>
-        <button class="outreach-channel-btn" data-channel="email" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:4px; cursor:pointer;">Email</button>
-        <button class="outreach-channel-btn" data-channel="connection_note" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:4px; cursor:pointer;">Note (300c)</button>
-        <button class="outreach-channel-btn" data-channel="followup" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:4px; cursor:pointer;">Follow-Up</button>
+      <div style="display:flex; gap:4px; margin-bottom:8px; overflow-x:auto;">
+        <button class="outreach-channel-btn active" data-channel="upwork_bid" style="flex:1; background:#007aff; color:#FFF; border:1px solid #0056b3; border-radius:5px; font-size:10px; font-weight:800; padding:5px 6px; cursor:pointer; white-space:nowrap;">Upwork Bid</button>
+        <button class="outreach-channel-btn" data-channel="email" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">Cold Pitch</button>
+        <button class="outreach-channel-btn" data-channel="connection_note" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">LinkedIn Note (300c)</button>
+        <button class="outreach-channel-btn" data-channel="followup" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">Follow-Up</button>
       </div>
 
-      <textarea id="outreach-text" style="width:100%; height:200px; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:8px; line-height:1.45; outline:none;"></textarea>
+      <textarea id="outreach-text" style="width:100%; height:220px; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:8px; line-height:1.45; outline:none; font-family:inherit;"></textarea>
       <button id="btn-copy-outreach" class="btn-autofill" style="margin-top: 8px;">
-        Copy to Clipboard
+        Copy Proposal to Clipboard
       </button>
     </div>
   </div>

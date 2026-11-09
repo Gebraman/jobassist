@@ -1,20 +1,16 @@
 /**
- * Upskilling & Market Demand Analyzer
- * Ported from MadsLorentzen/ai-job-search/.claude/commands/upskill.md
- * 
- * Aggregates skill demands across all discovered job postings, compares against
- * the candidate's existing competencies, and builds a prioritized learning roadmap.
+ * Intelligent Skills Gap & Upskilling Engine — Nexa Digital Team
+ * Identifies high-demand virtual assistance, spreadsheet, AI workflow,
+ * and remote digital agency skills across active job postings.
  */
 
-export function analyzeUpskillGaps(jobsList, candidateProfile) {
-  const candidateSkills = new Set([
-    ...(candidateProfile.skills?.languages || []).map(s => s.toLowerCase()),
-    ...(candidateProfile.skills?.frontend || []).map(s => s.toLowerCase()),
-    ...(candidateProfile.skills?.backend || []).map(s => s.toLowerCase()),
-    ...(candidateProfile.skills?.cloudDevOps || []).map(s => s.toLowerCase()),
-    ...(candidateProfile.skills?.databases || []).map(s => s.toLowerCase()),
-    ...(candidateProfile.skills?.aiAndData || []).map(s => s.toLowerCase())
-  ]);
+export function analyzeSkillsGaps(jobsList = [], candidateProfile = {}) {
+  const candidateSkills = new Set(
+    (candidateProfile.skills || [
+      'Virtual Assistant', 'Data Entry', 'Google Sheets', 'Excel',
+      'Web Research', 'Customer Support', 'Canva Design', 'Transcription', 'AI Workflows'
+    ]).map(s => s.toLowerCase().trim())
+  );
 
   const skillFrequency = {};
   const totalJobs = jobsList.length || 1;
@@ -22,29 +18,22 @@ export function analyzeUpskillGaps(jobsList, candidateProfile) {
   for (const job of jobsList) {
     const text = (job.title + ' ' + (job.description || '') + ' ' + (job.tags || []).join(' ')).toLowerCase();
     
-    // Check against standard market tech vocabulary
     const catalog = [
-      { name: 'TypeScript', key: 'typescript' },
-      { name: 'Python', key: 'python' },
-      { name: 'Go', key: 'go' },
-      { name: 'Rust', key: 'rust' },
-      { name: 'React', key: 'react' },
-      { name: 'Next.js', key: 'next.js' },
-      { name: 'Node.js', key: 'node' },
-      { name: 'FastAPI', key: 'fastapi' },
-      { name: 'Kubernetes', key: 'kubernetes' },
-      { name: 'Docker', key: 'docker' },
-      { name: 'AWS', key: 'aws' },
-      { name: 'GCP', key: 'gcp' },
-      { name: 'PostgreSQL', key: 'postgresql' },
-      { name: 'Redis', key: 'redis' },
-      { name: 'GraphQL', key: 'graphql' },
-      { name: 'LLM Agent Systems', key: 'agent' },
-      { name: 'Vector DBs (Pinecone/Qdrant)', key: 'vector' },
-      { name: 'Kafka', key: 'kafka' },
-      { name: 'ClickHouse', key: 'clickhouse' },
-      { name: 'Terraform', key: 'terraform' },
-      { name: 'Microservices Architecture', key: 'microservice' }
+      { name: 'Google Sheets & Excel Formulas', key: 'sheet' },
+      { name: 'Excel Data Cleaning & Pivot Tables', key: 'pivot' },
+      { name: 'High-Speed Typing (65+ WPM)', key: 'typing' },
+      { name: 'Web Research & Lead Generation', key: 'research' },
+      { name: 'Customer Email & Chat Support', key: 'customer' },
+      { name: 'Canva Pro & Visual Asset Design', key: 'canva' },
+      { name: 'YouTube Thumbnail Design', key: 'thumbnail' },
+      { name: 'AI Workflow Integration (ChatGPT/Claude)', key: 'ai' },
+      { name: 'CRM & Pipeline Management (HubSpot/Zoho)', key: 'crm' },
+      { name: 'Project Management (Notion/Trello/Asana)', key: 'trello' },
+      { name: 'Transcription & Audio Typing', key: 'transcription' },
+      { name: 'E-Commerce Store Support (Shopify/Amazon)', key: 'shopify' },
+      { name: 'Email Outreach & Lead Scraping', key: 'lead' },
+      { name: 'Zapier & Make Automation', key: 'zapier' },
+      { name: 'WordPress & Basic Web Maintenance', key: 'wordpress' }
     ];
 
     for (const item of catalog) {
@@ -69,7 +58,7 @@ export function analyzeUpskillGaps(jobsList, candidateProfile) {
     .slice(0, 5)
     .map(g => ({
       ...g,
-      priority: g.percentage >= 50 ? 'HIGH' : 'MEDIUM',
+      priority: g.percentage >= 40 ? 'HIGH' : 'MEDIUM',
       learningAction: getLearningRecommendation(g.skill)
     }));
 
@@ -85,30 +74,35 @@ export function analyzeUpskillGaps(jobsList, candidateProfile) {
 
 function getLearningRecommendation(skill) {
   const map = {
-    'Rust': {
-      course: 'The Rust Programming Book + Rustlings',
-      hours: 35,
-      project: 'Build a high-performance multithreaded TCP proxy'
+    'Google Sheets & Excel Formulas': {
+      course: 'Advanced Google Sheets & Excel (XLOOKUP, QUERY, IMPORTRANGE)',
+      hours: 8,
+      project: 'Build an automated multi-tab sales reconciliation workbook'
     },
-    'Kafka': {
-      course: 'Confluent Developer Kafka Internals Guide',
-      hours: 20,
-      project: 'Implement an event-driven transaction ledger with partition ordering'
+    'Excel Data Cleaning & Pivot Tables': {
+      course: 'Power Query & Advanced Pivot Table Reporting Masterclass',
+      hours: 6,
+      project: 'Clean and format a 10,000-row messy e-commerce inventory dataset'
     },
-    'ClickHouse': {
-      course: 'ClickHouse Academy Real-Time Analytics',
-      hours: 15,
-      project: 'Set up columnar telemetry database benchmarking 10M rows'
+    'Canva Pro & Visual Asset Design': {
+      course: 'Canva Pro for Social Media & High-CTR YouTube Thumbnails',
+      hours: 5,
+      project: 'Design 10 viral YouTube thumbnails and a corporate brand kit deck'
     },
-    'Terraform': {
-      course: 'HashiCorp Certified Terraform Associate Path',
-      hours: 18,
-      project: 'Automate multi-region AWS VPC and ECS Fargate cluster with IaC'
+    'CRM & Pipeline Management (HubSpot/Zoho)': {
+      course: 'HubSpot Academy Inbound CRM & Contact Management',
+      hours: 6,
+      project: 'Set up custom lead properties, pipeline stages, and automated email tasks'
+    },
+    'AI Workflow Integration (ChatGPT/Claude)': {
+      course: 'Prompt Engineering & Autonomous AI Workflows for Virtual Assistants',
+      hours: 5,
+      project: 'Create custom GPT prompt templates for instant lead research and table formatting'
     }
   };
   return map[skill] || {
-    course: `Advanced ${skill} Production Workshop`,
-    hours: 20,
-    project: `Design and ship a production-grade microservice incorporating ${skill}`
+    course: `Practical ${skill} Operational Workshop`,
+    hours: 6,
+    project: `Complete a verified hands-on portfolio case study demonstrating ${skill}`
   };
 }
