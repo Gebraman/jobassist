@@ -178,18 +178,43 @@ function setActiveClient(client) {
   activeClient = client;
   chrome.storage.local.set({ active_client_id: client.id });
 
-  document.getElementById('meta-email').textContent = client.email || '—';
-  document.getElementById('meta-phone').textContent = client.phone || '—';
-  document.getElementById('meta-auth').textContent = client.workAuth === 'Yes' ? 'Authorized' : 'Needs Visa';
+  const metaEmail = document.getElementById('meta-email');
+  if (metaEmail) metaEmail.textContent = client.email || 'nexadigitalteamhq@gmail.com';
+  const metaPhone = document.getElementById('meta-phone');
+  if (metaPhone) metaPhone.textContent = client.phone || '+251 90 985 8645';
+  const metaAuth = document.getElementById('meta-auth');
+  if (metaAuth) {
+    metaAuth.textContent = 'Remote B2B (W-8BEN)';
+    metaAuth.style.color = '#34D399';
+  }
   
   // Set target salary: check if job has range
   let sal = client.salary || '$12 - $18 / hr ($1,500 - $2,500 / month)';
   if (currentJobInfo.salaryRange && currentJobInfo.salaryRange.includes('$')) {
     sal = currentJobInfo.salaryRange;
   }
-  document.getElementById('meta-salary').textContent = sal;
+  const metaSal = document.getElementById('meta-salary');
+  if (metaSal) metaSal.textContent = sal;
 
-  document.getElementById('btn-run-autofill').innerHTML = `1-CLICK AUTOFILL APPLICATION NOW (${client.first || client.name})`;
+  const btnAutofill = document.getElementById('btn-run-autofill');
+  if (btnAutofill) {
+    btnAutofill.innerHTML = `1-CLICK AUTOFILL APPLICATION NOW (${client.first || client.name})`;
+  }
+
+  // Update Quick Specialist Switcher Bar
+  document.querySelectorAll('.btn-specialist-quick').forEach(b => {
+    if (b.getAttribute('data-id') === client.id) {
+      b.style.background = '#007aff';
+      b.style.color = '#FFFFFF';
+      b.style.borderColor = '#0056b3';
+      b.classList.add('active');
+    } else {
+      b.style.background = '#18181b';
+      b.style.color = '#94A3B8';
+      b.style.borderColor = '#27272a';
+      b.classList.remove('active');
+    }
+  });
 
   // Align Hunter query with client's target profession
   const hunterQueryInput = document.getElementById('hunter-query');
@@ -936,6 +961,20 @@ function setupEventListeners() {
   document.getElementById('client-select').addEventListener('change', (e) => {
     const selected = clientsList.find(c => c.id === e.target.value);
     setActiveClient(selected);
+  });
+
+  // Quick 1-Click Specialist Switcher Bar
+  document.querySelectorAll('.btn-specialist-quick').forEach(b => {
+    b.addEventListener('click', () => {
+      const id = b.getAttribute('data-id');
+      const found = clientsList.find(c => c.id === id);
+      if (found) {
+        const selectEl = document.getElementById('client-select');
+        if (selectEl) selectEl.value = found.id;
+        setActiveClient(found);
+        showStudioToast(`Active Specialist: ${found.name}`, 'info');
+      }
+    });
   });
 
   document.getElementById('btn-re-scan').addEventListener('click', scanActiveJobTab);

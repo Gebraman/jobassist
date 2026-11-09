@@ -91,17 +91,27 @@ function synthesizeScreeningAnswer(questionText, client = {}, jobInfo = {}, tone
     return `I am proficient in: ${cLangs}. I communicate fluently and professionally in both written and spoken English, ideal for client-facing emails and remote documentation.`;
   }
 
-  // 14. COMPENSATION & SALARY EXPECTATIONS
+  // 14. HANDLING AMBIGUITY, CHANGING SCOPE & EDGE CASES
+  if (q.includes('ambigu') || q.includes('unclear') || q.includes('incomplete') || q.includes('edge case') || q.includes('unsupervised') || q.includes('instructions')) {
+    return `When dealing with ambiguous or evolving instructions, I first document what is concrete, isolate specific edge cases, and proactively reach out with a concise summary or annotated screenshot outlining my proposed approach before processing the full batch. This ensures zero wasted hours, guarantees exact alignment with client expectations, and establishes standard operating procedures (SOPs) for future tasks.`;
+  }
+
+  // 15. HANDLING PRESSURE, SPRINT DEADLINES & VOLUME SURGES
+  if (q.includes('pressure') || q.includes('stress') || q.includes('surge') || q.includes('crunch') || q.includes('urgent') || q.includes('multiple priorities')) {
+    return `Under tight deadlines or sudden workload surges, I stay calm and methodical. I break the deliverable into prioritized batches using the Eisenhower Matrix, apply automated formulas (XLOOKUP, deduplication rules, and text parsing) to handle repetitive sorting, and focus intense manual review on critical data fields. Backed by Nexa Digital Team, we also mobilize peer support when needed to guarantee zero delivery delays.`;
+  }
+
+  // 16. COMPENSATION & SALARY EXPECTATIONS
   if (q.includes('salary') || q.includes('compensation') || q.includes('expectation') || q.includes('pay') || q.includes('rate') || q.includes('desired pay')) {
     return cSalary;
   }
 
-  // 15. NOTICE PERIOD & START DATE
+  // 17. NOTICE PERIOD & START DATE
   if (q.includes('notice') || q.includes('start date') || q.includes('when can you start') || q.includes('how soon') || q.includes('earliest start')) {
     return `My earliest start date is ${cStart} (immediate availability). I can begin onboarding right away.`;
   }
 
-  // 16. WORK AUTHORIZATION & VISA SPONSORSHIP
+  // 18. WORK AUTHORIZATION & VISA SPONSORSHIP
   if (q.includes('authorized') || q.includes('legally') || q.includes('right to work') || q.includes('citizenship')) {
     return `Yes, I am ${cWorkAuth} ready to work immediately as an independent contractor or B2B provider.`;
   }
@@ -109,12 +119,12 @@ function synthesizeScreeningAnswer(questionText, client = {}, jobInfo = {}, tone
     return 'No, I work as a remote independent contractor / freelance specialist and do not require employer visa sponsorship.';
   }
 
-  // 17. YEARS OF EXPERIENCE
+  // 19. YEARS OF EXPERIENCE
   if (q.includes('how many years') || q.includes('years of experience') || q.includes('years of work')) {
     return `${cYears} years`;
   }
 
-  // 18. EEOC & DEMOGRAPHICS
+  // 20. EEOC & DEMOGRAPHICS
   if (q.includes('gender') || q.includes('sex')) return client.gender || 'Male';
   if (q.includes('race') || q.includes('ethnicity')) return client.race || 'African / Black';
   if (q.includes('veteran')) return client.veteran || 'I am not a protected veteran';
@@ -122,7 +132,7 @@ function synthesizeScreeningAnswer(questionText, client = {}, jobInfo = {}, tone
   if (q.includes('pronoun')) return client.pronouns || 'He/Him';
   if (q.includes('sexual orientation')) return client.sexualOrientation || 'Heterosexual / Straight';
 
-  // 19. PROFESSIONAL GENERAL FALLBACK
+  // 21. PROFESSIONAL GENERAL FALLBACK
   if (tone === 'concise') {
     return `With ${cYears} years of virtual assistance and data operations experience at ${cCompany}, I deliver high-speed, 99.8% accurate execution across spreadsheets, research, and remote administrative workflows.`;
   }

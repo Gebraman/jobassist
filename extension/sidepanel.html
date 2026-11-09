@@ -367,28 +367,36 @@
     <!-- Active Client Card -->
     <div class="card">
       <div class="card-header">
-        <div class="card-title">Candidate Profile</div>
-        <button id="btn-add-client-tab1" class="btn-secondary">+ Add</button>
+        <div class="card-title">Active Team Specialist</div>
+        <button id="btn-add-client-tab1" class="btn-secondary">+ Add Member</button>
+      </div>
+
+      <!-- Quick 1-Click Specialist Switcher Bar -->
+      <div id="quick-specialist-bar" style="display: flex; gap: 4px; margin-bottom: 8px; overflow-x: auto; padding-bottom: 2px;">
+        <button class="btn-specialist-quick active" data-id="client_nexa_gebremedhin" style="flex: 1; padding: 5px 6px; font-size: 10px; font-weight: 700; background: #007aff; color: #FFF; border: 1px solid #0056b3; border-radius: 6px; cursor: pointer; white-space: nowrap;">👤 Gebremedhin</button>
+        <button class="btn-specialist-quick" data-id="client_nexa_emanuel" style="flex: 1; padding: 5px 6px; font-size: 10px; font-weight: 700; background: #18181b; color: #94A3B8; border: 1px solid #27272a; border-radius: 6px; cursor: pointer; white-space: nowrap;">👤 Emanuel</button>
+        <button class="btn-specialist-quick" data-id="client_nexa_emanuel2" style="flex: 1; padding: 5px 6px; font-size: 10px; font-weight: 700; background: #18181b; color: #94A3B8; border: 1px solid #27272a; border-radius: 6px; cursor: pointer; white-space: nowrap;">👤 Emanuel 2</button>
+        <button class="btn-specialist-quick" data-id="client_nexa_amare" style="flex: 1; padding: 5px 6px; font-size: 10px; font-weight: 700; background: #18181b; color: #94A3B8; border: 1px solid #27272a; border-radius: 6px; cursor: pointer; white-space: nowrap;">👤 Amare</button>
       </div>
 
       <select id="client-select" class="select-client"></select>
 
       <div class="client-meta">
         <div class="meta-box">
-          <div class="meta-label">Email</div>
-          <div id="meta-email" class="meta-val">...</div>
+          <div class="meta-label">Team Email</div>
+          <div id="meta-email" class="meta-val">nexadigitalteamhq@gmail.com</div>
         </div>
         <div class="meta-box">
-          <div class="meta-label">Phone</div>
-          <div id="meta-phone" class="meta-val">...</div>
+          <div class="meta-label">Direct Phone</div>
+          <div id="meta-phone" class="meta-val">+251 90 985 8645</div>
         </div>
         <div class="meta-box">
-          <div class="meta-label">Work Auth</div>
-          <div id="meta-auth" class="meta-val" style="color: #34D399;">Authorized</div>
+          <div class="meta-label">Compliance</div>
+          <div id="meta-auth" class="meta-val" style="color: #34D399; font-weight: 700;">Remote B2B (W-8BEN)</div>
         </div>
         <div class="meta-box">
-          <div class="meta-label">Target Salary</div>
-          <div id="meta-salary" class="meta-val">$95,000</div>
+          <div class="meta-label">Target Rate</div>
+          <div id="meta-salary" class="meta-val">$12 - $18 / hr</div>
         </div>
       </div>
     </div>
@@ -1166,10 +1174,11 @@
       </div>
 
       <div style="display:flex; gap:4px; margin-bottom:8px; overflow-x:auto;">
-        <button class="outreach-channel-btn active" data-channel="upwork_bid" style="flex:1; background:#007aff; color:#FFF; border:1px solid #0056b3; border-radius:5px; font-size:10px; font-weight:800; padding:5px 6px; cursor:pointer; white-space:nowrap;">Upwork Bid</button>
-        <button class="outreach-channel-btn" data-channel="email" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">Cold Pitch</button>
-        <button class="outreach-channel-btn" data-channel="connection_note" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">LinkedIn Note (300c)</button>
-        <button class="outreach-channel-btn" data-channel="followup" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">Follow-Up</button>
+        <button class="outreach-channel-btn active" data-channel="upwork_bid" style="flex:1; background:#007aff; color:#FFF; border:1px solid #0056b3; border-radius:5px; font-size:10px; font-weight:800; padding:5px 6px; cursor:pointer; white-space:nowrap;">⚡ Upwork Bid</button>
+        <button class="outreach-channel-btn" data-channel="sow_agreement" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">📄 Scope of Work (SOW)</button>
+        <button class="outreach-channel-btn" data-channel="email" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">✉️ Cold Pitch</button>
+        <button class="outreach-channel-btn" data-channel="connection_note" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">💼 Note (300c)</button>
+        <button class="outreach-channel-btn" data-channel="followup" style="flex:1; background:#141416; color:#94A3B8; border:1px solid #27272a; border-radius:5px; font-size:10px; font-weight:700; padding:5px 6px; cursor:pointer; white-space:nowrap;">🔄 Follow-Up</button>
       </div>
 
       <textarea id="outreach-text" style="width:100%; height:220px; background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:8px; line-height:1.45; outline:none; font-family:inherit;"></textarea>
