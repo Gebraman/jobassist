@@ -1054,7 +1054,7 @@ app.get('/api/ai/jobs', (req, res) => {
 
 app.post('/api/ai/scrape', async (req, res) => {
   try {
-    const { query = 'Full Stack Engineer', location = 'Remote', portal = 'all', maxDays = 5 } = req.body;
+    const { query = 'Virtual Assistant', location = 'Remote', portal = 'all', maxDays = 5 } = req.body;
     console.log(`[JOBASSIST AI SCRAPER] Scraping live: query="${query}", location="${location}", portal="${portal}", maxDays=${maxDays}d`);
     
     const freshJobs = await scrapeAllPortals({
