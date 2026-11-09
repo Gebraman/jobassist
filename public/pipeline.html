@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>JobAssist AI — Application Pipeline CRM & Kanban Board</title>
+  <title>Nexa Digital Team — Application Pipeline & Spreadsheet CRM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,75 +15,122 @@
     /* Navbar */
     .navbar {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 16px 36px; border-bottom: 1px solid rgba(255,255,255,0.08);
-      background: rgba(9, 14, 23, 0.9); backdrop-filter: blur(12px);
+      padding: 14px 32px; border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(9, 14, 23, 0.95); backdrop-filter: blur(12px);
       position: sticky; top: 0; z-index: 100;
     }
     .brand { display: flex; align-items: center; gap: 10px; }
     .brand-logo {
       width: 32px; height: 32px; border-radius: 8px;
-      background: linear-gradient(135deg, #10B981, #059669);
+      background: linear-gradient(135deg, #007aff, #0284c7);
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 800; color: #022C22;
+      font-size: 16px; font-weight: 800; color: #FFF;
     }
-    .brand-title { font-size: 17px; font-weight: 800; color: #FFF; }
-    .nav-links { display: flex; align-items: center; gap: 20px; font-size: 13px; font-weight: 600; color: #94A3B8; }
-    .nav-links a:hover { color: #34D399; }
+    .brand-title { font-size: 16px; font-weight: 800; color: #FFF; }
+    .nav-links { display: flex; align-items: center; gap: 18px; font-size: 12.5px; font-weight: 600; color: #94A3B8; }
+    .nav-links a:hover { color: #38BDF8; }
 
     /* Controls Bar */
     .controls-bar {
-      padding: 18px 36px; background: #0E1624; border-bottom: 1px solid #1E293B;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;
+      padding: 14px 32px; background: #0E1624; border-bottom: 1px solid #1E293B;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
     }
-    .metric-pills { display: flex; gap: 12px; }
+    .metric-pills { display: flex; gap: 8px; flex-wrap: wrap; }
     .metric-pill {
-      background: #182234; border: 1px solid #273549; border-radius: 8px; padding: 6px 14px;
-      font-size: 12px; font-weight: 700; color: #CBD5E1;
+      background: #182234; border: 1px solid #273549; border-radius: 8px; padding: 5px 12px;
+      font-size: 11.5px; font-weight: 700; color: #CBD5E1; display: flex; align-items: center; gap: 5px;
     }
     .metric-pill b { color: #34D399; }
 
+    .btn-action {
+      background: #182234; border: 1px solid #273549; color: #F8FAFC;
+      padding: 6px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;
+    }
+    .btn-action:hover { border-color: #38BDF8; color: #38BDF8; }
+    .btn-action-primary {
+      background: #007aff; border-color: #0056b3; color: #FFF; font-weight: 800;
+    }
+    .btn-action-primary:hover { background: #0060cc; color: #FFF; }
+
+    /* Filter Bar */
+    .filter-bar {
+      padding: 10px 32px; background: #0A101C; border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .spec-filter-btn {
+      background: #141C2B; border: 1px solid #223045; color: #94A3B8;
+      padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .spec-filter-btn.active {
+      background: #007aff; border-color: #0056b3; color: #FFF;
+    }
+
     /* Kanban Container */
     .kanban-board {
-      flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
-      padding: 24px 36px; overflow-x: auto;
-    }
-    @media(max-width: 1200px) {
-      .kanban-board { grid-template-columns: repeat(5, 280px); }
+      flex: 1; display: grid; grid-template-columns: repeat(5, minmax(260px, 1fr)); gap: 14px;
+      padding: 18px 32px; overflow-x: auto;
     }
 
     .column {
       background: #0E1624; border: 1px solid #1E293B; border-radius: 12px;
-      padding: 14px; display: flex; flex-direction: column; min-height: 520px;
+      padding: 12px; display: flex; flex-direction: column; min-height: 520px;
     }
     .col-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1.5px solid #1E293B;
+      margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1.5px solid #1E293B;
     }
-    .col-title { font-size: 13px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 6px; }
+    .col-title { font-size: 12.5px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 6px; }
     .col-count {
-      background: #1E293B; color: #34D399; font-size: 11px; font-weight: 800;
+      background: #1E293B; color: #38BDF8; font-size: 10.5px; font-weight: 800;
       padding: 2px 7px; border-radius: 9999px;
     }
 
-    .col-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .col-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto; max-height: 680px; }
 
     /* Kanban Card */
     .k-card {
       background: #182234; border: 1px solid #273549; border-radius: 10px;
-      padding: 14px; cursor: grab; transition: all 0.2s;
+      padding: 12px; transition: all 0.2s; position: relative;
     }
-    .k-card:hover { border-color: #38BDF8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .k-card:hover { border-color: #38BDF8; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.35); }
 
-    .k-company { font-size: 11.5px; font-weight: 700; color: #10B981; }
-    .k-role { font-size: 13.5px; font-weight: 800; color: #FFF; margin: 2px 0 6px; line-height: 1.3; }
-    .k-meta { display: flex; justify-content: space-between; font-size: 10.5px; color: #94A3B8; margin-bottom: 8px; }
-    .k-actions { display: flex; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .k-company-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .k-company { font-size: 12px; font-weight: 800; color: #FFF; }
+    .k-portal { background: #0E1624; border: 1px solid #273549; border-radius: 4px; padding: 1px 6px; font-size: 9px; color: #94A3B8; text-transform: uppercase; font-weight: 700; }
+    .k-role { font-size: 13px; font-weight: 700; color: #E2E8F0; margin-bottom: 6px; line-height: 1.35; }
+    .k-link { font-size: 10px; color: #38BDF8; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 6px; word-break: break-all; }
+    .k-meta { display: flex; justify-content: space-between; font-size: 10px; color: #94A3B8; margin-bottom: 6px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px; }
+    .k-notes { font-size: 10px; color: #CBD5E1; background: #0E1624; border-left: 2px solid #007aff; border-radius: 0 4px 4px 0; padding: 4px 6px; margin-bottom: 8px; line-height: 1.35; }
+    .k-actions { display: flex; gap: 5px; }
 
     .btn-k-action {
       flex: 1; background: #0E1624; border: 1px solid #334155; color: #CBD5E1;
-      padding: 5px; border-radius: 5px; font-size: 10.5px; font-weight: 700; cursor: pointer; text-align: center;
+      padding: 4px 6px; border-radius: 5px; font-size: 10px; font-weight: 700; cursor: pointer; text-align: center;
     }
-    .btn-k-action:hover { background: #1E293B; color: #34D399; border-color: #10B981; }
+    .btn-k-action:hover { background: #1E293B; color: #38BDF8; border-color: #0284C7; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; z-index: 999;
+    }
+    .modal-box {
+      background: #0E1624; border: 1px solid #1E293B; border-radius: 12px;
+      width: 90%; max-width: 440px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .modal-box label { font-size: 10.5px; font-weight: 700; color: #94A3B8; margin-bottom: 4px; display: block; }
+    .modal-box input, .modal-box select {
+      width: 100%; background: #182234; border: 1px solid #273549; border-radius: 6px;
+      color: #FFF; padding: 8px 10px; font-size: 12px; margin-bottom: 10px; outline: none;
+    }
+
+    /* Toast */
+    #pipeline-toast {
+      position: fixed; bottom: 20px; right: 20px; background: #0E1624; border: 1.5px solid #10B981;
+      color: #FFF; padding: 10px 16px; border-radius: 8px; font-size: 12px; font-weight: 700;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4); display: none; z-index: 1000;
+    }
   </style>
 </head>
 <body>
@@ -92,116 +139,260 @@
   <header class="navbar">
     <div class="brand">
       <div class="brand-logo">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       </div>
-      <div class="brand-title">JobAssist <span style="font-weight:500; font-size:14px; color:#10B981;">Pipeline CRM</span></div>
+      <div>
+        <div class="brand-title">Nexa Digital Team <span style="font-weight:500; font-size:12px; color:#38BDF8;">Application Pipeline CRM</span></div>
+      </div>
     </div>
     <div class="nav-links">
-      <a href="/">Home</a>
+      <a href="https://nexa-portfolio-theta.vercel.app/" target="_blank" style="color: #34D399;">🌐 Team Portfolio</a>
       <a href="/jobs-board">Jobs Board</a>
       <a href="/interview-prep">Interview Copilot</a>
-      <a href="/pricing">Pricing</a>
+      <a href="/pricing">VIP Pricing</a>
     </div>
   </header>
 
   <!-- Controls Bar -->
   <div class="controls-bar">
     <div class="metric-pills">
-      <div class="metric-pill">Active Pipeline: <b id="pipe-val">$460,000</b></div>
-      <div class="metric-pill">Applications: <b id="pipe-total">3</b></div>
-      <div class="metric-pill">Average Fit: <b>96%</b></div>
+      <div class="metric-pill">Total Tracked: <b id="pipe-total">4</b></div>
+      <div class="metric-pill">Active Proposals: <b id="pipe-proposals" style="color:#38BDF8;">1</b></div>
+      <div class="metric-pill">Pilot Samples Sent: <b id="pipe-pilots" style="color:#F59E0B;">1</b></div>
+      <div class="metric-pill">Interviews: <b id="pipe-interviews" style="color:#C084FC;">1</b></div>
+      <div class="metric-pill">Contracts Won: <b id="pipe-won" style="color:#34D399;">1</b></div>
     </div>
-    <div style="display:flex; gap:10px; align-items:center;">
-      <a href="/interview-prep" style="background:#064E3B; color:#34D399; border:1px solid #059669; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:800; text-decoration:none;">
-        Launch Interview Copilot
-      </a>
+    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+      <button id="btn-export-csv" class="btn-action" style="color:#34D399; border-color:#059669;">
+        📥 Download CSV
+      </button>
+      <button id="btn-copy-sheets" class="btn-action" style="color:#38BDF8; border-color:#0284C7;">
+        📋 Copy for Sheets (TSV)
+      </button>
+      <button id="btn-open-log-modal" class="btn-action btn-action-primary">
+        + Log Application
+      </button>
     </div>
   </div>
 
-  <!-- Kanban Board -->
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div style="display: flex; gap: 6px; align-items: center; overflow-x: auto;">
+      <span style="font-size: 10px; font-weight: 700; color: #94A3B8; text-transform: uppercase; white-space: nowrap;">Specialist:</span>
+      <button class="spec-filter-btn active" data-spec="all">All Team</button>
+      <button class="spec-filter-btn" data-spec="Gebremedhin">Gebremedhin (Gman)</button>
+      <button class="spec-filter-btn" data-spec="Emanuel">Emanuel</button>
+      <button class="spec-filter-btn" data-spec="Emanuel 2">Emanuel 2</button>
+      <button class="spec-filter-btn" data-spec="Amare">Amare</button>
+    </div>
+    <div style="min-width: 220px;">
+      <input type="text" id="pipeline-search" placeholder="Search company, service, portal..." style="width: 100%; background: #141C2B; border: 1px solid #223045; border-radius: 6px; color: #FFF; padding: 5px 9px; font-size: 11px; outline: none;">
+    </div>
+  </div>
+
+  <!-- 5-Stage Agency Pipeline Kanban Board -->
   <div class="kanban-board">
-    <!-- Col 1: Discovered -->
+    <!-- Col 1: Discovered Roles & Leads -->
     <div class="column">
       <div class="col-header">
-        <div class="col-title">Discovered</div>
+        <div class="col-title">
+          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#94A3B8;"></span>
+          1. Discovered Roles
+        </div>
         <div id="count-discovered" class="col-count">0</div>
       </div>
       <div id="col-discovered" class="col-cards"></div>
     </div>
 
-    <!-- Col 2: Applied -->
+    <!-- Col 2: Proposals Sent / Applied -->
     <div class="column">
       <div class="col-header">
-        <div class="col-title">Applied</div>
+        <div class="col-title">
+          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#38BDF8;"></span>
+          2. Proposals Sent
+        </div>
         <div id="count-applied" class="col-count">0</div>
       </div>
       <div id="col-applied" class="col-cards"></div>
     </div>
 
-    <!-- Col 3: Phone Screen -->
+    <!-- Col 3: Pilot Samples & Test Tasks -->
     <div class="column">
       <div class="col-header">
-        <div class="col-title">Phone Screen</div>
+        <div class="col-title">
+          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#F59E0B;"></span>
+          3. Pilot Samples Sent
+        </div>
         <div id="count-screen" class="col-count">0</div>
       </div>
       <div id="col-screen" class="col-cards"></div>
     </div>
 
-    <!-- Col 4: Technical Round -->
+    <!-- Col 4: Client Interviews -->
     <div class="column">
       <div class="col-header">
-        <div class="col-title">Tech Interview</div>
+        <div class="col-title">
+          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#C084FC;"></span>
+          4. Client Interviews
+        </div>
         <div id="count-tech" class="col-count">0</div>
       </div>
       <div id="col-tech" class="col-cards"></div>
     </div>
 
-    <!-- Col 5: Offer Extended -->
+    <!-- Col 5: Retainers & Contracts Won -->
     <div class="column">
       <div class="col-header">
-        <div class="col-title">Offer Extended</div>
+        <div class="col-title">
+          <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#34D399;"></span>
+          5. Contracts Won
+        </div>
         <div id="count-offer" class="col-count">0</div>
       </div>
       <div id="col-offer" class="col-cards"></div>
     </div>
   </div>
 
+  <!-- Modal: Log Application -->
+  <div id="modal-log" class="modal-overlay">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3 style="font-size: 14px; font-weight: 800; color: #FFF;">📝 Log Job Application to Pipeline</h3>
+        <button id="btn-close-modal" style="background:none; border:none; color:#94A3B8; font-size:18px; cursor:pointer;">✕</button>
+      </div>
+
+      <label>CLIENT OR COMPANY NAME *</label>
+      <input type="text" id="modal-company" placeholder="e.g. Scale Ops Global / Upwork Client">
+
+      <label>ROLE / SERVICE TITLE *</label>
+      <input type="text" id="modal-role" placeholder="e.g. Virtual Assistant & Data Entry Specialist">
+
+      <label>JOB POSTING URL / LIVE LINK</label>
+      <input type="url" id="modal-url" placeholder="https://www.upwork.com/jobs/...">
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <div>
+          <label>PLATFORM</label>
+          <select id="modal-portal">
+            <option value="Upwork">Upwork</option>
+            <option value="OnlineJobs.ph">OnlineJobs.ph</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Greenhouse">Greenhouse</option>
+            <option value="Workable">Workable</option>
+            <option value="Ashby">Ashby</option>
+            <option value="Direct Email">Direct Email</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label>SPECIALIST</label>
+          <select id="modal-specialist">
+            <option value="Gebremedhin Endeshawe (Gman)">Gebremedhin (Gman)</option>
+            <option value="Emanuel">Emanuel</option>
+            <option value="Emanuel 2">Emanuel 2</option>
+            <option value="Amare">Amare</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+        <div>
+          <label>RATE</label>
+          <input type="text" id="modal-rate" value="$15 / hr">
+        </div>
+        <div>
+          <label>STAGE</label>
+          <select id="modal-stage">
+            <option value="applied">2. Proposal Sent</option>
+            <option value="discovered">1. Discovered Role</option>
+            <option value="screen">3. Pilot Sample Sent</option>
+            <option value="tech">4. Client Interview</option>
+            <option value="offer">5. Contract Won</option>
+          </select>
+        </div>
+      </div>
+
+      <label>NOTES & FOLLOW-UP</label>
+      <input type="text" id="modal-notes" placeholder="e.g. Sent sample 50-row pilot spreadsheet. Follow-up in 2 days.">
+
+      <button id="btn-save-log" class="btn-action btn-action-primary" style="width: 100%; justify-content: center; padding: 10px; margin-top: 4px;">
+        ✓ Save to Nexa Application Pipeline
+      </button>
+    </div>
+  </div>
+
+  <div id="pipeline-toast"></div>
+
   <script>
+    let activeFilter = 'all';
+    let searchQuery = '';
+
     let trackerApps = [
       {
-        id: 'app-nexa-1',
+        id: 'nexa-app-1',
         company: 'Scale Ops Global',
         role: 'Virtual Assistant & Data Entry Specialist',
-        portal: 'Ashby',
+        url: 'https://boards.greenhouse.io/scaleops/jobs/4201',
+        portal: 'Greenhouse',
         client: 'Gebremedhin Endeshawe (Gman)',
+        clientEmail: 'nexadigitalteamhq@gmail.com',
         date: '11/09/2026',
         fitScore: '99%',
-        salary: '$15 - $22 / hr ($1,800/mo)',
-        stage: 'applied'
+        salary: '$15 - $22 / hr',
+        stage: 'applied',
+        notes: 'Initial Upwork/ATS bid sent with 50-row test sample offer.'
       },
       {
-        id: 'app-nexa-2',
+        id: 'nexa-app-2',
         company: 'Founders Launchpad',
-        role: 'Remote Administrative & Data Entry Assistant',
-        portal: 'Workable',
+        role: 'Remote Administrative & Operations Assistant',
+        url: 'https://jobs.ashbyhq.com/founderslaunchpad/9012',
+        portal: 'Ashby',
         client: 'Emanuel',
+        clientEmail: 'emanuel.nexadigital@gmail.com',
         date: '11/09/2026',
         fitScore: '98%',
-        salary: '$14 - $20 / hr ($1,600/mo)',
-        stage: 'screen'
+        salary: '$14 - $20 / hr',
+        stage: 'screen',
+        notes: 'Sent 50-record spreadsheet cleaning pilot. Follow-up in 24h.'
       },
       {
-        id: 'app-nexa-3',
-        company: 'SaaS Growth Studio',
-        role: 'Virtual Assistant (Canva & Social Media)',
-        portal: 'Greenhouse',
+        id: 'nexa-app-3',
+        company: 'Apex Digital Systems',
+        role: 'Excel & Google Sheets Data Specialist',
+        url: 'https://apply.workable.com/apex-digital/j/3012',
+        portal: 'Workable',
         client: 'Emanuel 2',
+        clientEmail: 'emanuel2.nexadigital@gmail.com',
         date: '11/09/2026',
         fitScore: '97%',
-        salary: '$15 - $25 / hr ($2,000/mo)',
-        stage: 'tech'
+        salary: '$15 - $25 / hr',
+        stage: 'tech',
+        notes: 'Client call scheduled on Zoom to review weekly reporting.'
+      },
+      {
+        id: 'nexa-app-4',
+        company: 'OmniGrowth Media',
+        role: 'Customer Support & Live Chat Representative',
+        url: 'https://www.upwork.com/jobs/~019842a8bf39c9',
+        portal: 'Upwork',
+        client: 'Amare',
+        clientEmail: 'amare.nexadigital@gmail.com',
+        date: '11/09/2026',
+        fitScore: '99%',
+        salary: '$15 / hr',
+        stage: 'offer',
+        notes: 'Client accepted proposal! Weekly retainer agreed for chat support.'
       }
     ];
+
+    function showToast(msg) {
+      const t = document.getElementById('pipeline-toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2500);
+    }
 
     async function loadPipeline() {
       try {
@@ -210,14 +401,17 @@
         if (data.applications && data.applications.length > 0) {
           trackerApps = data.applications.map(a => ({
             id: a.id || `app-${Math.random()}`,
-            company: a.company || 'Tech Company',
-            role: a.role || a.jobTitle || 'Senior Software Engineer',
-            portal: a.portal || 'ATS',
-            client: a.client || a.candidateName || 'Gebremedhin Endeshawe (Nexa Digital Team)',
+            company: a.company || 'Client Opening',
+            role: a.role || a.jobTitle || 'Virtual Assistant & Data Entry',
+            url: a.url || '',
+            portal: a.portal || 'Direct',
+            client: a.client || a.candidateName || 'Gebremedhin Endeshawe (Gman)',
+            clientEmail: a.clientEmail || 'nexadigitalteamhq@gmail.com',
             date: a.date || a.appliedDate || new Date().toLocaleDateString(),
-            fitScore: a.fitScore || '96%',
-            salary: a.salary || '$175,000',
-            stage: a.stage || 'applied'
+            fitScore: a.fitScore || '98%',
+            salary: a.rate || a.salary || '$15 / hr',
+            stage: a.stage || (a.status === 'Pilot Sample Sent' ? 'screen' : a.status === 'Interview Scheduled' ? 'tech' : a.status === 'Contract Won' ? 'offer' : 'applied'),
+            notes: a.notes || ''
           }));
         }
       } catch(e) {}
@@ -233,29 +427,54 @@
         offer: document.getElementById('col-offer')
       };
 
-      Object.keys(stages).forEach(k => stages[k].innerHTML = '');
+      Object.keys(stages).forEach(k => { if (stages[k]) stages[k].innerHTML = ''; });
 
       const counts = { discovered: 0, applied: 0, screen: 0, tech: 0, offer: 0 };
 
-      trackerApps.forEach(item => {
+      let filtered = trackerApps;
+      if (activeFilter !== 'all') {
+        filtered = filtered.filter(a => (a.client || '').toLowerCase().includes(activeFilter.toLowerCase()));
+      }
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(a => 
+          (a.company || '').toLowerCase().includes(q) ||
+          (a.role || '').toLowerCase().includes(q) ||
+          (a.portal || '').toLowerCase().includes(q) ||
+          (a.client || '').toLowerCase().includes(q)
+        );
+      }
+
+      filtered.forEach(item => {
         const stageKey = item.stage || 'applied';
         if (counts[stageKey] !== undefined) counts[stageKey]++;
 
         const card = document.createElement('div');
         card.className = 'k-card';
-        card.innerHTML = `
-          <div class="k-company">${item.company} • <span style="color:#94A3B8;">${item.portal}</span></div>
-          <div class="k-role">${item.role}</div>
-          <div class="k-meta">
-            <span>${item.client}</span>
-            <span style="color:#34D399; font-weight:700;">${item.fitScore} Fit</span>
-          </div>
-          <div style="font-size:10.5px; color:#FBBF24; font-weight:700; margin-bottom:6px;">${item.salary}</div>
 
+        const shortUrl = item.url ? (item.url.replace(/^https?:\/\/(www\.)?/, '').slice(0, 30) + (item.url.length > 30 ? '...' : '')) : '';
+
+        card.innerHTML = `
+          <div class="k-company-row">
+            <span class="k-company">${item.company}</span>
+            <span class="k-portal">${item.portal || 'Direct'}</span>
+          </div>
+          <div class="k-role">${item.role}</div>
+          ${item.url ? `
+            <a href="${item.url}" target="_blank" class="k-link" title="Open live job posting">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              ${shortUrl}
+            </a>
+          ` : ''}
+          <div class="k-meta">
+            <span>Specialist: <b style="color:#FFF;">${item.client}</b></span>
+            <span style="color:#34D399; font-weight:700;">${item.salary || '$15/hr'}</span>
+          </div>
+          ${item.notes ? `<div class="k-notes">${item.notes}</div>` : ''}
           <div class="k-actions">
-            <a href="/interview-prep" class="btn-k-action" style="color:#34D399;">Prep</a>
-            <button class="btn-k-action" onclick="moveNext('${item.id}')">Advance</button>
-            <button class="btn-k-action" style="color:#F87171;" onclick="deleteApp('${item.id}')">✕</button>
+            <button class="btn-k-action" onclick="moveNext('${item.id}')" style="color:#38BDF8;">Advance ➔</button>
+            <button class="btn-k-action" onclick="copyCardDetails('${item.id}')">📋 Copy</button>
+            <button class="btn-k-action" style="color:#F87171; max-width:30px;" onclick="deleteApp('${item.id}')">✕</button>
           </div>
         `;
 
@@ -267,7 +486,12 @@
       document.getElementById('count-screen').textContent = counts.screen;
       document.getElementById('count-tech').textContent = counts.tech;
       document.getElementById('count-offer').textContent = counts.offer;
+
       document.getElementById('pipe-total').textContent = trackerApps.length;
+      document.getElementById('pipe-proposals').textContent = counts.applied;
+      document.getElementById('pipe-pilots').textContent = counts.screen;
+      document.getElementById('pipe-interviews').textContent = counts.tech;
+      document.getElementById('pipe-won').textContent = counts.offer;
     }
 
     function moveNext(id) {
@@ -278,7 +502,16 @@
       if (curIdx < order.length - 1) {
         app.stage = order[curIdx + 1];
         saveApp(app);
+        showToast(`Moved to ${app.stage.toUpperCase()}`);
       }
+    }
+
+    function copyCardDetails(id) {
+      const app = trackerApps.find(a => a.id === id);
+      if (!app) return;
+      const text = `Nexa Application:\nCompany: ${app.company}\nRole: ${app.role}\nLink: ${app.url || 'N/A'}\nSpecialist: ${app.client}\nRate: ${app.salary}\nStage: ${app.stage}\nNotes: ${app.notes || 'None'}`;
+      navigator.clipboard.writeText(text);
+      showToast('✓ Copied details to clipboard!');
     }
 
     async function saveApp(app) {
@@ -298,7 +531,119 @@
       try {
         await fetch(`/api/ai/tracker/${id}`, { method: 'DELETE' });
       } catch(e) {}
+      showToast('Entry removed from pipeline.');
     }
+
+    // Export CSV
+    document.getElementById('btn-export-csv').addEventListener('click', () => {
+      const headers = ['Date', 'Company', 'Role', 'Live URL', 'Portal', 'Specialist', 'Email', 'Rate', 'Stage', 'Notes', 'Portfolio'];
+      const escapeCsv = (val) => `"${String(val || '').replace(/"/g, '""')}"`;
+      const rows = trackerApps.map(a => [
+        escapeCsv(a.date || new Date().toLocaleDateString()),
+        escapeCsv(a.company),
+        escapeCsv(a.role),
+        escapeCsv(a.url || ''),
+        escapeCsv(a.portal || 'Direct'),
+        escapeCsv(a.client),
+        escapeCsv(a.clientEmail || 'nexadigitalteamhq@gmail.com'),
+        escapeCsv(a.salary || '$15 / hr'),
+        escapeCsv(a.stage),
+        escapeCsv(a.notes || ''),
+        escapeCsv('https://nexa-portfolio-theta.vercel.app/')
+      ]);
+      const csv = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Nexa_Digital_Team_Pipeline_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      showToast('📥 Downloaded Pipeline CSV for Spreadsheets!');
+    });
+
+    // Copy TSV for Google Sheets
+    document.getElementById('btn-copy-sheets').addEventListener('click', async () => {
+      const headers = ['Date', 'Company', 'Role', 'Live URL', 'Portal', 'Specialist', 'Email', 'Rate', 'Stage', 'Notes', 'Portfolio'];
+      const cleanTsv = (val) => String(val || '').replace(/[\t\r\n]+/g, ' ').trim();
+      const rows = trackerApps.map(a => [
+        cleanTsv(a.date || new Date().toLocaleDateString()),
+        cleanTsv(a.company),
+        cleanTsv(a.role),
+        cleanTsv(a.url || ''),
+        cleanTsv(a.portal || 'Direct'),
+        cleanTsv(a.client),
+        cleanTsv(a.clientEmail || 'nexadigitalteamhq@gmail.com'),
+        cleanTsv(a.salary || '$15 / hr'),
+        cleanTsv(a.stage),
+        cleanTsv(a.notes || ''),
+        cleanTsv('https://nexa-portfolio-theta.vercel.app/')
+      ]);
+      const tsv = [headers.join('\t'), ...rows.map(r => r.join('\t'))].join('\n');
+      await navigator.clipboard.writeText(tsv);
+      showToast('✓ Copied table! Paste into Google Sheets (Ctrl+V) for instant columns.');
+    });
+
+    // Specialist Filters
+    document.querySelectorAll('.spec-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.spec-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.getAttribute('data-spec') || 'all';
+        renderBoard();
+      });
+    });
+
+    // Search Input
+    document.getElementById('pipeline-search').addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      renderBoard();
+    });
+
+    // Modal Events
+    const modal = document.getElementById('modal-log');
+    document.getElementById('btn-open-log-modal').addEventListener('click', () => { modal.style.display = 'flex'; });
+    document.getElementById('btn-close-modal').addEventListener('click', () => { modal.style.display = 'none'; });
+
+    document.getElementById('btn-save-log').addEventListener('click', () => {
+      const company = document.getElementById('modal-company').value.trim();
+      const role = document.getElementById('modal-role').value.trim();
+      const url = document.getElementById('modal-url').value.trim();
+      const portal = document.getElementById('modal-portal').value;
+      const client = document.getElementById('modal-specialist').value;
+      const salary = document.getElementById('modal-rate').value.trim() || '$15 / hr';
+      const stage = document.getElementById('modal-stage').value;
+      const notes = document.getElementById('modal-notes').value.trim();
+
+      if (!company || !role) {
+        alert('Please enter company and role title.');
+        return;
+      }
+
+      const newApp = {
+        id: 'nexa-app-' + Date.now(),
+        company,
+        role,
+        url,
+        portal,
+        client,
+        clientEmail: 'nexadigitalteamhq@gmail.com',
+        date: new Date().toLocaleDateString(),
+        fitScore: '98%',
+        salary,
+        stage,
+        notes
+      };
+
+      trackerApps.unshift(newApp);
+      saveApp(newApp);
+      modal.style.display = 'none';
+      showToast(`✓ Logged ${company} to pipeline!`);
+
+      document.getElementById('modal-company').value = '';
+      document.getElementById('modal-role').value = '';
+      document.getElementById('modal-url').value = '';
+      document.getElementById('modal-notes').value = '';
+    });
 
     loadPipeline();
   </script>

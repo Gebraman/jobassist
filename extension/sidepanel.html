@@ -355,8 +355,8 @@
       Q&A
     </button>
     <button class="tab-btn" data-tab="tab-tracker">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      CRM
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Journal &amp; CRM
     </button>
   </div>
 
@@ -852,26 +852,155 @@
   </div>
 
   <!-- ============================================== -->
-  <!-- TAB 5: APPLICATION TRACKER & CRM               -->
+  <!-- TAB 5: APPLICATION JOURNAL & TEAM MANAGEMENT   -->
   <!-- ============================================== -->
   <div id="tab-tracker" class="tab-pane">
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">Tracked Applications</div>
-        <button id="btn-export-csv" class="btn-secondary" style="font-size: 10px; display: inline-flex; align-items: center; gap: 4px;">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export CSV
+    <div class="card" style="margin-bottom: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div>
+          <div style="font-size: 13px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 6px;">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #007aff;"></span>
+            Nexa Application Journal
+          </div>
+          <div style="font-size: 9.5px; color: #94A3B8;">Real-time log of team bids, live links &amp; spreadsheet exports</div>
+        </div>
+        <button id="btn-open-log-modal" class="btn-secondary" style="font-size: 10px; font-weight: 700; color: #38BDF8; border-color: #0284C7; padding: 4px 8px; cursor: pointer;">
+          + Log Job
         </button>
       </div>
-      <div id="tracker-list" style="max-height: 220px; overflow-y: auto;"></div>
+
+      <!-- Live Performance Overview -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 8px; text-align: center;">
+        <div style="background: #18181b; border: 1px solid #27272a; border-radius: 6px; padding: 6px 3px;">
+          <div id="stat-total-apps" style="font-size: 13.5px; font-weight: 800; color: #FFF;">0</div>
+          <div style="font-size: 8px; color: #94A3B8; text-transform: uppercase;">Total Apps</div>
+        </div>
+        <div style="background: #18181b; border: 1px solid #27272a; border-radius: 6px; padding: 6px 3px;">
+          <div id="stat-active-proposals" style="font-size: 13.5px; font-weight: 800; color: #38BDF8;">0</div>
+          <div style="font-size: 8px; color: #94A3B8; text-transform: uppercase;">Proposals</div>
+        </div>
+        <div style="background: #18181b; border: 1px solid #27272a; border-radius: 6px; padding: 6px 3px;">
+          <div id="stat-pilot-samples" style="font-size: 13.5px; font-weight: 800; color: #F59E0B;">0</div>
+          <div style="font-size: 8px; color: #94A3B8; text-transform: uppercase;">Pilots</div>
+        </div>
+        <div style="background: #18181b; border: 1px solid #27272a; border-radius: 6px; padding: 6px 3px;">
+          <div id="stat-contracts-won" style="font-size: 13.5px; font-weight: 800; color: #34D399;">0</div>
+          <div style="font-size: 8px; color: #94A3B8; text-transform: uppercase;">Contracts Won</div>
+        </div>
+      </div>
+
+      <!-- Spreadsheet Actions Toolbar -->
+      <div style="display: flex; gap: 4px; margin-bottom: 8px;">
+        <button id="btn-export-csv" class="btn-secondary" style="flex: 1; font-size: 10px; font-weight: 700; color: #34D399; border-color: #059669; justify-content: center; padding: 6px 4px; cursor: pointer;">
+          📥 Download CSV
+        </button>
+        <button id="btn-copy-sheets" class="btn-secondary" style="flex: 1; font-size: 10px; font-weight: 700; color: #38BDF8; border-color: #0284C7; justify-content: center; padding: 6px 4px; cursor: pointer;" title="Copy as table for Google Sheets (Ctrl+V)">
+          📋 Copy for Sheets
+        </button>
+        <a id="link-web-pipeline" href="https://jobassist-mu47.onrender.com/pipeline" target="_blank" class="btn-secondary" style="flex: 1; font-size: 10px; font-weight: 700; color: #A78BFA; border-color: #7C3AED; justify-content: center; padding: 6px 4px; text-decoration: none;">
+          📊 Web Pipeline
+        </a>
+      </div>
+
+      <!-- Filter by Specialist -->
+      <div style="margin-bottom: 8px;">
+        <div style="font-size: 9px; color: #94A3B8; font-weight: 700; margin-bottom: 3px; letter-spacing: 0.4px;">FILTER BY SPECIALIST:</div>
+        <div id="journal-specialist-filters" style="display: flex; gap: 4px; overflow-x: auto; padding-bottom: 2px;">
+          <button class="btn-journal-filter active" data-filter="all" style="padding: 3px 8px; font-size: 9.5px; font-weight: 700; background: #007aff; color: #FFF; border: 1px solid #0056b3; border-radius: 4px; cursor: pointer; white-space: nowrap;">All Team</button>
+          <button class="btn-journal-filter" data-filter="Gebremedhin" style="padding: 3px 8px; font-size: 9.5px; font-weight: 700; background: #18181b; color: #94A3B8; border: 1px solid #27272a; border-radius: 4px; cursor: pointer; white-space: nowrap;">Gebremedhin</button>
+          <button class="btn-journal-filter" data-filter="Emanuel" style="padding: 3px 8px; font-size: 9.5px; font-weight: 700; background: #18181b; color: #94A3B8; border: 1px solid #27272a; border-radius: 4px; cursor: pointer; white-space: nowrap;">Emanuel</button>
+          <button class="btn-journal-filter" data-filter="Emanuel 2" style="padding: 3px 8px; font-size: 9.5px; font-weight: 700; background: #18181b; color: #94A3B8; border: 1px solid #27272a; border-radius: 4px; cursor: pointer; white-space: nowrap;">Emanuel 2</button>
+          <button class="btn-journal-filter" data-filter="Amare" style="padding: 3px 8px; font-size: 9.5px; font-weight: 700; background: #18181b; color: #94A3B8; border: 1px solid #27272a; border-radius: 4px; cursor: pointer; white-space: nowrap;">Amare</button>
+        </div>
+      </div>
+
+      <!-- Search Input -->
+      <div style="margin-bottom: 8px;">
+        <input type="text" id="journal-search-input" placeholder="Search company, role, platform..." style="width: 100%; background: #18181b; border: 1px solid #27272a; border-radius: 6px; color: #FFF; font-size: 11px; padding: 6px 10px; outline: none;">
+      </div>
+
+      <!-- Journal List -->
+      <div id="tracker-list" style="max-height: 290px; overflow-y: auto;"></div>
     </div>
 
+    <!-- Nexa Team Roster Section -->
     <div class="card">
       <div class="card-header">
-        <div class="card-title">Candidates Database</div>
-        <button id="btn-add-client-tab5" class="btn-secondary">+ New Candidate</button>
+        <div class="card-title">Nexa Digital Team Specialists</div>
+        <button id="btn-add-client-tab5" class="btn-secondary">+ Add Member</button>
       </div>
       <div id="clients-crm-list"></div>
+    </div>
+  </div>
+
+  <!-- Modal: Log Custom Job into Journal -->
+  <div id="modal-log-journal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 390px; padding: 14px 16px;">
+      <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; border-bottom:1px solid #27272a; padding-bottom:6px;">
+        <div style="font-size: 13px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 6px;">
+          <span>📝 Log Job Application into Journal</span>
+        </div>
+        <button id="btn-close-log-modal" style="background:none; border:none; color:#94A3B8; font-size:16px; cursor:pointer;">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="form-group">
+          <label style="font-size: 9.5px; color: #94A3B8; font-weight: 700;">COMPANY OR CLIENT NAME *</label>
+          <input type="text" id="log-input-company" placeholder="e.g. Scale Ops Global / Upwork Client" style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:6px 8px; width: 100%; outline: none;">
+        </div>
+        <div class="form-group">
+          <label style="font-size: 9.5px; color: #94A3B8; font-weight: 700;">JOB / PROJECT TITLE *</label>
+          <input type="text" id="log-input-role" placeholder="e.g. Virtual Assistant &amp; Data Entry Specialist" style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:6px 8px; width: 100%; outline: none;">
+        </div>
+        <div class="form-group">
+          <label style="font-size: 9.5px; color: #94A3B8; font-weight: 700;">JOB POSTING URL / LIVE LINK *</label>
+          <input type="url" id="log-input-url" placeholder="https://www.upwork.com/jobs/..." style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#38BDF8; font-size:11px; padding:6px 8px; width: 100%; outline: none;">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label style="font-size: 9.5px; color: #94A3B8; font-weight: 700;">PLATFORM</label>
+            <select id="log-input-portal" style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:6px 8px; width: 100%; outline: none;">
+              <option value="Upwork">Upwork</option>
+              <option value="OnlineJobs.ph">OnlineJobs.ph</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Freelancer">Freelancer</option>
+              <option value="Direct Email">Direct Email</option>
+              <option value="RemoteOK">RemoteOK</option>
+              <option value="Greenhouse">Greenhouse</option>
+              <option value="Workable">Workable</option>
+              <option value="Ashby">Ashby</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label style="font-size: 9.5px; color: #94A3B8; font-weight: 700;">SPECIALIST</label>
+            <select id="log-input-specialist" style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:6px 8px; width: 100%; outline: none;"></select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+          <div class="form-group">
+            <label style="font-size: 9.5px; color: #94A3B8; font-weight: 700;">PROPOSED RATE</label>
+            <input type="text" id="log-input-rate" value="$15 / hr" style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:6px 8px; width: 100%; outline: none;">
+          </div>
+          <div class="form-group">
+            <label style="font-size: 9.5px; color: #94A3B8; font-weight: 700;">STATUS</label>
+            <select id="log-input-status" style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:6px 8px; width: 100%; outline: none;">
+              <option value="Proposal Sent">Proposal Sent</option>
+              <option value="Applied">Applied</option>
+              <option value="Pilot Sample">Pilot Sample Sent</option>
+              <option value="Interview Scheduled">Interview Scheduled</option>
+              <option value="Contract Won">Contract Won</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label style="font-size: 9.5px; color: #94A3B8; font-weight: 700;">NOTES / FOLLOW-UP REMINDER</label>
+          <input type="text" id="log-input-notes" placeholder="e.g. Sent 50-row pilot sample. Follow up in 48h." style="background:#18181b; border:1px solid #27272a; border-radius:6px; color:#FFF; font-size:11px; padding:6px 8px; width: 100%; outline: none;">
+        </div>
+        <button id="btn-save-log-entry" class="btn-autofill" style="margin-top: 6px; padding: 9px; font-size: 11.5px; font-weight: 800; justify-content: center;">
+          ✓ Save to Application Journal
+        </button>
+      </div>
     </div>
   </div>
 

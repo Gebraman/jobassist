@@ -450,31 +450,41 @@ async function scanActiveJobTab() {
 }
 
 function detectJobFromTabMeta(tab) {
-  let title = 'HubSpot Integrations Software Developer';
-  let company = '1406 Consulting';
-  let portal = 'JazzHR';
-  let salaryRange = '$85,000 - $105,000';
+  let title = 'Virtual Assistant & Data Entry Specialist';
+  let company = 'Remote Client / Startup';
+  let portal = 'APPLICATION FORM';
+  let salaryRange = '$12 - $18 / hr ($1,500 - $2,500 / month)';
 
   const url = tab.url || '';
-  if (url.includes('applytojob.com')) {
-    portal = 'JAZZHR';
-    if (url.includes('1406consulting')) company = '1406 Consulting';
-  } else if (url.includes('workable.com')) {
-    portal = 'WORKABLE';
-    if (url.includes('bask-health')) company = 'Bask Health';
-    title = 'Senior Back-End Software Engineer';
-  } else if (url.includes('ashbyhq.com')) {
-    portal = 'ASHBY';
-    if (url.includes('bjakcareer')) company = 'BJAK';
-    title = 'LLM Application Engineer';
+  const tabTitle = tab.title || '';
+  if (url.includes('upwork.com')) portal = 'UPWORK';
+  else if (url.includes('onlinejobs.ph')) portal = 'ONLINEJOBS.PH';
+  else if (url.includes('freelancer.com')) portal = 'FREELANCER';
+  else if (url.includes('linkedin.com')) portal = 'LINKEDIN';
+  else if (url.includes('greenhouse.io')) portal = 'GREENHOUSE';
+  else if (url.includes('workable.com')) portal = 'WORKABLE';
+  else if (url.includes('ashbyhq.com')) portal = 'ASHBY';
+  else if (url.includes('applytojob.com')) portal = 'JAZZHR';
+
+  if (tabTitle && !tabTitle.includes('JobAssist')) {
+    const cleanTitle = tabTitle.split(/[-–|•]/)[0].trim();
+    if (cleanTitle.length > 3) title = cleanTitle;
+    const parts = tabTitle.split(/[-–|•]/);
+    if (parts.length > 1) {
+      const maybeComp = parts[1].trim();
+      if (maybeComp.length > 2 && !['Careers', 'Jobs', 'Apply', 'Overview'].includes(maybeComp)) {
+        company = maybeComp;
+      }
+    }
   }
 
   updateJobDisplay({
     title,
     company,
     portal,
+    url,
     salaryRange,
-    keywords: ['HUBSPOT', 'ZAPIER', 'WORKATO', 'MULESOFT', 'NODE.JS', 'PYTHON', 'REACT', 'GOOGLE CLOUD', 'APIS']
+    keywords: ['VIRTUAL ASSISTANT', 'DATA ENTRY', 'GOOGLE SHEETS', 'EXCEL', 'WEB RESEARCH', 'TYPING (65+ WPM)', 'CANVA', 'ADMIN SUPPORT']
   });
 }
 
@@ -822,27 +832,78 @@ function updateOutreachModalContent() {
   });
 }
 
-// Application Tracker & CRM
+// ==============================================
+// NEXA STARTUP APPLICATION JOURNAL & CRM ENGINE
+// ==============================================
+let currentJournalFilter = 'all';
+let journalSearchQuery = '';
+
 async function loadTrackedApps() {
   const stored = await chrome.storage.local.get(['jobassist_tracker']);
   trackedApplications = stored.jobassist_tracker || [
     {
+      id: 'nexa_app_1',
       company: 'Scale Ops Global',
       role: 'Virtual Assistant & Data Entry Specialist',
-      portal: 'Greenhouse ATS',
+      url: 'https://boards.greenhouse.io/scaleops/jobs/4201',
+      portal: 'Greenhouse',
       client: 'Gebremedhin Endeshawe (Gman)',
+      clientEmail: 'nexadigitalteamhq@gmail.com',
       date: new Date().toLocaleDateString(),
+      time: '10:30 AM',
       fitScore: '99%',
-      status: 'Ready for Review'
+      rate: '$15 - $22 / hr',
+      status: 'Proposal Sent',
+      notes: 'Initial Upwork/ATS bid sent with 50-row test sample offer.',
+      portfolio: 'https://nexa-portfolio-theta.vercel.app/'
     },
     {
+      id: 'nexa_app_2',
       company: 'Founders Launchpad',
       role: 'Remote Administrative & Operations Assistant',
-      portal: 'Ashby ATS',
-      client: 'Emanuel (Data Entry & Admin Support)',
+      url: 'https://jobs.ashbyhq.com/founderslaunchpad/9012',
+      portal: 'Ashby',
+      client: 'Emanuel',
+      clientEmail: 'emanuel.nexadigital@gmail.com',
       date: new Date().toLocaleDateString(),
+      time: '02:15 PM',
       fitScore: '98%',
-      status: 'Ready for Review'
+      rate: '$14 - $20 / hr',
+      status: 'Pilot Sample Sent',
+      notes: 'Sent 50-record spreadsheet cleaning pilot. Follow-up in 24h.',
+      portfolio: 'https://nexa-portfolio-theta.vercel.app/'
+    },
+    {
+      id: 'nexa_app_3',
+      company: 'Apex Digital Systems',
+      role: 'Excel & Google Sheets Data Specialist',
+      url: 'https://apply.workable.com/apex-digital/j/3012',
+      portal: 'Workable',
+      client: 'Emanuel 2',
+      clientEmail: 'emanuel2.nexadigital@gmail.com',
+      date: new Date().toLocaleDateString(),
+      time: '04:45 PM',
+      fitScore: '97%',
+      rate: '$15 - $25 / hr',
+      status: 'Interview Scheduled',
+      notes: 'Client call scheduled on Zoom to review weekly reporting.',
+      portfolio: 'https://nexa-portfolio-theta.vercel.app/'
+    },
+    {
+      id: 'nexa_app_4',
+      company: 'OmniGrowth Media',
+      role: 'Customer Support & Live Chat Representative',
+      url: 'https://www.upwork.com/jobs/~019842a8bf39c9',
+      portal: 'Upwork',
+      client: 'Amare',
+      clientEmail: 'amare.nexadigital@gmail.com',
+      date: new Date().toLocaleDateString(),
+      time: '06:00 PM',
+      fitScore: '99%',
+      rate: '$15 / hr ($2,400/mo)',
+      status: 'Contract Won',
+      notes: 'Client accepted proposal! Weekly retainer agreed for chat support.',
+      portfolio: 'https://nexa-portfolio-theta.vercel.app/'
     }
   ];
   renderTrackerList();
@@ -851,22 +912,146 @@ async function loadTrackedApps() {
 function renderTrackerList() {
   const listEl = document.getElementById('tracker-list');
   if (!listEl) return;
-  listEl.innerHTML = '';
 
-  trackedApplications.forEach(app => {
+  // Calculate high-level metrics
+  const totalApps = trackedApplications.length;
+  const activeProposals = trackedApplications.filter(a => a.status === 'Proposal Sent' || a.status === 'Applied').length;
+  const pilotSamples = trackedApplications.filter(a => a.status === 'Pilot Sample' || a.status === 'Pilot Sample Sent').length;
+  const contractsWon = trackedApplications.filter(a => a.status === 'Contract Won' || a.status === 'Contract Awarded' || a.status === 'Interview Scheduled').length;
+
+  const statTotal = document.getElementById('stat-total-apps');
+  if (statTotal) statTotal.textContent = totalApps;
+  const statProposals = document.getElementById('stat-active-proposals');
+  if (statProposals) statProposals.textContent = activeProposals;
+  const statPilots = document.getElementById('stat-pilot-samples');
+  if (statPilots) statPilots.textContent = pilotSamples;
+  const statWon = document.getElementById('stat-contracts-won');
+  if (statWon) statWon.textContent = contractsWon;
+
+  // Filter list
+  let filtered = trackedApplications;
+  if (currentJournalFilter !== 'all') {
+    filtered = filtered.filter(a => (a.client || '').toLowerCase().includes(currentJournalFilter.toLowerCase()));
+  }
+  if (journalSearchQuery) {
+    const q = journalSearchQuery.toLowerCase();
+    filtered = filtered.filter(a => 
+      (a.company || '').toLowerCase().includes(q) ||
+      (a.role || '').toLowerCase().includes(q) ||
+      (a.portal || '').toLowerCase().includes(q) ||
+      (a.client || '').toLowerCase().includes(q)
+    );
+  }
+
+  listEl.innerHTML = '';
+  if (filtered.length === 0) {
+    listEl.innerHTML = `<div style="text-align: center; color: #64748B; font-size: 11px; padding: 18px 8px;">
+      No logged applications found matching the current filter.
+    </div>`;
+    return;
+  }
+
+  const STATUS_CYCLE = ['Proposal Sent', 'Applied', 'Pilot Sample Sent', 'Interview Scheduled', 'Contract Won', 'Archived'];
+
+  filtered.forEach(app => {
     const item = document.createElement('div');
-    item.style.cssText = 'background: #1E293B; border-radius: 6px; padding: 7px 9px; margin-bottom: 5px; font-size: 10.5px;';
+    item.style.cssText = 'background: #141416; border: 1px solid #27272a; border-radius: 8px; padding: 8px 10px; margin-bottom: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.25);';
+    
+    // Status color badge
+    let statusBg = '#1E293B';
+    let statusColor = '#94A3B8';
+    let statusBorder = '#334155';
+    if (app.status === 'Proposal Sent' || app.status === 'Applied') {
+      statusBg = 'rgba(56, 189, 248, 0.15)'; statusColor = '#38BDF8'; statusBorder = '#0284C7';
+    } else if (app.status === 'Pilot Sample Sent' || app.status === 'Pilot Sample') {
+      statusBg = 'rgba(245, 158, 11, 0.15)'; statusColor = '#FBBF24'; statusBorder = '#D97706';
+    } else if (app.status === 'Interview Scheduled') {
+      statusBg = 'rgba(168, 85, 247, 0.15)'; statusColor = '#C084FC'; statusBorder = '#9333EA';
+    } else if (app.status === 'Contract Won' || app.status === 'Contract Awarded') {
+      statusBg = 'rgba(16, 185, 129, 0.15)'; statusColor = '#34D399'; statusBorder = '#059669';
+    }
+
+    const shortUrl = app.url ? (app.url.replace(/^https?:\/\/(www\.)?/, '').slice(0, 32) + (app.url.length > 32 ? '...' : '')) : '';
+
     item.innerHTML = `
-      <div style="display:flex; justify-content:space-between; font-weight:700; color:#FFF;">
-        <span>${app.company}</span>
-        <span style="color:#34D399;">${app.fitScore || '95%'}</span>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <span style="font-weight: 800; color: #FFF; font-size: 11.5px;">${app.company}</span>
+          <span style="background: #18181b; border: 1px solid #27272a; border-radius: 4px; padding: 1px 5px; font-size: 9px; color: #94A3B8; text-transform: uppercase;">${app.portal || 'Direct'}</span>
+        </div>
+        <button class="btn-cycle-status" title="Click to advance status" style="background: ${statusBg}; color: ${statusColor}; border: 1px solid ${statusBorder}; border-radius: 9999px; font-size: 9px; font-weight: 800; padding: 2px 7px; cursor: pointer;">
+          ${app.status || 'Applied'} ↻
+        </button>
       </div>
-      <div style="color:#94A3B8; font-size: 10px; margin-top: 1px;">${app.role} • ${app.portal}</div>
-      <div style="display:flex; justify-content:space-between; color:#64748B; font-size: 9px; margin-top: 3px;">
-        <span>Candidate: <b>${app.client}</b></span>
-        <span>${app.date}</span>
+
+      <div style="font-size: 11px; font-weight: 700; color: #E4E4E7; margin-bottom: 2px;">
+        ${app.role}
+      </div>
+
+      ${app.url ? `
+        <div style="margin-bottom: 3px;">
+          <a href="${app.url}" target="_blank" style="color: #38BDF8; font-size: 9.5px; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;" title="Open live application link">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            ${shortUrl}
+          </a>
+        </div>
+      ` : ''}
+
+      <div style="display: flex; justify-content: space-between; color: #94A3B8; font-size: 9px; margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(255,255,255,0.05);">
+        <span>Specialist: <b style="color: #FFF;">${app.client}</b></span>
+        <span>Rate: <b style="color: #34D399;">${app.rate || '$15 / hr'}</b></span>
+        <span>📅 ${app.date}</span>
+      </div>
+
+      ${app.notes ? `
+        <div style="font-size: 9.5px; color: #CBD5E1; background: #18181b; border-left: 2px solid #007aff; border-radius: 0 4px 4px 0; padding: 3px 6px; margin-top: 4px; line-height: 1.35;">
+          ${app.notes}
+        </div>
+      ` : ''}
+
+      <div style="display: flex; gap: 4px; margin-top: 6px;">
+        <button class="btn-journal-followup btn-secondary" style="flex: 1; padding: 3px 5px; font-size: 9px; font-weight: 700; color: #38BDF8; border-color: #0284C7; justify-content: center; cursor: pointer;">
+          ✉️ Follow-Up
+        </button>
+        <button class="btn-journal-copy btn-secondary" style="flex: 1; padding: 3px 5px; font-size: 9px; font-weight: 700; justify-content: center; cursor: pointer;">
+          📋 Copy Details
+        </button>
+        <button class="btn-journal-delete btn-secondary" style="padding: 3px 6px; font-size: 9px; color: #F87171; border-color: #7F1D1D; cursor: pointer;" title="Delete entry">
+          ✕
+        </button>
       </div>
     `;
+
+    // Event: Cycle Status
+    item.querySelector('.btn-cycle-status').addEventListener('click', async () => {
+      const curIdx = STATUS_CYCLE.indexOf(app.status);
+      const nextIdx = (curIdx + 1) % STATUS_CYCLE.length;
+      app.status = STATUS_CYCLE[nextIdx];
+      await chrome.storage.local.set({ jobassist_tracker: trackedApplications });
+      renderTrackerList();
+      showStudioToast(`Status updated to: ${app.status}`, 'info');
+    });
+
+    // Event: Open Follow-Up
+    item.querySelector('.btn-journal-followup').addEventListener('click', () => {
+      openOutreachModal({ company: app.company, title: app.role, url: app.url }, 'followup');
+    });
+
+    // Event: Copy Details
+    item.querySelector('.btn-journal-copy').addEventListener('click', () => {
+      const summary = `Nexa Application Log:\nCompany: ${app.company}\nRole: ${app.role}\nLink: ${app.url || 'N/A'}\nSpecialist: ${app.client}\nRate: ${app.rate || '$15/hr'}\nStatus: ${app.status}\nDate: ${app.date}`;
+      navigator.clipboard.writeText(summary);
+      showStudioToast('Copied application details!', 'info');
+    });
+
+    // Event: Delete
+    item.querySelector('.btn-journal-delete').addEventListener('click', async () => {
+      trackedApplications = trackedApplications.filter(x => x.id !== app.id);
+      await chrome.storage.local.set({ jobassist_tracker: trackedApplications });
+      renderTrackerList();
+      showStudioToast('Entry removed from journal.', 'info');
+    });
+
     listEl.appendChild(item);
   });
 }
@@ -878,20 +1063,65 @@ function renderClientsCRMList() {
 
   clientsList.forEach(c => {
     const row = document.createElement('div');
-    row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:#1E293B; border-radius:6px; padding:6px 9px; margin-bottom:5px; font-size:10.5px;';
+    row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; background:#18181b; border:1px solid #27272a; border-radius:6px; padding:6px 9px; margin-bottom:5px; font-size:10.5px;';
     row.innerHTML = `
       <div>
-        <div style="font-weight:700; color:#FFF;">${c.name}</div>
-        <div style="color:#94A3B8; font-size:9.5px;">${c.headline || 'Engineer'}</div>
+        <div style="font-weight:700; color:#FFF; display:flex; align-items:center; gap:5px;">
+          <span>👤 ${c.name}</span>
+          ${c.id === (activeClient ? activeClient.id : '') ? '<span style="background:rgba(0,122,255,0.2); color:#60A5FA; border:1px solid #007aff; border-radius:4px; font-size:8.5px; padding:1px 4px; font-weight:800;">ACTIVE</span>' : ''}
+        </div>
+        <div style="color:#94A3B8; font-size:9.5px; margin-top:1px;">${c.headline || 'Virtual Assistant & Data Specialist'}</div>
+        <div style="color:#64748B; font-size:8.5px;">${c.email} • ${c.phone}</div>
       </div>
-      <button class="btn-secondary btn-select-client" style="font-size:9.5px; padding:2px 6px;">Select</button>
+      <button class="btn-secondary btn-select-client" style="font-size:9.5px; padding:3px 8px; font-weight:700; cursor:pointer;">Switch</button>
     `;
     row.querySelector('.btn-select-client').addEventListener('click', () => {
+      const selectEl = document.getElementById('client-select');
+      if (selectEl) selectEl.value = c.id;
       setActiveClient(c);
-      document.getElementById('client-select').value = c.id;
+      renderClientsCRMList();
+      showStudioToast(`Switched active specialist to: ${c.name}`, 'info');
     });
     crmEl.appendChild(row);
   });
+}
+
+async function logApplicationToJournal(job, status = 'Applied', customNotes = '') {
+  if (!job) return;
+  const company = job.company || 'Direct Client';
+  const role = job.title || 'Virtual Assistant & Data Entry Specialist';
+  const url = job.url || (currentJobInfo && currentJobInfo.url) || '';
+
+  const exists = trackedApplications.find(a => 
+    (a.company || '').toLowerCase() === company.toLowerCase() &&
+    (a.role || '').toLowerCase() === role.toLowerCase()
+  );
+
+  if (exists) {
+    exists.status = status;
+    if (url && !exists.url) exists.url = url;
+    if (customNotes) exists.notes = customNotes;
+  } else {
+    const newEntry = {
+      id: 'nexa_app_' + Date.now(),
+      company: company,
+      role: role,
+      url: url,
+      portal: job.portal || (currentJobInfo && currentJobInfo.portal) || 'Direct',
+      client: activeClient ? activeClient.name : 'Gebremedhin Endeshawe (Gman)',
+      clientEmail: activeClient ? activeClient.email : 'nexadigitalteamhq@gmail.com',
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      fitScore: '98%',
+      rate: activeClient ? (activeClient.salary || '$15 / hr') : '$15 / hr',
+      status: status,
+      notes: customNotes || `Recorded via JobAssist (${status})`,
+      portfolio: 'https://nexa-portfolio-theta.vercel.app/'
+    };
+    trackedApplications.unshift(newEntry);
+  }
+  await chrome.storage.local.set({ jobassist_tracker: trackedApplications });
+  renderTrackerList();
 }
 
 function showStudioToast(message, type = 'info') {
@@ -1351,6 +1581,7 @@ function setupEventListeners() {
     navigator.clipboard.writeText(text);
     document.getElementById('btn-copy-outreach').textContent = '✓ Copied to Clipboard!';
     setTimeout(() => document.getElementById('btn-copy-outreach').textContent = 'Copy to Clipboard', 2000);
+    logApplicationToJournal(currentOutreachJob || currentJobInfo, 'Proposal Sent', 'Proposal copied & submitted');
   });
 
   // 1-Click AutoFill
@@ -1390,8 +1621,10 @@ function setupEventListeners() {
           }, () => {
             status.textContent = `AutoFill completed for ${activeClient.name}!`;
             status.style.color = '#34D399';
+            logApplicationToJournal(currentJobInfo, 'Applied', `Auto-filled application for ${activeClient.name}`);
           });
         } else {
+          logApplicationToJournal(currentJobInfo, 'Applied', `Auto-filled ${res.count} fields for ${activeClient.name}`);
           const uncom = res.uncommonCount ? ` (including ${res.uncommonCount} custom questions answered by AI)` : '';
           status.innerHTML = `
             <div>Success! Populated ${res.count} fields${uncom} for ${activeClient.name}!</div>
@@ -1450,48 +1683,276 @@ function setupEventListeners() {
     }
   });
 
-  // Save to Tracker
-  document.getElementById('btn-save-to-tracker').addEventListener('click', async () => {
-    const newEntry = {
-      company: currentJobInfo.company || '1406 Consulting',
-      role: currentJobInfo.title || 'HubSpot Integrations Software Developer',
-      portal: currentJobInfo.portal || 'JazzHR',
-      client: activeClient.name,
-      date: new Date().toLocaleDateString(),
-      fitScore: '98%',
-      status: 'Applied'
-    };
-    trackedApplications.unshift(newEntry);
-    await chrome.storage.local.set({ jobassist_tracker: trackedApplications });
-    renderTrackerList();
+  // Save to Tracker / Journal
+  const btnSaveTracker = document.getElementById('btn-save-to-tracker');
+  if (btnSaveTracker) {
+    btnSaveTracker.addEventListener('click', async () => {
+      let activeUrl = (currentJobInfo && currentJobInfo.url) || '';
+      if (!activeUrl) {
+        try {
+          const [t] = await chrome.tabs.query({ active: true, currentWindow: true });
+          if (t && t.url && !t.url.startsWith('chrome://')) activeUrl = t.url;
+        } catch(e) {}
+      }
+      const company = (currentJobInfo && currentJobInfo.company) || 'Direct Client / Upwork';
+      const role = (currentJobInfo && currentJobInfo.title) || 'Virtual Assistant & Data Entry Specialist';
+      const portal = (currentJobInfo && currentJobInfo.portal) || 'Direct';
 
-    const status = document.getElementById('status-feedback');
-    status.textContent = `✓ Recorded application to ${newEntry.company} in tracker!`;
-    status.style.color = '#34D399';
+      await logApplicationToJournal({
+        company,
+        role,
+        portal,
+        url: activeUrl
+      }, 'Applied', `Recorded manually via AutoFill tab for ${activeClient ? activeClient.name : 'Specialist'}`);
 
-    try {
-      fetch(`${API_BASE_URL}/api/ai/tracker`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ application: newEntry })
+      const status = document.getElementById('status-feedback');
+      if (status) {
+        status.textContent = `✓ Recorded application to ${company} in journal!`;
+        status.style.color = '#34D399';
+      }
+      showStudioToast(`✓ Logged ${company} in Application Journal!`, 'success');
+    });
+  }
+
+  // Export CSV for Spreadsheets (Google Sheets & Excel compatible)
+  const btnExportCsv = document.getElementById('btn-export-csv');
+  if (btnExportCsv) {
+    btnExportCsv.addEventListener('click', () => {
+      if (!trackedApplications || trackedApplications.length === 0) {
+        showStudioToast('No logged applications in journal to export.', 'info');
+        return;
+      }
+      const headers = [
+        'Date',
+        'Time',
+        'Company / Client',
+        'Role / Service',
+        'Job Posting URL',
+        'Platform / Source',
+        'Specialist Assigned',
+        'Specialist Email',
+        'Proposed Rate',
+        'Status',
+        'Fit Score',
+        'Nexa Portfolio URL',
+        'Notes & Follow-up'
+      ];
+      const escapeCsv = (val) => `"${String(val || '').replace(/"/g, '""')}"`;
+      const rows = trackedApplications.map(a => [
+        escapeCsv(a.date || new Date().toLocaleDateString()),
+        escapeCsv(a.time || ''),
+        escapeCsv(a.company || 'Client Opening'),
+        escapeCsv(a.role || 'Virtual Assistant & Data Entry'),
+        escapeCsv(a.url || ''),
+        escapeCsv(a.portal || 'Direct'),
+        escapeCsv(a.client || 'Gebremedhin Endeshawe (Gman)'),
+        escapeCsv(a.clientEmail || 'nexadigitalteamhq@gmail.com'),
+        escapeCsv(a.rate || '$15 / hr'),
+        escapeCsv(a.status || 'Applied'),
+        escapeCsv(a.fitScore || '98%'),
+        escapeCsv(a.portfolio || 'https://nexa-portfolio-theta.vercel.app/'),
+        escapeCsv(a.notes || '')
+      ]);
+      const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.download = `Nexa_Digital_Team_Job_Application_Journal_${dateStr}.csv`;
+      a.click();
+      showStudioToast(`📥 Exported ${trackedApplications.length} applications to CSV!`, 'success');
+    });
+  }
+
+  // 1-Click Copy TSV Table for Google Sheets / Excel (Ctrl+V into any sheet)
+  const btnCopySheets = document.getElementById('btn-copy-sheets');
+  if (btnCopySheets) {
+    btnCopySheets.addEventListener('click', async () => {
+      if (!trackedApplications || trackedApplications.length === 0) {
+        showStudioToast('No logged applications in journal to copy.', 'info');
+        return;
+      }
+      const headers = [
+        'Date',
+        'Time',
+        'Company / Client',
+        'Role / Service',
+        'Job Posting URL',
+        'Platform / Source',
+        'Specialist Assigned',
+        'Specialist Email',
+        'Proposed Rate',
+        'Status',
+        'Fit Score',
+        'Nexa Portfolio URL',
+        'Notes & Follow-up'
+      ];
+      const cleanTsv = (val) => String(val || '').replace(/[\t\r\n]+/g, ' ').trim();
+      const rows = trackedApplications.map(a => [
+        cleanTsv(a.date || new Date().toLocaleDateString()),
+        cleanTsv(a.time || ''),
+        cleanTsv(a.company || 'Client Opening'),
+        cleanTsv(a.role || 'Virtual Assistant & Data Entry'),
+        cleanTsv(a.url || ''),
+        cleanTsv(a.portal || 'Direct'),
+        cleanTsv(a.client || 'Gebremedhin Endeshawe (Gman)'),
+        cleanTsv(a.clientEmail || 'nexadigitalteamhq@gmail.com'),
+        cleanTsv(a.rate || '$15 / hr'),
+        cleanTsv(a.status || 'Applied'),
+        cleanTsv(a.fitScore || '98%'),
+        cleanTsv(a.portfolio || 'https://nexa-portfolio-theta.vercel.app/'),
+        cleanTsv(a.notes || '')
+      ]);
+      const tsvContent = [headers.join('\t'), ...rows.map(r => r.join('\t'))].join('\n');
+      
+      try {
+        await navigator.clipboard.writeText(tsvContent);
+        const origText = btnCopySheets.textContent;
+        btnCopySheets.textContent = '✓ Copied for Sheets!';
+        btnCopySheets.style.color = '#34D399';
+        showStudioToast('✓ Copied spreadsheet table! Open Google Sheets and press Ctrl+V.', 'success');
+        setTimeout(() => {
+          btnCopySheets.textContent = origText;
+          btnCopySheets.style.color = '#38BDF8';
+        }, 2500);
+      } catch (err) {
+        showStudioToast('Clipboard write failed: ' + err.message, 'error');
+      }
+    });
+  }
+
+  // Journal Specialist Filters (All, Gebremedhin, Emanuel, Emanuel 2, Amare)
+  document.querySelectorAll('.btn-journal-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.btn-journal-filter').forEach(b => {
+        b.classList.remove('active');
+        b.style.background = '#18181b';
+        b.style.color = '#94A3B8';
+        b.style.borderColor = '#27272a';
       });
-    } catch(e) {}
+      btn.classList.add('active');
+      btn.style.background = '#007aff';
+      btn.style.color = '#FFFFFF';
+      btn.style.borderColor = '#0056b3';
+
+      currentJournalFilter = btn.getAttribute('data-filter') || 'all';
+      renderTrackerList();
+    });
   });
 
-  // Export CSV
-  document.getElementById('btn-export-csv').addEventListener('click', () => {
-    const headers = ['Company', 'Role', 'Portal', 'Candidate', 'Date', 'Fit Score', 'Status'];
-    const rows = trackedApplications.map(a => [
-      `"${a.company}"`, `"${a.role}"`, `"${a.portal}"`, `"${a.client}"`, `"${a.date}"`, `"${a.fitScore}"`, `"${a.status}"`
-    ]);
-    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'JobAssist_Applications_Tracker.csv';
-    a.click();
-  });
+  // Journal Search Filter
+  const journalSearch = document.getElementById('journal-search-input');
+  if (journalSearch) {
+    journalSearch.addEventListener('input', (e) => {
+      journalSearchQuery = e.target.value.trim();
+      renderTrackerList();
+    });
+  }
+
+  // Modal: Manual Job Logging Modal
+  const modalLogJournal = document.getElementById('modal-log-journal');
+  const btnOpenLogModal = document.getElementById('btn-open-log-modal');
+  const btnCloseLogModal = document.getElementById('btn-close-log-modal');
+  const btnSaveLogEntry = document.getElementById('btn-save-log-entry');
+
+  if (btnOpenLogModal && modalLogJournal) {
+    btnOpenLogModal.addEventListener('click', async () => {
+      // Prepopulate specialist select
+      const specSelect = document.getElementById('log-input-specialist');
+      if (specSelect) {
+        specSelect.innerHTML = clientsList.map(c => 
+          `<option value="${c.name}" ${activeClient && activeClient.id === c.id ? 'selected' : ''}>${c.name} (${c.headline ? c.headline.split(/[•|]/)[0].trim() : 'Specialist'})</option>`
+        ).join('');
+      }
+
+      // Prepopulate current job information
+      const compInp = document.getElementById('log-input-company');
+      const roleInp = document.getElementById('log-input-role');
+      const urlInp = document.getElementById('log-input-url');
+      const rateInp = document.getElementById('log-input-rate');
+
+      if (compInp && currentJobInfo.company) compInp.value = currentJobInfo.company;
+      if (roleInp && currentJobInfo.title) roleInp.value = currentJobInfo.title;
+      if (urlInp) {
+        if (currentJobInfo.url) {
+          urlInp.value = currentJobInfo.url;
+        } else {
+          try {
+            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+            if (tab && tab.url && !tab.url.startsWith('chrome://')) {
+              urlInp.value = tab.url;
+            }
+          } catch(e) {}
+        }
+      }
+      if (rateInp && activeClient) {
+        rateInp.value = activeClient.salary || '$15 / hr';
+      }
+
+      modalLogJournal.style.display = 'flex';
+    });
+  }
+
+  if (btnCloseLogModal && modalLogJournal) {
+    btnCloseLogModal.addEventListener('click', () => {
+      modalLogJournal.style.display = 'none';
+    });
+  }
+
+  if (btnSaveLogEntry) {
+    btnSaveLogEntry.addEventListener('click', async () => {
+      const company = (document.getElementById('log-input-company')?.value || '').trim();
+      const role = (document.getElementById('log-input-role')?.value || '').trim();
+      const url = (document.getElementById('log-input-url')?.value || '').trim();
+      const portal = document.getElementById('log-input-portal')?.value || 'Upwork';
+      const specialistName = document.getElementById('log-input-specialist')?.value || (activeClient ? activeClient.name : 'Gebremedhin Endeshawe (Gman)');
+      const rate = (document.getElementById('log-input-rate')?.value || '').trim() || '$15 / hr';
+      const status = document.getElementById('log-input-status')?.value || 'Proposal Sent';
+      const notes = (document.getElementById('log-input-notes')?.value || '').trim();
+
+      if (!company) {
+        showStudioToast('Please enter the client or company name.', 'error');
+        return;
+      }
+      if (!role) {
+        showStudioToast('Please enter the job title / service.', 'error');
+        return;
+      }
+
+      const assignedClient = clientsList.find(c => c.name === specialistName) || activeClient;
+
+      const newEntry = {
+        id: 'nexa_app_' + Date.now(),
+        company,
+        role,
+        url,
+        portal,
+        client: specialistName,
+        clientEmail: assignedClient ? assignedClient.email : 'nexadigitalteamhq@gmail.com',
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        fitScore: '98%',
+        rate,
+        status,
+        notes: notes || `Direct entry for ${specialistName}`,
+        portfolio: 'https://nexa-portfolio-theta.vercel.app/'
+      };
+
+      trackedApplications.unshift(newEntry);
+      await chrome.storage.local.set({ jobassist_tracker: trackedApplications });
+      renderTrackerList();
+
+      if (modalLogJournal) modalLogJournal.style.display = 'none';
+      showStudioToast(`✓ Logged application to ${company} for ${specialistName}!`, 'success');
+
+      // Clear fields
+      if (document.getElementById('log-input-company')) document.getElementById('log-input-company').value = '';
+      if (document.getElementById('log-input-role')) document.getElementById('log-input-role').value = '';
+      if (document.getElementById('log-input-url')) document.getElementById('log-input-url').value = '';
+      if (document.getElementById('log-input-notes')) document.getElementById('log-input-notes').value = '';
+    });
+  }
 
   // Modal Open / Close
   const modal = document.getElementById('modal-add-client');
