@@ -1,7 +1,7 @@
 (() => {
   // Prevent duplicate execution
-  if (window.__jobassist_v4_6_loaded) return;
-  window.__jobassist_v4_6_loaded = true;
+  if (window.__jobassist_v7_1_loaded) return;
+  window.__jobassist_v7_1_loaded = true;
 
   const PROFILES = (typeof DEFAULT_CLIENTS !== 'undefined') ? DEFAULT_CLIENTS : [
     {
@@ -94,10 +94,13 @@
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(['jobassist_clients', 'active_client_id'], (data) => {
       const defaultList = typeof DEFAULT_CLIENTS !== 'undefined' ? DEFAULT_CLIENTS : [];
-      const hasLegacy = data.jobassist_clients && data.jobassist_clients.some(c => 
+      const hasLegacy = !data.jobassist_clients || data.jobassist_clients.length === 0 || data.jobassist_clients.some(c => 
         c.id === 'client_raymond_wong' || c.name === 'Raymond Wong' ||
         c.id === 'client_james_royal' || c.name === 'James Royal' ||
-        c.id === 'client_nexa_gman' || c.id === 'client_nexa_emanuel_ops'
+        c.id === 'client_nexa_gman' || c.id === 'client_nexa_emanuel_ops' ||
+        (c.phone && (c.phone.includes('985 8645') || c.phone.includes('510-340-2070'))) ||
+        !c.phone || c.phone !== '0948232719' ||
+        (c.summary && (c.summary.includes('engineering and technical') || c.summary.includes('HubSpot')))
       );
       if (data.jobassist_clients && data.jobassist_clients.length > 0 && !hasLegacy) {
         allClients = data.jobassist_clients;

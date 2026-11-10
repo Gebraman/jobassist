@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "JobAssist AI Copilot & Multi-Client Studio",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "Enterprise Autonomous AI Reverse Recruitment Agency: Multi-Client AutoPilot, Pre-Flight ATS Compliance Auditor, Canva Resumes, and Interview Copilot.",
   "permissions": [
     "sidePanel",

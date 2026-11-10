@@ -106,3 +106,6 @@ function getLearningRecommendation(skill) {
     project: `Complete a verified hands-on portfolio case study demonstrating ${skill}`
   };
 }
+
+export const analyzeUpskillGaps = analyzeSkillsGaps;
+
