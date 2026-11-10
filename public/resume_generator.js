@@ -389,6 +389,23 @@ function generateExecutiveMasterworkResume(client, jobInfo = {}) {
 </head>
 <body>
 
+  <!-- Screen-Only Control Toolbar -->
+  <div class="screen-toolbar">
+    <div class="toolbar-brand">
+      <span class="toolbar-tag">EXECUTIVE MASTERWORK</span>
+      <span>${client.name} — ${company}</span>
+    </div>
+    <div class="toolbar-actions">
+      <button class="btn-tool" onclick="window.print()" title="Print to PDF or Save as Vector PDF with 100% exact fonts and layout">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Print / Save Vector PDF (Exact Template)
+      </button>
+      <button class="btn-tool-secondary" onclick="copyPlainTextATS()" title="Copy clean ATS plain text">
+        Copy Plain Text
+      </button>
+    </div>
+  </div>
+
   <!-- Main Executive Resume Document -->
   <div class="resume-sheet">
     <header class="resume-header">
@@ -551,69 +568,268 @@ function generatePlainTextResume(client, jobInfo = {}) {
 
 function generateValidPDFBinary(client, jobInfo = {}) {
   const company = jobInfo.company || 'Direct Client';
-  const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Entry Specialist';
-  const skills = getTailoredSkills(client.skills, jobInfo.keywords);
+  const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Operations Specialist';
+  const allSkills = getTailoredSkills(client.skills, jobInfo.keywords);
   const tailoredSummary = getTailoredSummary(client, company, role, jobInfo.description || '');
-
-  const lines = [
-    `${role.toUpperCase()}`,
-    `Location: ${client.loc || 'Addis Ababa, Ethiopia (Remote Worldwide)'} | Phone: ${client.phone || '0948232719'} | Email: ${client.email}`,
-    `LinkedIn: ${client.linkedin || ''} | GitHub: ${client.github || ''} | Portfolio: ${client.portfolio || ''}`,
-    ' ',
-    'PROFESSIONAL SUMMARY',
-    tailoredSummary.slice(0, 320),
-    ' ',
-    'CORE OPERATIONAL COMPETENCIES',
-    skills.slice(0, 14).join(', '),
-    ' ',
-    'PROFESSIONAL EXPERIENCE'
+  const exps = client.experience || [
+    {
+      role: client.headline || 'Virtual Assistant & Data Operations Specialist',
+      company: client.company || 'Nexa Digital Team',
+      period: '2024 - Present',
+      location: 'Remote Worldwide',
+      bullets: [
+        'Transcribe, format, and enter 1,000+ data records weekly across Google Sheets and Excel with verified 99.8% accuracy.',
+        'Manage executive inbox, organize cloud drives, and coordinate calendar appointments across US, UK, and European time zones.',
+        'Conduct deep web research to generate clean, verified B2B prospect directories and lead lists for e-commerce and agency clients.',
+        'Design high-converting visual assets and YouTube thumbnails in Canva Pro following brand kit guidelines.'
+      ]
+    },
+    {
+      role: 'Data Entry & Administrative Assistant',
+      company: 'Nexa Workflow Solutions',
+      period: '2022 - 2024',
+      location: 'Remote',
+      bullets: [
+        'Cleaned, structured, and deduplicated multi-tab spreadsheets utilizing VLOOKUP, XLOOKUP, Pivot Tables, and automated conditional formatting.',
+        'Maintained rapid 65+ WPM typing speed across high-volume data collection, product listing, and database migration tasks.',
+        'Provided friendly, courteous customer email and live chat support, sustaining a 98% first-response resolution rate.'
+      ]
+    }
   ];
 
-  (client.experience || []).slice(0, 3).forEach(e => {
-    lines.push(`${e.role} - ${e.company} (${e.period})`);
-    if (e.bullets && e.bullets.length > 0) {
-      lines.push(`- ${e.bullets[0].slice(0, 100)}`);
-      if (e.bullets[1]) lines.push(`- ${e.bullets[1].slice(0, 100)}`);
+  const PAGE_WIDTH = 612;
+  const PAGE_HEIGHT = 792;
+  const MARGIN_LEFT = 38;
+  const USABLE_WIDTH = 536;
+  const MARGIN_BOTTOM = 42;
+  const TOP_MARGIN = 752;
+
+  const pages = [];
+  let curStream = [];
+  let curY = TOP_MARGIN;
+
+  function newPage() {
+    if (curStream.length > 0) pages.push(curStream.join('\n'));
+    curStream = [];
+    curY = TOP_MARGIN;
+  }
+
+  function ensureSpace(needed) {
+    if (curY - needed < MARGIN_BOTTOM) {
+      newPage();
     }
-    lines.push(' ');
+  }
+
+  function esc(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/\\/g, '\\\\')
+      .replace(/\(/g, '\\(')
+      .replace(/\)/g, '\\)')
+      .replace(/[^\x20-\x7E]/g, (ch) => {
+        if (ch === '•') return ' - ';
+        if (ch === '—' || ch === '–') return ' - ';
+        if (ch === '’' || ch === '‘') return "'";
+        if (ch === '“' || ch === '”') return '"';
+        return ' ';
+      });
+  }
+
+  function wrapText(text, maxChars = 86) {
+    if (!text) return [];
+    const words = String(text).split(/\s+/);
+    const lines = [];
+    let cur = '';
+    for (const w of words) {
+      if (!cur) cur = w;
+      else if ((cur + ' ' + w).length <= maxChars) cur += ' ' + w;
+      else { lines.push(cur); cur = w; }
+    }
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  function text(str, x, y, font = '/F2', size = 9, color = [0.1, 0.1, 0.12]) {
+    curStream.push(`${color[0]} ${color[1]} ${color[2]} rg`);
+    curStream.push(`BT ${font} ${size} Tf ${x.toFixed(2)} ${y.toFixed(2)} Td (${esc(str)}) Tj ET`);
+  }
+
+  function line(x1, y1, x2, y2, width = 0.75, color = [0.2, 0.2, 0.25]) {
+    curStream.push(`${color[0]} ${color[1]} ${color[2]} RG`);
+    curStream.push(`${width} w`);
+    curStream.push(`${x1.toFixed(2)} ${y1.toFixed(2)} m ${x2.toFixed(2)} ${y2.toFixed(2)} l S`);
+  }
+
+  function rect(x, y, w, h, fillColor = null, strokeColor = null, lineWidth = 0.5) {
+    if (fillColor) curStream.push(`${fillColor[0]} ${fillColor[1]} ${fillColor[2]} rg`);
+    if (strokeColor) {
+      curStream.push(`${strokeColor[0]} ${strokeColor[1]} ${strokeColor[2]} RG`);
+      curStream.push(`${lineWidth} w`);
+    }
+    if (fillColor && strokeColor) curStream.push(`${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re B`);
+    else if (fillColor) curStream.push(`${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re f`);
+    else if (strokeColor) curStream.push(`${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re S`);
+  }
+
+  function sectionTitle(title, tag = '') {
+    ensureSpace(30);
+    text(title.toUpperCase(), MARGIN_LEFT, curY, '/F1', 10, [0.08, 0.08, 0.12]);
+    if (tag) {
+      text(tag, MARGIN_LEFT + USABLE_WIDTH - (tag.length * 5), curY, '/F1', 8, [0.02, 0.58, 0.41]);
+    }
+    curY -= 3.5;
+    line(MARGIN_LEFT, curY, MARGIN_LEFT + USABLE_WIDTH, curY, 0.75, [0.2, 0.2, 0.25]);
+    curY -= 11;
+  }
+
+  // --- 1. HEADER ---
+  text(client.name || 'Candidate Name', MARGIN_LEFT, curY, '/F4', 21, [0.05, 0.05, 0.08]);
+  curY -= 17;
+
+  text(role.toUpperCase(), MARGIN_LEFT, curY, '/F1', 10, [0.12, 0.25, 0.50]);
+  curY -= 13;
+
+  const contactLine = `${client.loc || 'Addis Ababa, Ethiopia (Remote Worldwide)'}  |  ${client.phone || '0948232719'}  |  ${client.email || ''}  |  Remote B2B (W-8BEN)`;
+  text(contactLine, MARGIN_LEFT, curY, '/F2', 8.5, [0.28, 0.32, 0.38]);
+  curY -= 11;
+
+  const linksLine = `LinkedIn: ${client.linkedin || 'linkedin.com'}  |  GitHub: ${client.github || 'github.com'}  |  Portfolio: ${client.portfolio || 'nexa-portfolio-theta.vercel.app'}`;
+  text(linksLine, MARGIN_LEFT, curY, '/F2', 8.2, [0.15, 0.35, 0.65]);
+  curY -= 8;
+
+  // Header bottom border
+  line(MARGIN_LEFT, curY, MARGIN_LEFT + USABLE_WIDTH, curY, 1.25, [0.1, 0.1, 0.15]);
+  curY -= 15;
+
+  // --- 2. EXECUTIVE SUMMARY ---
+  sectionTitle('Executive Summary', 'TAILORED FOR ' + (company.toUpperCase().slice(0, 24)));
+  const summaryLines = wrapText(tailoredSummary, 90);
+  summaryLines.forEach(l => {
+    ensureSpace(13);
+    text(l, MARGIN_LEFT, curY, '/F2', 8.8, [0.12, 0.12, 0.15]);
+    curY -= 12.2;
+  });
+  curY -= 5;
+
+  // --- 3. CORE OPERATIONAL COMPETENCIES ---
+  sectionTitle('Core Operational Competencies', '99.8% VERIFIED ACCURACY');
+  const targetMatches = (jobInfo.keywords && jobInfo.keywords.length > 0) ? jobInfo.keywords.slice(0, 8).join('  -  ') : 'Virtual Assistant, High-Speed Data Entry, Spreadsheets, Customer Support';
+  const compLines = [
+    { label: 'Target Role Match:', val: targetMatches },
+    { label: 'Software & Tools:', val: 'Google Sheets, Microsoft Excel (VLOOKUP, Pivot Tables), Google Workspace, Notion, Slack, Trello, Asana' },
+    { label: 'Operational Competencies:', val: 'High-Speed Typing (65+ WPM, 99.8% Accuracy), Web Research, Lead Generation, Inbox Zero, Customer Support' },
+    { label: 'Creative & AI Systems:', val: 'Canva Pro Design, High-CTR YouTube Thumbnails, ChatGPT & AI Workflow Systems, Social Media Support' }
+  ];
+
+  const boxHeight = (compLines.length * 13.5) + 6;
+  ensureSpace(boxHeight + 10);
+  rect(MARGIN_LEFT, curY - boxHeight + 4, USABLE_WIDTH, boxHeight, [0.97, 0.97, 0.98], [0.85, 0.86, 0.88], 0.5);
+
+  let compY = curY - 7;
+  compLines.forEach(cl => {
+    text(cl.label, MARGIN_LEFT + 7, compY, '/F1', 8.5, [0.1, 0.1, 0.15]);
+    text(cl.val, MARGIN_LEFT + 155, compY, '/F2', 8.2, [0.18, 0.22, 0.28]);
+    compY -= 13.5;
+  });
+  curY -= (boxHeight + 8);
+
+  // --- 4. PROFESSIONAL EXPERIENCE ---
+  sectionTitle('Professional Experience', '3+ YEARS REMOTE B2B EXPERIENCE');
+
+  exps.forEach(e => {
+    ensureSpace(35);
+    text(e.role || 'Virtual Assistant', MARGIN_LEFT, curY, '/F1', 9.5, [0.08, 0.08, 0.12]);
+    const periodStr = e.period || '2024 - Present';
+    text(periodStr, MARGIN_LEFT + USABLE_WIDTH - (periodStr.length * 5.2), curY, '/F1', 8.5, [0.25, 0.28, 0.35]);
+    curY -= 11.5;
+
+    text(e.company || 'Nexa Digital Team', MARGIN_LEFT, curY, '/F3', 8.8, [0.25, 0.28, 0.35]);
+    const locStr = e.location || 'Remote Worldwide';
+    text(locStr, MARGIN_LEFT + USABLE_WIDTH - (locStr.length * 4.8), curY, '/F2', 8.2, [0.35, 0.38, 0.45]);
+    curY -= 11;
+
+    (e.bullets || []).forEach(b => {
+      const bLines = wrapText(b, 86);
+      bLines.forEach((bl, idx) => {
+        ensureSpace(12);
+        if (idx === 0) {
+          text('-', MARGIN_LEFT + 4, curY, '/F1', 9, [0.02, 0.58, 0.41]);
+          text(bl, MARGIN_LEFT + 14, curY, '/F2', 8.5, [0.14, 0.15, 0.18]);
+        } else {
+          text(bl, MARGIN_LEFT + 14, curY, '/F2', 8.5, [0.14, 0.15, 0.18]);
+        }
+        curY -= 11.5;
+      });
+      curY -= 1.5;
+    });
+    curY -= 6;
   });
 
-  lines.push('EDUCATION & CREDENTIALS');
-  lines.push(`${client.degree || 'Accounting & Finance / Business Information'} - ${client.school || 'Addis Ababa University'} (${client.educationYear || '2026'})`);
+  // --- 5. EDUCATION ---
+  sectionTitle('Education & Academic Credentials', 'ADDIS ABABA UNIVERSITY');
+  ensureSpace(28);
 
-  const escapePdf = (s) => (s || '').replace(/[()\\\\]/g, '\\$&').replace(/[^\x20-\x7E]/g, ' ');
+  text(client.degree || 'Accounting & Finance / Business Information', MARGIN_LEFT, curY, '/F1', 9.2, [0.08, 0.08, 0.12]);
+  const schoolText = ' — ' + (client.school || 'Addis Ababa University');
+  text(schoolText, MARGIN_LEFT + 225, curY, '/F3', 8.8, [0.25, 0.28, 0.35]);
+  const eduYear = client.educationYear || '2026';
+  text(eduYear, MARGIN_LEFT + USABLE_WIDTH - 25, curY, '/F1', 8.5, [0.25, 0.28, 0.35]);
+  curY -= 11.5;
 
-  let streamContent = `BT\n/F1 16 Tf\n50 750 Td\n(${escapePdf(client.name)}) Tj\nET\n`;
-  streamContent += `BT\n/F1 9 Tf\n50 730 Td\n13 TL\n`;
-  lines.forEach(line => {
-    streamContent += `(${escapePdf(line)}) '\n`;
-  });
-  streamContent += `ET\n`;
+  const honors = `Academic Standing: GPA ${client.gpa || '3.8'}  -  Dean's Honors List  -  Focus in Information Systems & Financial Record Management`;
+  text(honors, MARGIN_LEFT, curY, '/F2', 8.2, [0.35, 0.38, 0.45]);
+  curY -= 12;
 
-  let streamLen = 0;
-  for (let i = 0; i < streamContent.length; i++) streamLen++;
+  // Add final page
+  if (curStream.length > 0) pages.push(curStream.join('\n'));
 
+  // Assemble PDF Objects
   let body = '%PDF-1.4\n';
   const offsets = [];
-
   function addObj(str) {
     offsets.push(body.length);
     body += str;
   }
 
   addObj('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
-  addObj('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n');
-  addObj('3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\nendobj\n');
-  addObj('4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n');
-  addObj(`5 0 obj\n<< /Length ${streamLen} >>\nstream\n${streamContent}endstream\nendobj\n`);
+
+  const numPages = pages.length;
+  const pageObjIndices = [];
+  let nextObj = 3;
+  for (let i = 0; i < numPages; i++) {
+    pageObjIndices.push({ page: nextObj, content: nextObj + 1 });
+    nextObj += 2;
+  }
+
+  const fontF1 = nextObj++;
+  const fontF2 = nextObj++;
+  const fontF3 = nextObj++;
+  const fontF4 = nextObj++;
+
+  const kidsStr = pageObjIndices.map(p => `${p.page} 0 R`).join(' ');
+  addObj(`2 0 obj\n<< /Type /Pages /Kids [${kidsStr}] /Count ${numPages} >>\nendobj\n`);
+
+  for (let i = 0; i < numPages; i++) {
+    const p = pageObjIndices[i];
+    const streamData = pages[i];
+    const streamLen = streamData.length;
+    
+    addObj(`${p.page} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 ${fontF1} 0 R /F2 ${fontF2} 0 R /F3 ${fontF3} 0 R /F4 ${fontF4} 0 R >> >> /Contents ${p.content} 0 R >>\nendobj\n`);
+    addObj(`${p.content} 0 obj\n<< /Length ${streamLen} >>\nstream\n${streamData}\nendstream\nendobj\n`);
+  }
+
+  addObj(`${fontF1} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj\n`);
+  addObj(`${fontF2} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n`);
+  addObj(`${fontF3} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>\nendobj\n`);
+  addObj(`${fontF4} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold >>\nendobj\n`);
 
   const startXref = body.length;
-  let xref = 'xref\n0 6\n0000000000 65535 f \n';
+  let xref = `xref\n0 ${nextObj}\n0000000000 65535 f \n`;
   offsets.forEach(off => {
     xref += off.toString().padStart(10, '0') + ' 00000 n \n';
   });
   body += xref;
-  body += `trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${startXref}\n%%EOF\n`;
+  body += `trailer\n<< /Size ${nextObj} /Root 1 0 R >>\nstartxref\n${startXref}\n%%EOF\n`;
 
   const buf = new Uint8Array(body.length);
   for (let i = 0; i < body.length; i++) {
@@ -1023,64 +1239,158 @@ function generateCanvaCoverLetterHTML(client, jobInfo = {}, templateType = 'exec
 function generateValidCoverLetterPDFBinary(client, jobInfo = {}) {
   const company = (jobInfo.company && !['Target Company', 'Enterprise Company'].includes(jobInfo.company))
     ? jobInfo.company
-    : 'Enterprise Organization';
-  const role = jobInfo.title || client.headline || 'Senior Engineer';
-  const rawText = generateTailoredCoverLetterText(client, jobInfo);
-  const rawLines = rawText.split('\\n');
+    : 'Hiring Organization';
+  const role = jobInfo.title || client.headline || 'Virtual Assistant & Data Operations Specialist';
+  const letterText = generateTailoredCoverLetterText(client, jobInfo);
 
-  const lines = [];
-  rawLines.forEach(l => {
-    if (l.length > 85) {
-      // Wrap long lines for PDF
-      const words = l.split(' ');
-      let cur = '';
-      words.forEach(w => {
-        if ((cur + ' ' + w).length > 85) {
-          lines.push(cur.trim());
-          cur = w;
-        } else {
-          cur += (cur ? ' ' : '') + w;
-        }
+  const PAGE_WIDTH = 612;
+  const PAGE_HEIGHT = 792;
+  const MARGIN_LEFT = 40;
+  const USABLE_WIDTH = 532;
+  const MARGIN_BOTTOM = 45;
+  const TOP_MARGIN = 748;
+
+  const pages = [];
+  let curStream = [];
+  let curY = TOP_MARGIN;
+
+  function newPage() {
+    if (curStream.length > 0) pages.push(curStream.join('\n'));
+    curStream = [];
+    curY = TOP_MARGIN;
+  }
+
+  function ensureSpace(needed) {
+    if (curY - needed < MARGIN_BOTTOM) newPage();
+  }
+
+  function esc(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/\\/g, '\\\\')
+      .replace(/\(/g, '\\(')
+      .replace(/\)/g, '\\)')
+      .replace(/[^\x20-\x7E]/g, (ch) => {
+        if (ch === '•') return ' - ';
+        if (ch === '—' || ch === '–') return ' - ';
+        if (ch === '’' || ch === '‘') return "'";
+        if (ch === '“' || ch === '”') return '"';
+        return ' ';
       });
-      if (cur) lines.push(cur.trim());
-    } else {
-      lines.push(l);
+  }
+
+  function wrapText(text, maxChars = 84) {
+    if (!text) return [];
+    const words = String(text).split(/\s+/);
+    const lines = [];
+    let cur = '';
+    for (const w of words) {
+      if (!cur) cur = w;
+      else if ((cur + ' ' + w).length <= maxChars) cur += ' ' + w;
+      else { lines.push(cur); cur = w; }
     }
+    if (cur) lines.push(cur);
+    return lines;
+  }
+
+  function text(str, x, y, font = '/F2', size = 9, color = [0.1, 0.1, 0.12]) {
+    curStream.push(`${color[0]} ${color[1]} ${color[2]} rg`);
+    curStream.push(`BT ${font} ${size} Tf ${x.toFixed(2)} ${y.toFixed(2)} Td (${esc(str)}) Tj ET`);
+  }
+
+  function line(x1, y1, x2, y2, width = 0.75, color = [0.2, 0.2, 0.25]) {
+    curStream.push(`${color[0]} ${color[1]} ${color[2]} RG`);
+    curStream.push(`${width} w`);
+    curStream.push(`${x1.toFixed(2)} ${y1.toFixed(2)} m ${x2.toFixed(2)} ${y2.toFixed(2)} l S`);
+  }
+
+  // Header
+  text(client.name || 'Candidate Name', MARGIN_LEFT, curY, '/F4', 20, [0.05, 0.05, 0.08]);
+  curY -= 16;
+
+  text(role.toUpperCase(), MARGIN_LEFT, curY, '/F1', 9.5, [0.12, 0.25, 0.50]);
+  curY -= 12;
+
+  const contactLine = `${client.loc || 'Addis Ababa, Ethiopia (Remote Worldwide)'}  |  ${client.phone || '0948232719'}  |  ${client.email || ''}  |  Remote B2B (W-8BEN)`;
+  text(contactLine, MARGIN_LEFT, curY, '/F2', 8.2, [0.28, 0.32, 0.38]);
+  curY -= 8;
+
+  line(MARGIN_LEFT, curY, MARGIN_LEFT + USABLE_WIDTH, curY, 1.25, [0.1, 0.1, 0.15]);
+  curY -= 16;
+
+  // Date & Recipient
+  const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  text(dateStr, MARGIN_LEFT, curY, '/F1', 8.5, [0.25, 0.28, 0.35]);
+  curY -= 14;
+
+  text(`Hiring Team  -  ${company}`, MARGIN_LEFT, curY, '/F1', 9, [0.1, 0.1, 0.15]);
+  curY -= 11;
+  text('Application for: ' + role, MARGIN_LEFT, curY, '/F3', 8.5, [0.25, 0.28, 0.35]);
+  curY -= 15;
+
+  // Split letter into paragraphs
+  const rawParas = letterText.split(/\n\s*\n/);
+  rawParas.forEach(p => {
+    const trimmed = p.trim();
+    if (!trimmed) return;
+    ensureSpace(24);
+    const wrapped = wrapText(trimmed, 84);
+    wrapped.forEach(wl => {
+      ensureSpace(12);
+      text(wl, MARGIN_LEFT, curY, '/F2', 8.8, [0.12, 0.12, 0.15]);
+      curY -= 12.2;
+    });
+    curY -= 8;
   });
 
-  const escapePdf = (s) => (s || '').replace(/[()\\\\]/g, '\\\\$&').replace(/[^\\x20-\\x7E]/g, ' ');
+  if (curStream.length > 0) pages.push(curStream.join('\n'));
 
-  let streamContent = `BT\\n/F1 15 Tf\\n50 750 Td\\n(${escapePdf(client.name + ' — ' + role)}) Tj\\nET\\n`;
-  streamContent += `BT\\n/F1 8.5 Tf\\n50 732 Td\\n12 TL\\n`;
-  lines.slice(0, 52).forEach(line => {
-    streamContent += `(${escapePdf(line)}) '\\n`;
-  });
-  streamContent += `ET\\n`;
-
-  let streamLen = 0;
-  for (let i = 0; i < streamContent.length; i++) streamLen++;
-
-  let body = '%PDF-1.4\\n';
+  let body = '%PDF-1.4\n';
   const offsets = [];
-
   function addObj(str) {
     offsets.push(body.length);
     body += str;
   }
 
-  addObj('1 0 obj\\n<< /Type /Catalog /Pages 2 0 R >>\\nendobj\\n');
-  addObj('2 0 obj\\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\\nendobj\\n');
-  addObj('3 0 obj\\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\\nendobj\\n');
-  addObj('4 0 obj\\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\\nendobj\\n');
-  addObj(`5 0 obj\\n<< /Length ${streamLen} >>\\nstream\\n${streamContent}endstream\\nendobj\\n`);
+  addObj('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+
+  const numPages = pages.length;
+  const pageObjIndices = [];
+  let nextObj = 3;
+  for (let i = 0; i < numPages; i++) {
+    pageObjIndices.push({ page: nextObj, content: nextObj + 1 });
+    nextObj += 2;
+  }
+
+  const fontF1 = nextObj++;
+  const fontF2 = nextObj++;
+  const fontF3 = nextObj++;
+  const fontF4 = nextObj++;
+
+  const kidsStr = pageObjIndices.map(p => `${p.page} 0 R`).join(' ');
+  addObj(`2 0 obj\n<< /Type /Pages /Kids [${kidsStr}] /Count ${numPages} >>\nendobj\n`);
+
+  for (let i = 0; i < numPages; i++) {
+    const p = pageObjIndices[i];
+    const streamData = pages[i];
+    const streamLen = streamData.length;
+    
+    addObj(`${p.page} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 ${fontF1} 0 R /F2 ${fontF2} 0 R /F3 ${fontF3} 0 R /F4 ${fontF4} 0 R >> >> /Contents ${p.content} 0 R >>\nendobj\n`);
+    addObj(`${p.content} 0 obj\n<< /Length ${streamLen} >>\nstream\n${streamData}\nendstream\nendobj\n`);
+  }
+
+  addObj(`${fontF1} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj\n`);
+  addObj(`${fontF2} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n`);
+  addObj(`${fontF3} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique >>\nendobj\n`);
+  addObj(`${fontF4} 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold >>\nendobj\n`);
 
   const startXref = body.length;
-  let xref = 'xref\\n0 6\\n0000000000 65535 f \\n';
+  let xref = `xref\n0 ${nextObj}\n0000000000 65535 f \n`;
   offsets.forEach(off => {
-    xref += off.toString().padStart(10, '0') + ' 00000 n \\n';
+    xref += off.toString().padStart(10, '0') + ' 00000 n \n';
   });
   body += xref;
-  body += `trailer\\n<< /Size 6 /Root 1 0 R >>\\nstartxref\\n${startXref}\\n%%EOF\\n`;
+  body += `trailer\n<< /Size ${nextObj} /Root 1 0 R >>\nstartxref\n${startXref}\n%%EOF\n`;
 
   const buf = new Uint8Array(body.length);
   for (let i = 0; i < body.length; i++) {

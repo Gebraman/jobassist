@@ -8,7 +8,8 @@
     "activeTab",
     "scripting",
     "storage",
-    "tabs"
+    "tabs",
+    "downloads"
   ],
   "side_panel": {
     "default_path": "sidepanel.html"

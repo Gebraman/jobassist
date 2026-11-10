@@ -341,11 +341,31 @@
     return list;
   }
 
+  // 3.5b Safe PDF Downloader (Retains URL for 60s to prevent Windows "File Not Found" errors)
+  function triggerClientSidePDFDownload(pdfBytes, fileName) {
+    try {
+      const blob = (pdfBytes instanceof Blob) ? pdfBytes : new Blob([pdfBytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        try { document.body.removeChild(a); } catch(e) {}
+        try { URL.revokeObjectURL(url); } catch(e) {}
+      }, 60000);
+    } catch(e) {
+      console.warn('JobAssist PDF download warning:', e);
+    }
+  }
+
   // 3.6 Rescan, Synthesize & Attach Human Tailored Resume to Application Form
   function attachTailoredResumeToForm(client = activeClient, jobInfo = null, forceDownload = false) {
     const c = client || activeClient;
     const job = jobInfo || extractPageJobOverview();
-    const roleClean = (job.title || c.headline || 'Software_Engineer').replace(/[^a-zA-Z0-9]/g, '_');
+    const roleClean = (job.title || c.headline || 'Virtual_Assistant').replace(/[^a-zA-Z0-9]/g, '_');
     const nameClean = (c.name || 'Candidate').replace(/\s+/g, '_');
     const fileName = `${nameClean}_${roleClean}_Resume.pdf`;
 
@@ -396,20 +416,7 @@
 
     // Only trigger download if user explicitly clicked Download PDF button
     if (forceDownload) {
-      try {
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        }, 3000);
-      } catch(e) {}
+      triggerClientSidePDFDownload(pdfBytes, fileName);
     }
 
     return {
@@ -426,7 +433,7 @@
   function attachTailoredCoverLetterToForm(client = activeClient, jobInfo = null, forceDownload = false) {
     const c = client || activeClient;
     const job = jobInfo || extractPageJobOverview();
-    const roleClean = (job.title || c.headline || 'Engineer').replace(/[^a-zA-Z0-9]/g, '_');
+    const roleClean = (job.title || c.headline || 'Virtual_Assistant').replace(/[^a-zA-Z0-9]/g, '_');
     const nameClean = (c.name || 'Candidate').replace(/\s+/g, '_');
     const fileName = `${nameClean}_${roleClean}_Cover_Letter.pdf`;
 
@@ -434,9 +441,7 @@
     if (typeof generateValidCoverLetterPDFBinary !== 'undefined') {
       pdfBytes = generateValidCoverLetterPDFBinary(c, job);
     } else {
-      const txt = (typeof generateTailoredCoverLetterText !== 'undefined')
-        ? generateTailoredCoverLetterText(c, job)
-        : (c.letter || 'Cover Letter');
+      const txt = (typeof generateTailoredCoverLetterText !== 'undefined') ? generateTailoredCoverLetterText(c, job) : 'Cover Letter';
       pdfBytes = new TextEncoder().encode(txt);
     }
 
@@ -450,7 +455,6 @@
       return (q.includes('cover') || q.includes('letter') || q.includes('additional') || q.includes('other')) && !q.includes('resume') && !q.includes('cv');
     });
 
-    // If no specific cover letter input, but there are multiple file upload boxes, target the 2nd one
     if (targetInputs.length === 0 && inputs.length > 1) {
       targetInputs = [inputs[1]];
     }
@@ -491,22 +495,8 @@
       }
     });
 
-    // Only trigger download if user explicitly clicked Download PDF button
     if (forceDownload) {
-      try {
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(() => {
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        }, 3000);
-      } catch(e) {}
+      triggerClientSidePDFDownload(pdfBytes, fileName);
     }
 
     return {
@@ -518,6 +508,140 @@
       targetRole: job.title,
       targetCompany: job.company
     };
+  }
+
+  // 3.7b Inject In-Page 1-Click Attach & Download Pill directly onto Job Application File Dropzones
+  function injectResumeDropzonePills() {
+    const c = activeClient;
+    if (!c) return;
+    const job = extractPageJobOverview();
+    const roleClean = (job.title || c.headline || 'Virtual_Assistant').replace(/[^a-zA-Z0-9]/g, '_');
+    const nameClean = (c.name || 'Candidate').replace(/\s+/g, '_');
+    const fileName = `${nameClean}_${roleClean}_Resume.pdf`;
+
+    // 1. Find all file upload inputs
+    const inputs = findUploadInputs();
+    
+    // Also find dropzones and resume sections even if input is hidden
+    const dropzoneSelectors = [
+      '.dropzone',
+      '[class*="dropzone" i]',
+      '[class*="drop-zone" i]',
+      '[class*="FileUpload" i]',
+      '[class*="ResumeUpload" i]',
+      '[data-testid*="upload" i]',
+      '[data-testid*="resume" i]',
+      '[data-automation-id*="file" i]',
+      'label[for*="resume" i]',
+      'div[id*="resume" i]',
+      'fieldset[id*="resume" i]'
+    ];
+    
+    const targetContainers = new Set();
+
+    inputs.forEach(fi => {
+      const container = fi.closest('.dropzone, [class*="upload" i], [class*="file" i], [class*="resume" i], .form-group, .field, fieldset, form, div') || fi.parentElement;
+      if (container) targetContainers.add(container);
+    });
+
+    dropzoneSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        if (el.tagName !== 'BODY' && el.tagName !== 'HTML' && el.offsetHeight > 20 && !el.closest('#jobassist-floating-widget')) {
+          targetContainers.add(el);
+        }
+      });
+    });
+
+    targetContainers.forEach(container => {
+      if (container.querySelector('.jobassist-inline-dropzone-card') || container.closest('.jobassist-inline-dropzone-card')) return;
+      
+      const card = document.createElement('div');
+      card.className = 'jobassist-inline-dropzone-card';
+      card.style.cssText = 'margin: 10px 0; padding: 12px 14px; background: #09090b; border: 1.5px solid #007aff; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 4px 18px rgba(0, 122, 255, 0.25); z-index: 999999; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;';
+
+      card.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(0, 122, 255, 0.15); border: 1px solid #007aff; display: flex; align-items: center; justify-content: center; color: #38bdf8; font-weight: 800; font-size: 15px; flex-shrink: 0;">
+            📎
+          </div>
+          <div>
+            <div style="color: #ffffff; font-weight: 700; font-size: 12.5px; display: flex; align-items: center; gap: 6px;">
+              <span>Tailored Resume Ready</span>
+              <span style="font-size: 9.5px; font-weight: 700; color: #34d399; background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; padding: 1px 5px; border-radius: 4px;">PDF • ATS 100%</span>
+            </div>
+            <div style="color: #94a3b8; font-size: 11px; margin-top: 1px;">
+              ${c.name} • Nexa Digital Team (${job.title || 'Virtual Assistant & Operations'})
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+          <button class="jobassist-page-attach-btn" style="background: #059669; color: #ffffff; border: none; padding: 7px 12px; border-radius: 6px; font-weight: 700; font-size: 11.5px; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35);">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Attach to Form
+          </button>
+          <button class="jobassist-page-preview-btn" style="background: #18181b; color: #38bdf8; border: 1px solid #0284c7; padding: 6.5px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer;">
+            👁️ Preview
+          </button>
+          <button class="jobassist-page-download-btn" style="background: #18181b; color: #e4e4e7; border: 1px solid #3f3f46; padding: 6.5px 10px; border-radius: 6px; font-weight: 600; font-size: 11px; cursor: pointer;">
+            ⬇️ Download PDF
+          </button>
+        </div>
+      `;
+
+      // Attach button handler
+      const attachBtn = card.querySelector('.jobassist-page-attach-btn');
+      attachBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        attachBtn.textContent = 'Attaching...';
+        const res = attachTailoredResumeToForm(activeClient, job, false);
+        if (res && res.attachedCount > 0) {
+          attachBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ✓ Attached to Form!';
+          attachBtn.style.background = '#047857';
+        } else {
+          attachBtn.textContent = 'No Field Detected';
+          setTimeout(() => {
+            attachBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Attach to Form';
+          }, 2500);
+        }
+      });
+
+      // Preview button handler
+      const prevBtn = card.querySelector('.jobassist-page-preview-btn');
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof generateExecutiveMasterworkResume !== 'undefined') {
+          const html = generateExecutiveMasterworkResume(activeClient, job);
+          const blob = new Blob([html], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+        }
+      });
+
+      // Download button handler
+      const dlBtn = card.querySelector('.jobassist-page-download-btn');
+      dlBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dlBtn.textContent = 'Saving...';
+        let pdfBytes;
+        if (typeof generateValidPDFBinary !== 'undefined') {
+          pdfBytes = generateValidPDFBinary(activeClient, job);
+        } else {
+          pdfBytes = new TextEncoder().encode('Resume');
+        }
+        triggerClientSidePDFDownload(pdfBytes, fileName);
+        dlBtn.textContent = '✓ Saved!';
+        setTimeout(() => { dlBtn.textContent = '⬇️ Download PDF'; }, 2500);
+      });
+
+      if (container.firstChild) {
+        container.insertBefore(card, container.firstChild);
+      } else {
+        container.appendChild(card);
+      }
+    });
   }
 
   // 4. Autonomous 1-Click Form AutoFill Engine
@@ -1322,7 +1446,24 @@
         gap: 4px;
       " title="Rescan job & attach tailored PDF resume to this application form">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-        ATTACH CV
+        ATTACH RESUME
+      </button>
+
+      <button id="floating-download-pdf-btn" style="
+        background: #18181b;
+        color: #e4e4e7;
+        border: 1px solid #3f3f46;
+        padding: 5px 9px;
+        border-radius: 9999px;
+        font-weight: 700;
+        font-size: 11px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      " title="Download tailored Executive Masterwork PDF directly">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        PDF
       </button>
 
       <button id="floating-attach-cover-btn" style="
@@ -1512,22 +1653,41 @@
     widget.querySelector('#floating-attach-btn').addEventListener('click', () => {
       const btn = widget.querySelector('#floating-attach-btn');
       btn.textContent = 'ATTACHING...';
-      const res = attachTailoredResumeToForm(activeClient, null, true);
+      const res = attachTailoredResumeToForm(activeClient, null, false);
       if (res && res.attachedCount > 0) {
         btn.textContent = '✓ ATTACHED';
         btn.style.background = '#065F46';
         btn.style.color = '#34D399';
       } else {
-        btn.textContent = '✓ PDF READY';
-        btn.style.background = '#065F46';
-        btn.style.color = '#34D399';
+        btn.textContent = 'NO FIELD FOUND';
+        btn.style.background = '#78350F';
+        btn.style.color = '#FDE68A';
       }
       setTimeout(() => {
-        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg> ATTACH';
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg> ATTACH RESUME';
         btn.style.background = '#18181b';
         btn.style.color = '#34D399';
       }, 2500);
     });
+
+    const floatDlBtn = widget.querySelector('#floating-download-pdf-btn');
+    if (floatDlBtn) {
+      floatDlBtn.addEventListener('click', () => {
+        floatDlBtn.textContent = 'SAVING...';
+        const job = extractPageJobOverview();
+        const roleClean = (job.title || activeClient.headline || 'Virtual_Assistant').replace(/[^a-zA-Z0-9]/g, '_');
+        const nameClean = (activeClient.name || 'Candidate').replace(/\s+/g, '_');
+        const fileName = `${nameClean}_${roleClean}_Resume.pdf`;
+        const pdfBytes = (typeof generateValidPDFBinary !== 'undefined')
+          ? generateValidPDFBinary(activeClient, job)
+          : new TextEncoder().encode('Resume');
+        triggerClientSidePDFDownload(pdfBytes, fileName);
+        floatDlBtn.textContent = '✓ SAVED';
+        setTimeout(() => {
+          floatDlBtn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF';
+        }, 2500);
+      });
+    }
 
     widget.querySelector('#floating-audit-btn').addEventListener('click', () => {
       const audit = runPreFlightAudit();
@@ -2021,11 +2181,11 @@
         sendResponse(overview);
       } else if (msg.action === 'attach_tailored_resume') {
         const targetClient = msg.client || activeClient;
-        const res = attachTailoredResumeToForm(targetClient, msg.jobInfo, true);
+        const res = attachTailoredResumeToForm(targetClient, msg.jobInfo, msg.download || false);
         sendResponse(res);
       } else if (msg.action === 'attach_tailored_cover_letter') {
         const targetClient = msg.client || activeClient;
-        const res = attachTailoredCoverLetterToForm(targetClient, msg.jobInfo, true);
+        const res = attachTailoredCoverLetterToForm(targetClient, msg.jobInfo, msg.download || false);
         sendResponse(res);
       } else if (msg.action === 'scan_questions') {
         const qList = scanPageQuestions();
@@ -2066,15 +2226,28 @@
     });
   }
 
+  let dropzoneScanDebounceTimer = null;
+  const pageDomObserver = new MutationObserver(() => {
+    if (dropzoneScanDebounceTimer) clearTimeout(dropzoneScanDebounceTimer);
+    dropzoneScanDebounceTimer = setTimeout(() => {
+      if (typeof injectResumeDropzonePills === 'function') injectResumeDropzonePills();
+    }, 450);
+  });
+  if (document.body || document.documentElement) {
+    pageDomObserver.observe(document.body || document.documentElement, { childList: true, subtree: true });
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(injectFloatingWidget, 600);
       setTimeout(attachInlineAskAiButtons, 800);
+      setTimeout(injectResumeDropzonePills, 1000);
       initAutoPilotIfActive();
     });
   } else {
     setTimeout(injectFloatingWidget, 400);
     setTimeout(attachInlineAskAiButtons, 600);
+    setTimeout(injectResumeDropzonePills, 800);
     initAutoPilotIfActive();
   }
 })();

@@ -1305,7 +1305,7 @@ function setupEventListeners() {
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (tab && tab.id) {
-        chrome.tabs.sendMessage(tab.id, { action: 'attach_tailored_resume', client: activeClient, jobInfo: currentJobInfo }, (res) => {
+        chrome.tabs.sendMessage(tab.id, { action: 'attach_tailored_resume', client: activeClient, jobInfo: currentJobInfo, download: false }, (res) => {
           if (chrome.runtime.lastError || !res) {
             if (btnEl) {
               btnEl.innerHTML = 'No Form Upload Found';
@@ -1355,7 +1355,7 @@ function setupEventListeners() {
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
       if (tab && tab.id) {
-        chrome.tabs.sendMessage(tab.id, { action: 'attach_tailored_cover_letter', client: activeClient, jobInfo: currentJobInfo }, (res) => {
+        chrome.tabs.sendMessage(tab.id, { action: 'attach_tailored_cover_letter', client: activeClient, jobInfo: currentJobInfo, download: false }, (res) => {
           if (chrome.runtime.lastError || !res) {
             if (btnEl) {
               btnEl.innerHTML = 'No Cover Field Found';
@@ -1475,29 +1475,70 @@ function setupEventListeners() {
     a.click();
   });
 
-  // Download PDF Resume
-  const dlPdfBtn = document.getElementById('btn-download-pdf-resume');
-  if (dlPdfBtn) {
-    dlPdfBtn.addEventListener('click', () => {
-      if (!activeClient) return;
-      if (typeof generateValidPDFBlob !== 'undefined') {
-        const blob = generateValidPDFBlob(activeClient, currentJobInfo);
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${activeClient.name.replace(/\s+/g, '_')}_Executive_Resume.pdf`;
-        a.click();
-      } else {
-        const text = generatePlainTextResume(activeClient, currentJobInfo);
-        const blob = new Blob([text], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${activeClient.name.replace(/\s+/g, '_')}_Resume.pdf`;
-        a.click();
-      }
-    });
+  // Robust Native PDF Downloader (Uses chrome.downloads API or safe 60s retained blob URL)
+  function triggerNativePDFDownload(blobOrBytes, fileName) {
+    const blob = (blobOrBytes instanceof Blob) ? blobOrBytes : new Blob([blobOrBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    if (typeof chrome !== 'undefined' && chrome.downloads && chrome.downloads.download) {
+      chrome.downloads.download({
+        url: url,
+        filename: fileName,
+        saveAs: false
+      }, (downloadId) => {
+        if (chrome.runtime.lastError || !downloadId) {
+          fallbackAnchorDownload(url, fileName);
+        } else {
+          showStudioToast(`✓ Saved to Downloads: ${fileName}`, 'success');
+          setTimeout(() => { try { URL.revokeObjectURL(url); } catch(e) {} }, 60000);
+        }
+      });
+    } else {
+      fallbackAnchorDownload(url, fileName);
+    }
   }
+
+  function fallbackAnchorDownload(url, fileName) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    showStudioToast(`✓ Downloading ${fileName}...`, 'success');
+    setTimeout(() => {
+      try { document.body.removeChild(a); } catch(e) {}
+      try { URL.revokeObjectURL(url); } catch(e) {}
+    }, 60000);
+  }
+
+  function handleDirectResumePDFDownload() {
+    if (!activeClient) {
+      showStudioToast('Please select a candidate profile first.', 'error');
+      return;
+    }
+    const roleClean = (currentJobInfo.title || activeClient.headline || 'Virtual_Assistant').replace(/[^a-zA-Z0-9]/g, '_');
+    const nameClean = (activeClient.name || 'Candidate').replace(/\s+/g, '_');
+    const fileName = `${nameClean}_${roleClean}_Executive_Resume.pdf`;
+    
+    let blob;
+    if (typeof generateValidPDFBlob !== 'undefined') {
+      blob = generateValidPDFBlob(activeClient, currentJobInfo);
+    } else if (typeof generateValidPDFBinary !== 'undefined') {
+      const bytes = generateValidPDFBinary(activeClient, currentJobInfo);
+      blob = new Blob([bytes], { type: 'application/pdf' });
+    } else {
+      const text = generatePlainTextResume(activeClient, currentJobInfo);
+      blob = new Blob([text], { type: 'text/plain' });
+    }
+    triggerNativePDFDownload(blob, fileName);
+  }
+
+  // Download PDF Resume Buttons (Tab 3 & Tab 1)
+  const dlPdfBtn = document.getElementById('btn-download-pdf-resume');
+  if (dlPdfBtn) dlPdfBtn.addEventListener('click', handleDirectResumePDFDownload);
+
+  const tab1DlPdfBtn = document.getElementById('btn-tab1-download-pdf');
+  if (tab1DlPdfBtn) tab1DlPdfBtn.addEventListener('click', handleDirectResumePDFDownload);
 
   // Toggle AutoPilot Mode
   const autoPilotBtn = document.getElementById('btn-toggle-autopilot');
